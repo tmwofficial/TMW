@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translated Movie World (TMW)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #111;
+      position: sticky;
+      top: 0;
+    }
+
+    header h1 {
+      font-size: 22px;
+      color: #e50914;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #e50914;
+    }
+
+    .search-bar {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 80%;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 18px;
+      background: #e50914;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .movies-section {
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .movie-card {
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .movie-card h3 {
+      text-align: center;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .plans {
+      background: #111;
+      padding: 20px;
+      text-align: center;
+      margin: 20px;
+      border-radius: 10px;
+    }
+
+    .plan {
+      border: 1px solid #e50914;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px auto;
+      max-width: 400px;
+    }
+
+    .plan h3 {
+      color: #e50914;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      color: #aaa;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #e50914;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #ff1b2a;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>TMW</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Movies</a>
+      <a href="#">Subscribe</a>
+    </nav>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search movies or VJs..." />
+  </div>
+
+  <div class="welcome">
+    WELCOME TO OUR MOVIE WORLD WEBSITE — JUST SUBSCRIBE AND ENJOY!
+  </div>
+
+  <section class="movies-section">
+    <h2 class="section-title">Trending Now</h2>
+    <div class="movies-grid">
+      <div class="movie-card"><img src="https://i.ibb.co/Z1TTr8n/movie1.jpg"><h3>Extraction 2</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/g9vQH4T/movie2.jpg"><h3>Fast X</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/58yjgnj/movie3.jpg"><h3>John Wick 4</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/3vvL1bK/movie4.jpg"><h3>Avatar: The Way of Water</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/hfkzwPd/movie5.jpg"><h3>Black Panther: Wakanda Forever</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/0Z9Nw7h/movie6.jpg"><h3>Spider-Man: No Way Home</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/qnYJzVz/movie7.jpg"><h3>The Batman</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/dkvh3B7/movie8.jpg"><h3>Doctor Strange 2</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/kHq2ycH/movie9.jpg"><h3>Mission Impossible: Dead Reckoning</h3></div>
+      <div class="movie-card"><img src="https://i.ibb.co/vjfbqZP/movie10.jpg"><h3>Transformers: Rise of the Beasts</h3></div>
+    </div>
+  </section>
+
+  <div class="plans">
+    <h2>Subscription Plans</h2>
+    <div class="plan">
+      <h3>Daily Plan</h3>
+      <p>UGX 2,000 — Watch 5 Movies/Day</p>
+      <p>Pay via Airtel Money: <strong>0704557858</strong></p>
+      <a class="btn" href="#">Subscribe</a>
+    </div>
+
+    <div class="plan">
+      <h3>Weekly Plan</h3>
+      <p>UGX 6,000 — Watch 15 Movies/Week</p>
+      <p>Pay via Airtel Money: <strong>0704557858</strong></p>
+      <a class="btn" href="#">Subscribe</a>
+    </div>
+
+    <div class="plan">
+      <h3>Monthly Plan</h3>
+      <p>UGX 15,000 — Watch All Movies + Download Access</p>
+      <p>Pay via Airtel Money: <strong>0704557858</strong></p>
+      <a class="btn" href="#">Subscribe</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Support Call: 0747329915</p>
+    <p>Made by Marvin © 2025 Translated Movie World (TMW)</p>
+  </footer>
+
+</body>
+</html>
