@@ -1,86 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subscribe - Translated Movie World (TMW)</title>
-  <style>
-    body {
-      background-color: #000;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      color: red;
-      margin-top: 30px;
-    }
-    .plans {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .plan {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 10px;
-      width: 80%;
-      max-width: 400px;
-    }
-    button {
-      background: red;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: darkred;
-    }
-    footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: gray;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe - TMW Streaming</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: purple; 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .logo { font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
+        .plans-container { display: grid; gap: 20px; }
+        .plan-card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .plan-name { font-size: 1.5rem; color: #333; margin-bottom: 10px; }
+        .plan-price { font-size: 2rem; font-weight: bold; color: purple; margin-bottom: 10px; }
+        .payment-info { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin: 15px 0; 
+        }
+        .phone-number { font-weight: bold; color: red; font-size: 1.1rem; }
+        .subscribe-btn { 
+            background: purple; 
+            color: white; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 10px; 
+            width: 100%; 
+            font-size: 1rem; 
+            cursor: pointer;
+        }
+        .support { text-align: center; color: white; margin-top: 40px; }
+    </style>
 </head>
 <body>
-  <h1>Choose Your Subscription</h1>
+    <div class="container">
+        <div class="header">
+            <div class="logo">TMW</div>
+            <div>Translated Movie World</div>
+        </div>
 
-  <div class="plans">
-    <div class="plan">
-      <h2>Daily Plan</h2>
-      <p>UGX 2,000 - Watch 5 Movies</p>
-      <button onclick="payNow('Daily', 2000)">Pay with Mobile Money</button>
+        <div class="plans-container">
+            <div class="plan-card">
+                <div class="plan-name">Daily Plan</div>
+                <div class="plan-price">UGX 2,000</div>
+                <div>Watch 5 Movies/Day</div>
+                <div class="payment-info">
+                    Pay via Airtel Money:<br>
+                    <span class="phone-number">0704557858</span>
+                </div>
+                <button class="subscribe-btn" onclick="window.location.href='payment.html'">
+                    Subscribe Now
+                </button>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-name">Weekly Plan</div>
+                <div class="plan-price">UGX 6,000</div>
+                <div>Watch 15 Movies/Week</div>
+                <div class="payment-info">
+                    Pay via Airtel Money:<br>
+                    <span class="phone-number">0704557858</span>
+                </div>
+                <button class="subscribe-btn" onclick="window.location.href='payment.html'">
+                    Subscribe Now
+                </button>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-name">Monthly Plan</div>
+                <div class="plan-price">UGX 15,000</div>
+                <div>Watch All Movies + Download</div>
+                <div class="payment-info">
+                    Pay via Airtel Money:<br>
+                    <span class="phone-number">0704557858</span>
+                </div>
+                <button class="subscribe-btn" onclick="window.location.href='payment.html'">
+                    Subscribe Now
+                </button>
+            </div>
+        </div>
+
+        <div class="support">
+            <p>📞 Support: 0747329915</p>
+            <p>Made by Marvin © 2025 TMW</p>
+        </div>
     </div>
-
-    <div class="plan">
-      <h2>Weekly Plan</h2>
-      <p>UGX 5,000 - Watch 15 Movies</p>
-      <button onclick="payNow('Weekly', 5000)">Pay with Mobile Money</button>
-    </div>
-
-    <div class="plan">
-      <h2>Monthly Plan</h2>
-      <p>UGX 15,000 - Unlimited Access</p>
-      <button onclick="payNow('Monthly', 15000)">Pay with Mobile Money</button>
-    </div>
-  </div>
-
-  <footer>Made by Marvin Jey</footer>
-
-  <script>
-    function payNow(plan, amount) {
-      alert("Redirecting to Mobile Money payment for " + plan + " plan (UGX " + amount + ")");
-      // ✅ Replace below with your actual payment link later
-      window.location.href = "https://flutterwave.com/pay/tmwpayment";
-    }
-  </script>
 </body>
 </html>
