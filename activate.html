@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Subscription - TMW</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: purple; 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+        .container { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            max-width: 400px; 
+            margin: 0 auto;
+        }
+        .logo { 
+            text-align: center; 
+            font-size: 2rem; 
+            font-weight: bold; 
+            color: purple; 
+            margin-bottom: 15px; 
+        }
+        input, button { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border: 2px solid #ddd; 
+            border-radius: 10px; 
+            font-size: 16px; 
+        }
+        button { 
+            background: purple; 
+            color: white; 
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+        }
+        .message { 
+            margin-top: 15px; 
+            padding: 15px; 
+            border-radius: 10px; 
+            display: none; 
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">TMW</div>
+        <h2>Activate Subscription</h2>
+        <p>Enter the code Marvin sent you</p>
+        
+        <input type="text" id="codeInput" placeholder="Enter code (e.g., TMW1234)">
+        <button onclick="activateSubscription()">Activate Now</button>
+        
+        <div id="message" class="message"></div>
+
+        <div style="margin-top: 20px; color: #666; font-size: 0.9rem;">
+            <p><strong>No code yet?</strong></p>
+            <p>WhatsApp <strong>0747329915</strong> with your payment proof</p>
+        </div>
+    </div>
+
+    <script>
+        function activateSubscription() {
+            const code = document.getElementById('codeInput').value.trim().toUpperCase();
+            const messageDiv = document.getElementById('message');
+
+            if (!code) {
+                showMessage('Please enter activation code', 'error');
+                return;
+            }
+
+            showMessage('Checking code...', 'error');
+            
+            if (code.startsWith('TMW')) {
+                const subscription = {
+                    plan: 'PREMIUM',
+                    activated: new Date().toISOString(),
+                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+                    status: 'active'
+                };
+                
+                localStorage.setItem('tmw_subscription', JSON.stringify(subscription));
+                
+                showMessage('✅ Activated! Going to movies...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'movies.html';
+                }, 2000);
+            } else {
+                showMessage('❌ Invalid code. Check the code Marvin sent you.', 'error');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+        }
+
+        document.getElementById('codeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') activateSubscription();
+        });
+    </script>
+</body>
+</html>
