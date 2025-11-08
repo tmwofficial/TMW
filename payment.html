@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Instructions - TMW</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: purple; 
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+        .container { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            max-width: 500px; 
+            margin: 0 auto;
+        }
+        .logo { 
+            text-align: center; 
+            font-size: 2rem; 
+            font-weight: bold; 
+            color: purple; 
+            margin-bottom: 20px; 
+        }
+        .step { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin: 15px 0; 
+        }
+        .phone-number { 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+            color: red; 
+            text-align: center; 
+            margin: 15px 0; 
+        }
+        .btn { 
+            background: purple; 
+            color: white; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 10px; 
+            width: 100%; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            margin: 10px 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">TMW</div>
+        <h2>Complete Your Subscription</h2>
+        
+        <div class="step">
+            <strong>Step 1:</strong><br>
+            Send money via Airtel Money to:
+            <div class="phone-number">0704557858</div>
+        </div>
+
+        <div class="step">
+            <strong>Step 2:</strong><br>
+            Include your name in the payment message
+        </div>
+
+        <div class="step">
+            <strong>Step 3:</strong><br>
+            After payment, WhatsApp Marvin at <strong>0747329915</strong> with:
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li>Your name</li>
+                <li>Payment screenshot</li>
+                <li>Selected plan</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <strong>Step 4:</strong><br>
+            You will receive activation code via WhatsApp
+        </div>
+
+        <button class="btn" onclick="window.location.href='activate.html'">
+            I've Paid - Get Activation Code
+        </button>
+
+        <button class="btn" style="background: gray;" onclick="window.location.href='subscribe.html'">
+            Back to Plans
+        </button>
+
+        <div style="text-align: center; margin-top: 20px; color: #666;">
+            📞 Need help? Call: <strong>0747329915</strong>
+        </div>
+    </div>
+</body>
+</html>
