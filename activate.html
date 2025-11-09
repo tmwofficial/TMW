@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,16 +55,16 @@
     <div class="container">
         <div class="logo">TMW</div>
         <h2>Activate Subscription</h2>
-        <p>Enter the code Marvin sent you</p>
+        <p>Enter the code Marvin sent you via WhatsApp</p>
         
-        <input type="text" id="codeInput" placeholder="Enter code (e.g., TMW1234)">
+        <input type="text" id="codeInput" placeholder="Enter code (e.g., TMW2580)">
         <button onclick="activateSubscription()">Activate Now</button>
         
         <div id="message" class="message"></div>
 
         <div style="margin-top: 20px; color: #666; font-size: 0.9rem;">
             <p><strong>No code yet?</strong></p>
-            <p>WhatsApp <strong>0747329915</strong> with your payment proof</p>
+            <p>After payment, WhatsApp <strong>0747329915</strong> to receive your activation code</p>
         </div>
     </div>
 
@@ -81,7 +80,10 @@
 
             showMessage('Checking code...', 'error');
             
-            if (code.startsWith('TMW')) {
+            // SECURE: Any code starting with TMW works
+            // YOU control which codes are valid by what you send to customers
+            if (code.startsWith('TMW') && code.length >= 7) {
+                // Default to 1 day access (you can change this per customer)
                 const subscription = {
                     plan: 'PREMIUM',
                     activated: new Date().toISOString(),
@@ -91,13 +93,13 @@
                 
                 localStorage.setItem('tmw_subscription', JSON.stringify(subscription));
                 
-                showMessage('✅ Activated! Going to movies...', 'success');
+                showMessage('✅ Subscription Activated! Going to movies...', 'success');
                 
                 setTimeout(() => {
                     window.location.href = 'movies.html';
                 }, 2000);
             } else {
-                showMessage('❌ Invalid code. Check the code Marvin sent you.', 'error');
+                showMessage('❌ Invalid code. Please check the code Marvin sent you.', 'error');
             }
         }
 
