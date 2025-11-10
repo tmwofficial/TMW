@@ -425,6 +425,28 @@
         .tab-content.active {
             display: block;
         }
+
+        /* Poster Buttons */
+        .poster-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .poster-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .poster-btn:hover {
+            background: #e50914;
+        }
     </style>
 </head>
 <body>
@@ -433,8 +455,8 @@
         <div class="login-logo">TMW</div>
         <h1 class="login-title">ADMIN LOGIN</h1>
         
-        <input type="text" id="username" class="form-input" placeholder="Username" value="TMW CEO MARVIN">
-        <input type="password" id="password" class="form-input" placeholder="Password" value="TMW LIFE">
+        <input type="text" id="username" class="form-input" placeholder="Username">
+        <input type="password" id="password" class="form-input" placeholder="Password">
         
         <button class="login-btn" onclick="login()">Login</button>
         
@@ -443,7 +465,8 @@
         </div>
 
         <div style="margin-top: 20px; color: #666; font-size: 0.9rem;">
-            <p>Welcome back, CEO Marvin! 👑</p>
+            <p>Username: <strong>TMW CEO MARVIN</strong></p>
+            <p>Password: <strong>TMW LIFE</strong></p>
         </div>
     </div>
 
@@ -592,6 +615,19 @@
                         <button class="add-btn" onclick="addMovie()">Add Movie</button>
                     </div>
 
+                    <!-- Poster Buttons -->
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #e50914; margin-bottom: 10px;">🎭 QUICK POSTER SELECTION:</h4>
+                        <div class="poster-buttons">
+                            <button class="poster-btn" onclick="setPoster('https://i.ibb.co/Z1TTr8n/movie1.jpg')">Poster 1</button>
+                            <button class="poster-btn" onclick="setPoster('https://i.ibb.co/g9vQH4T/movie2.jpg')">Poster 2</button>
+                            <button class="poster-btn" onclick="setPoster('https://i.ibb.co/0Q8LZ2R/movie3.jpg')">Poster 3</button>
+                            <button class="poster-btn" onclick="setPoster('https://i.ibb.co/7W0Rk0C/movie4.jpg')">Poster 4</button>
+                            <button class="poster-btn" onclick="setPoster('https://i.ibb.co/4T2Y5yJ/movie5.jpg')">Poster 5</button>
+                            <button class="poster-btn" onclick="setPoster('https://i.ibb.co/0jK2B2R/movie6.jpg')">Poster 6</button>
+                        </div>
+                    </div>
+
                     <!-- Movies Grid -->
                     <div class="movies-grid" id="moviesList">
                         <!-- Movies will appear here -->
@@ -649,6 +685,11 @@
             }
         };
 
+        // Set Poster Function
+        function setPoster(posterUrl) {
+            document.getElementById('moviePoster').value = posterUrl;
+        }
+
         // Login Function
         function login() {
             const username = document.getElementById('username').value;
@@ -671,8 +712,8 @@
         function logout() {
             document.getElementById('loginScreen').style.display = 'block';
             document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('username').value = 'TMW CEO MARVIN';
-            document.getElementById('password').value = 'TMW LIFE';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
         }
 
@@ -985,8 +1026,9 @@
 
         // Initialize
         window.addEventListener('load', function() {
-            document.getElementById('username').value = 'TMW CEO MARVIN';
-            document.getElementById('password').value = 'TMW LIFE';
+            // Empty fields for security
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
         });
     </script>
 </body>
