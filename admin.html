@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - TMW</title>
+    <title>Admin Login - TMW</title>
     <style>
         * {
             margin: 0;
@@ -16,6 +16,68 @@
             background: #0a0a0a;
             color: white;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Login Container */
+        .login-container {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid #e50914;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .form-input {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .login-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Admin Panel (Hidden until login) */
+        #adminPanel {
+            display: none;
+            width: 100%;
         }
 
         /* Netflix-style Header */
@@ -52,6 +114,15 @@
             font-weight: bold;
         }
 
+        .logout-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         /* Main Content */
         .admin-main {
             margin-top: 80px;
@@ -83,6 +154,50 @@
         .stat-label {
             color: #ccc;
             font-size: 0.9rem;
+        }
+
+        /* Growth Insights */
+        .growth-insights {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #e50914;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .insight-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .insight-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 5px;
+        }
+
+        .insight-label {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .growth-badge {
+            background: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 10px;
         }
 
         /* Section Titles */
@@ -156,7 +271,7 @@
             margin-bottom: 20px;
         }
 
-        .form-input {
+        .form-input-admin {
             background: #2a2a2a;
             border: 1px solid #444;
             color: white;
@@ -301,193 +416,354 @@
         .link-input-container.active {
             display: block;
         }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <!-- Netflix-style Header -->
-    <header class="admin-header">
-        <div class="admin-logo">TMW ADMIN</div>
-        <div class="admin-nav">
-            <button class="nav-btn" onclick="showTab('dashboard')">📊 Dashboard</button>
-            <button class="nav-btn" onclick="showTab('movies')">🎬 Movies</button>
-            <button class="nav-btn" onclick="showTab('codes')">🔑 Codes</button>
-            <button class="nav-btn" onclick="showTab('customers')">👥 Customers</button>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="admin-main">
-        <!-- Dashboard Tab -->
-        <div id="dashboard" class="tab-content active">
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalRevenue">UGX 0</div>
-                    <div class="stat-label">Total Revenue</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalCustomers">0</div>
-                    <div class="stat-label">Total Customers</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="activeSubscriptions">0</div>
-                    <div class="stat-label">Active Subscriptions</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalMovies">0</div>
-                    <div class="stat-label">Total Movies</div>
-                </div>
-            </div>
-
-            <!-- Customer Segmentation -->
-            <h2 class="section-title">CUSTOMER SEGMENTS</h2>
-            <div class="customers-grid">
-                <!-- Daily Customers -->
-                <div class="customer-section daily-section">
-                    <h3>📅 DAILY CUSTOMERS</h3>
-                    <div class="customer-list" id="dailyCustomers">
-                        <!-- Daily customers will appear here -->
-                    </div>
-                </div>
-
-                <!-- Weekly Customers -->
-                <div class="customer-section weekly-section">
-                    <h3>📆 WEEKLY CUSTOMERS</h3>
-                    <div class="customer-list" id="weeklyCustomers">
-                        <!-- Weekly customers will appear here -->
-                    </div>
-                </div>
-
-                <!-- Monthly Customers -->
-                <div class="customer-section monthly-section">
-                    <h3>📊 MONTHLY CUSTOMERS</h3>
-                    <div class="customer-list" id="monthlyCustomers">
-                        <!-- Monthly customers will appear here -->
-                    </div>
-                </div>
-
-                <!-- Premium Customers -->
-                <div class="customer-section premium-section">
-                    <h3>⭐ PREMIUM CUSTOMERS</h3>
-                    <div class="customer-list" id="premiumCustomers">
-                        <!-- Premium customers will appear here -->
-                    </div>
-                </div>
-            </div>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-logo">TMW</div>
+        <h1 class="login-title">ADMIN LOGIN</h1>
+        
+        <input type="text" id="username" class="form-input" placeholder="Username" value="TMW CEO MARVIN">
+        <input type="password" id="password" class="form-input" placeholder="Password" value="TMW LIFE">
+        
+        <button class="login-btn" onclick="login()">Login</button>
+        
+        <div id="loginError" class="error-message">
+            ❌ Invalid username or password
         </div>
 
-        <!-- Movies Management Tab -->
-        <div id="movies" class="tab-content">
-            <h2 class="section-title">MANAGE MOVIES</h2>
-            
-            <!-- Link Type Selector -->
-            <div class="instructions">
-                <h3>🎬 CHOOSE MOVIE SOURCE:</h3>
-                <div class="link-type-selector">
-                    <button class="link-type-btn active" onclick="showLinkType('direct')">🌐 Direct Video Link</button>
-                    <button class="link-type-btn" onclick="showLinkType('drive')">📱 Google Drive</button>
-                </div>
-
-                <!-- Direct Link Instructions -->
-                <div id="directInstructions" class="link-input-container active">
-                    <h4>For Direct Video Links:</h4>
-                    <div class="instruction-step">
-                        <strong>Use direct .mp4, .mkv links from:</strong><br>
-                        • MediaFire, Dropbox, Mega.nz<br>
-                        • Any direct video URL<br>
-                        • Example: https://example.com/movie.mp4
-                    </div>
-                </div>
-
-                <!-- Google Drive Instructions -->
-                <div id="driveInstructions" class="link-input-container">
-                    <h4>For Google Drive:</h4>
-                    <div class="instruction-step">
-                        <strong>Step 1:</strong> Upload movie to Google Drive
-                    </div>
-                    <div class="instruction-step">
-                        <strong>Step 2:</strong> Get shareable link (Anyone with link can view)
-                    </div>
-                    <div class="instruction-step">
-                        <strong>Step 3:</strong> Paste Google Drive link below
-                    </div>
-                </div>
-            </div>
-            
-            <div class="movie-management">
-                <!-- Add Movie Form -->
-                <div class="movie-form">
-                    <input type="text" class="form-input" id="movieTitle" placeholder="Movie Title">
-                    <input type="text" class="form-input" id="moviePoster" placeholder="Poster Image URL">
-                    <input type="text" class="form-input" id="movieLink" placeholder="Paste video link here">
-                    <button class="add-btn" onclick="addMovie()">Add Movie</button>
-                </div>
-
-                <!-- Movies Grid -->
-                <div class="movies-grid" id="moviesList">
-                    <!-- Movies will appear here -->
-                </div>
-            </div>
+        <div style="margin-top: 20px; color: #666; font-size: 0.9rem;">
+            <p>Welcome back, CEO Marvin! 👑</p>
         </div>
+    </div>
 
-        <!-- Code Management Tab -->
-        <div id="codes" class="tab-content">
-            <h2 class="section-title">MANAGE CODES</h2>
-            
-            <div class="code-management">
-                <!-- Generate Codes Form -->
-                <div class="code-form">
-                    <select class="form-input" id="codePlan">
-                        <option value="DAILY">DAILY PLAN</option>
-                        <option value="WEEKLY">WEEKLY PLAN</option>
-                        <option value="MONTHLY">MONTHLY PLAN</option>
-                        <option value="PREMIUM">PREMIUM PLAN</option>
-                    </select>
-                    <button class="add-btn" onclick="generateCodes()">Generate 5 Codes</button>
+    <!-- Admin Panel (Hidden until login) -->
+    <div id="adminPanel">
+        <!-- Netflix-style Header -->
+        <header class="admin-header">
+            <div class="admin-logo">TMW ADMIN</div>
+            <div class="admin-nav">
+                <button class="nav-btn" onclick="showTab('dashboard')">📊 Dashboard</button>
+                <button class="nav-btn" onclick="showTab('movies')">🎬 Movies</button>
+                <button class="nav-btn" onclick="showTab('codes')">🔑 Codes</button>
+                <button class="nav-btn" onclick="showTab('customers')">👥 Customers</button>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalRevenue">UGX 0</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalCustomers">0</div>
+                        <div class="stat-label">Total Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeSubscriptions">0</div>
+                        <div class="stat-label">Active Subscriptions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalMovies">0</div>
+                        <div class="stat-label">Total Movies</div>
+                    </div>
                 </div>
 
-                <!-- Codes List -->
-                <div class="code-list" id="codesList">
-                    <!-- Codes will appear here -->
+                <!-- Growth Insights -->
+                <div class="growth-insights">
+                    <h2 class="section-title">📈 GROWTH INSIGHTS</h2>
+                    <div class="insight-grid">
+                        <div class="insight-card">
+                            <div class="insight-value" id="dailyGrowth">0%</div>
+                            <div class="insight-label">Daily Growth</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="weeklyGrowth">0%</div>
+                            <div class="insight-label">Weekly Growth</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="popularMovie">-</div>
+                            <div class="insight-label">Most Popular Movie</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="revenueTrend">UGX 0</div>
+                            <div class="insight-label">Revenue Trend</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Segmentation -->
+                <h2 class="section-title">CUSTOMER SEGMENTS</h2>
+                <div class="customers-grid">
+                    <!-- Daily Customers -->
+                    <div class="customer-section daily-section">
+                        <h3>📅 DAILY CUSTOMERS</h3>
+                        <div class="customer-list" id="dailyCustomers">
+                            <!-- Daily customers will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Weekly Customers -->
+                    <div class="customer-section weekly-section">
+                        <h3>📆 WEEKLY CUSTOMERS</h3>
+                        <div class="customer-list" id="weeklyCustomers">
+                            <!-- Weekly customers will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Monthly Customers -->
+                    <div class="customer-section monthly-section">
+                        <h3>📊 MONTHLY CUSTOMERS</h3>
+                        <div class="customer-list" id="monthlyCustomers">
+                            <!-- Monthly customers will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Premium Customers -->
+                    <div class="customer-section premium-section">
+                        <h3>⭐ PREMIUM CUSTOMERS</h3>
+                        <div class="customer-list" id="premiumCustomers">
+                            <!-- Premium customers will appear here -->
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Customers Tab -->
-        <div id="customers" class="tab-content">
-            <h2 class="section-title">ALL CUSTOMERS</h2>
-            <div class="customer-list" id="allCustomers">
-                <!-- All customers will appear here -->
+            <!-- Movies Management Tab -->
+            <div id="movies" class="tab-content">
+                <h2 class="section-title">MANAGE MOVIES</h2>
+                
+                <!-- Link Type Selector -->
+                <div class="instructions">
+                    <h3>🎬 CHOOSE MOVIE SOURCE:</h3>
+                    <div class="link-type-selector">
+                        <button class="link-type-btn active" onclick="showLinkType('direct')">🌐 Direct Video Link</button>
+                        <button class="link-type-btn" onclick="showLinkType('drive')">📱 Google Drive</button>
+                    </div>
+
+                    <!-- Direct Link Instructions -->
+                    <div id="directInstructions" class="link-input-container active">
+                        <h4>For Direct Video Links:</h4>
+                        <div class="instruction-step">
+                            <strong>Use direct .mp4, .mkv links from:</strong><br>
+                            • MediaFire, Dropbox, Mega.nz<br>
+                            • Any direct video URL<br>
+                            • Example: https://example.com/movie.mp4
+                        </div>
+                    </div>
+
+                    <!-- Google Drive Instructions -->
+                    <div id="driveInstructions" class="link-input-container">
+                        <h4>For Google Drive:</h4>
+                        <div class="instruction-step">
+                            <strong>Step 1:</strong> Upload movie to Google Drive
+                        </div>
+                        <div class="instruction-step">
+                            <strong>Step 2:</strong> Get shareable link (Anyone with link can view)
+                        </div>
+                        <div class="instruction-step">
+                            <strong>Step 3:</strong> Paste Google Drive link below
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="movie-management">
+                    <!-- Add Movie Form -->
+                    <div class="movie-form">
+                        <input type="text" class="form-input-admin" id="movieTitle" placeholder="Movie Title">
+                        <input type="text" class="form-input-admin" id="moviePoster" placeholder="Poster Image URL">
+                        <input type="text" class="form-input-admin" id="movieLink" placeholder="Paste video link here">
+                        <button class="add-btn" onclick="addMovie()">Add Movie</button>
+                    </div>
+
+                    <!-- Movies Grid -->
+                    <div class="movies-grid" id="moviesList">
+                        <!-- Movies will appear here -->
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
+
+            <!-- Code Management Tab -->
+            <div id="codes" class="tab-content">
+                <h2 class="section-title">MANAGE CODES</h2>
+                
+                <div class="code-management">
+                    <!-- Generate Codes Form -->
+                    <div class="code-form">
+                        <select class="form-input-admin" id="codePlan">
+                            <option value="DAILY">DAILY PLAN</option>
+                            <option value="WEEKLY">WEEKLY PLAN</option>
+                            <option value="MONTHLY">MONTHLY PLAN</option>
+                            <option value="PREMIUM">PREMIUM PLAN</option>
+                        </select>
+                        <button class="add-btn" onclick="generateCodes()">Generate 5 Codes</button>
+                    </div>
+
+                    <!-- Codes List -->
+                    <div class="code-list" id="codesList">
+                        <!-- Codes will appear here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div id="customers" class="tab-content">
+                <h2 class="section-title">ALL CUSTOMERS</h2>
+                <div class="customer-list" id="allCustomers">
+                    <!-- All customers will appear here -->
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script>
-        let currentLinkType = 'direct'; // Default to direct links
+        // Login Credentials - YOUR CUSTOM CREDENTIALS
+        const ADMIN_USERNAME = "TMW CEO MARVIN";
+        const ADMIN_PASSWORD = "TMW LIFE";
 
-        // Admin Data Storage - SHARED WITH WEBSITE!
+        let currentLinkType = 'direct';
         let adminData = JSON.parse(localStorage.getItem('tmw_movies_data')) || {
             movies: [],
             codes: [],
-            customers: []
+            customers: [],
+            growthData: {
+                dailyCustomers: [],
+                weeklyRevenue: [],
+                movieViews: []
+            }
         };
+
+        // Login Function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                // Successful login
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                updateDashboard();
+                updateGrowthInsights();
+            } else {
+                // Failed login
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Logout Function
+        function logout() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('username').value = 'TMW CEO MARVIN';
+            document.getElementById('password').value = 'TMW LIFE';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        // Update Growth Insights
+        function updateGrowthInsights() {
+            // Calculate daily growth
+            const todayCustomers = adminData.customers.filter(c => {
+                const customerDate = new Date(c.activated);
+                const today = new Date();
+                return customerDate.toDateString() === today.toDateString();
+            }).length;
+            
+            const yesterdayCustomers = adminData.customers.filter(c => {
+                const customerDate = new Date(c.activated);
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                return customerDate.toDateString() === yesterday.toDateString();
+            }).length;
+
+            const dailyGrowth = yesterdayCustomers > 0 ? 
+                Math.round(((todayCustomers - yesterdayCustomers) / yesterdayCustomers) * 100) : 0;
+
+            // Calculate weekly growth
+            const thisWeekCustomers = adminData.customers.filter(c => {
+                const customerDate = new Date(c.activated);
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                return customerDate >= oneWeekAgo;
+            }).length;
+
+            const lastWeekCustomers = adminData.customers.filter(c => {
+                const customerDate = new Date(c.activated);
+                const twoWeeksAgo = new Date();
+                twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                return customerDate >= twoWeeksAgo && customerDate < oneWeekAgo;
+            }).length;
+
+            const weeklyGrowth = lastWeekCustomers > 0 ? 
+                Math.round(((thisWeekCustomers - lastWeekCustomers) / lastWeekCustomers) * 100) : 0;
+
+            // Find most popular movie
+            const popularMovie = adminData.movies.length > 0 ? 
+                adminData.movies.reduce((prev, current) => (prev.views > current.views) ? prev : current).title : 
+                "No movies";
+
+            // Calculate revenue trend
+            const totalRevenue = adminData.customers.reduce((sum, customer) => sum + customer.price, 0);
+            const revenueTrend = totalRevenue;
+
+            // Update insights
+            document.getElementById('dailyGrowth').textContent = dailyGrowth + '%';
+            document.getElementById('weeklyGrowth').textContent = weeklyGrowth + '%';
+            document.getElementById('popularMovie').textContent = popularMovie.length > 20 ? popularMovie.substring(0, 20) + '...' : popularMovie;
+            document.getElementById('revenueTrend').textContent = 'UGX ' + revenueTrend.toLocaleString();
+
+            // Add growth badges
+            const dailyElement = document.getElementById('dailyGrowth');
+            const weeklyElement = document.getElementById('weeklyGrowth');
+            
+            // Remove existing badges
+            dailyElement.innerHTML = dailyElement.textContent;
+            weeklyElement.innerHTML = weeklyElement.textContent;
+            
+            // Add badges for positive growth
+            if (dailyGrowth > 0) {
+                dailyElement.innerHTML += '<span class="growth-badge">↑</span>';
+            } else if (dailyGrowth < 0) {
+                dailyElement.innerHTML += '<span class="growth-badge" style="background: #dc3545;">↓</span>';
+            }
+            
+            if (weeklyGrowth > 0) {
+                weeklyElement.innerHTML += '<span class="growth-badge">↑</span>';
+            } else if (weeklyGrowth < 0) {
+                weeklyElement.innerHTML += '<span class="growth-badge" style="background: #dc3545;">↓</span>';
+            }
+        }
 
         // Switch between link types
         function showLinkType(type) {
             currentLinkType = type;
-            
-            // Update button states
             document.querySelectorAll('.link-type-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Show/hide instructions
             document.getElementById('directInstructions').classList.remove('active');
             document.getElementById('driveInstructions').classList.remove('active');
             document.getElementById(type + 'Instructions').classList.add('active');
             
-            // Update placeholder text
             const linkInput = document.getElementById('movieLink');
             if (type === 'direct') {
                 linkInput.placeholder = 'Paste direct video link (mp4, mkv, etc.)';
@@ -496,18 +772,19 @@
             }
         }
 
-        // Save data to localStorage - SHARED!
-        function saveAdminData() {
-            localStorage.setItem('tmw_movies_data', JSON.stringify(adminData));
-            updateDashboard();
-        }
-
         // Tab Navigation
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.getElementById(tabName).classList.add('active');
+        }
+
+        // Save data to localStorage
+        function saveAdminData() {
+            localStorage.setItem('tmw_movies_data', JSON.stringify(adminData));
+            updateDashboard();
+            updateGrowthInsights();
         }
 
         // Update Dashboard Stats
@@ -576,14 +853,11 @@
             let streamingLink = link;
             let linkType = currentLinkType;
 
-            // Process based on link type
             if (currentLinkType === 'drive' && link.includes('drive.google.com/file/d/')) {
-                // Convert Google Drive link to embeddable format
                 const fileId = link.split('/file/d/')[1].split('/')[0];
                 streamingLink = `https://drive.google.com/file/d/${fileId}/preview`;
                 linkType = 'drive';
             } else {
-                // Direct link - use as is
                 linkType = 'direct';
             }
 
@@ -601,12 +875,11 @@
             adminData.movies.push(newMovie);
             saveAdminData();
 
-            // Clear form
             document.getElementById('movieTitle').value = '';
             document.getElementById('moviePoster').value = '';
             document.getElementById('movieLink').value = '';
             
-            alert('✅ Movie added successfully! It will appear on your live website.');
+            alert('✅ Movie added successfully!');
         }
 
         // Delete Movie
@@ -705,9 +978,15 @@
             `).join('');
         }
 
-        // Initialize dashboard
+        // Enter key login
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+
+        // Initialize
         window.addEventListener('load', function() {
-            updateDashboard();
+            document.getElementById('username').value = 'TMW CEO MARVIN';
+            document.getElementById('password').value = 'TMW LIFE';
         });
     </script>
 </body>
