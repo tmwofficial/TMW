@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TMW Admin</title>
+    <style>
+        body { background: black; color: white; font-family: Arial; text-align: center; padding: 50px; }
+        .login-box { background: #333; padding: 30px; border-radius: 10px; display: inline-block; }
+        input { padding: 10px; margin: 10px; width: 200px; }
+        button { background: red; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>TMW ADMIN LOGIN</h2>
+        <input type="text" id="user" placeholder="Username"><br>
+        <input type="password" id="pass" placeholder="Password"><br>
+        <button onclick="checkLogin()">LOGIN</button>
+        <p id="message" style="color: red;"></p>
+    </div>
+
+    <script>
+        function checkLogin() {
+            var username = document.getElementById('user').value;
+            var password = document.getElementById('pass').value;
+            
+            if (username == "admin" && password == "tmw123") {
+                document.getElementById('message').style.color = "green";
+                document.getElementById('message').innerHTML = "✅ LOGIN SUCCESS!";
+                // Here we'll add the admin panel later
+            } else {
+                document.getElementById('message').innerHTML = "❌ Wrong login";
+            }
+        }
+    </script>
+</body>
+</html>
