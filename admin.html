@@ -10,68 +10,58 @@
         .login-container { background: #1a1a1a; padding: 40px; border-radius: 15px; border: 2px solid #e50914; width: 90%; max-width: 400px; text-align: center; }
         .login-logo { font-size: 2.5rem; font-weight: bold; color: #e50914; margin-bottom: 10px; }
         .form-input { background: #2a2a2a; border: 1px solid #444; color: white; padding: 15px; border-radius: 8px; width: 100%; margin-bottom: 20px; font-size: 1rem; }
-        .login-btn { background: #e50914; color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; font-size: 1rem; margin-bottom: 10px; }
-        .debug-btn { background: #333; color: white; border: none; padding: 10px; border-radius: 5px; width: 100%; cursor: pointer; margin-bottom: 10px; }
+        .login-btn { background: #e50914; color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        .error-message { color: #ff6b6b; margin-top: 15px; display: none; }
+        .success-message { color: #28a745; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-logo">TMW</div>
-        <h2>ADMIN LOGIN - DEBUG MODE</h2>
+        <h2>ADMIN LOGIN</h2>
         
-        <input type="text" id="username" class="form-input" placeholder="Username" value="TMW CEO MARVIN">
-        <input type="password" id="password" class="form-input" placeholder="Password" value="TMW LIFE">
+        <input type="text" id="username" class="form-input" placeholder="Username">
+        <input type="password" id="password" class="form-input" placeholder="Password">
         
-        <button class="login-btn" onclick="login()">Test Login</button>
-        <button class="debug-btn" onclick="debugLogin()">Debug Check</button>
+        <button class="login-btn" onclick="login()">Login</button>
         
-        <div id="result" style="margin-top: 20px; padding: 15px; background: #2a2a2a; border-radius: 8px; display: none;"></div>
+        <div id="errorMessage" class="error-message">
+            ❌ Invalid username or password
+        </div>
+        
+        <div id="successMessage" class="success-message">
+            ✅ Login Successful! Loading admin panel...
+        </div>
     </div>
 
     <script>
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const resultDiv = document.getElementById('result');
-            
-            // Expected credentials
-            const expectedUsername = "TMW CEO MARVIN";
-            const expectedPassword = "TMW LIFE";
-            
-            let resultHTML = `<h3>🔍 LOGIN DEBUG RESULTS:</h3>`;
-            resultHTML += `<p>You entered Username: "<strong>${username}</strong>"</p>`;
-            resultHTML += `<p>You entered Password: "<strong>${password}</strong>"</p>`;
-            resultHTML += `<p>Expected Username: "<strong>${expectedUsername}</strong>"</p>`;
-            resultHTML += `<p>Expected Password: "<strong>${expectedPassword}</strong>"</p>`;
-            
-            // Check each condition
-            const usernameMatch = username === expectedUsername;
-            const passwordMatch = password === expectedPassword;
-            
-            resultHTML += `<p>Username Match: <strong style="color: ${usernameMatch ? '#28a745' : '#dc3545'}">${usernameMatch ? '✅ YES' : '❌ NO'}</strong></p>`;
-            resultHTML += `<p>Password Match: <strong style="color: ${passwordMatch ? '#28a745' : '#dc3545'}">${passwordMatch ? '✅ YES' : '❌ NO'}</strong></p>`;
-            
-            if (usernameMatch && passwordMatch) {
-                resultHTML += `<h3 style="color: #28a745;">🎉 LOGIN SHOULD WORK!</h3>`;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+
+            // CORRECT CREDENTIALS - SIMPLE AND CLEAN
+            if (username === "TMW CEO MARVIN" && password === "TMW LIFE") {
+                // SUCCESS
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'block';
+                
+                // Redirect to actual admin panel after success message
+                setTimeout(function() {
+                    window.location.href = 'https://tmw.vercel.app/admin-dashboard.html';
+                }, 2000);
+                
             } else {
-                resultHTML += `<h3 style="color: #dc3545;">❌ LOGIN WILL FAIL</h3>`;
-                resultHTML += `<p>Check for: Spaces, Capital letters, Extra characters</p>`;
+                // FAILED
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
             }
-            
-            resultDiv.innerHTML = resultHTML;
-            resultDiv.style.display = 'block';
         }
 
-        function debugLogin() {
-            // Auto-fill and test
-            document.getElementById('username').value = "TMW CEO MARVIN";
-            document.getElementById('password').value = "TMW LIFE";
-            login();
-        }
-
-        // Auto-run debug on page load
-        window.addEventListener('load', function() {
-            setTimeout(debugLogin, 500);
+        // Enter key support
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
         });
     </script>
 </body>
