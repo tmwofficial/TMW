@@ -80,24 +80,51 @@
 
             showMessage('Checking code...', 'error');
             
+            // DETECT PLAN FROM CODE AND SET CORRECT LIMITS
+            let planType = 'DAILY';
+            let movieLimit = 5;
+            let daysAccess = 1;
+            let price = 2000;
+
+            // You can customize this based on codes you send
+            if (code.includes('WEEKLY') || code.includes('WK')) {
+                planType = 'WEEKLY';
+                movieLimit = 15;
+                daysAccess = 7;
+                price = 6000;
+            } else if (code.includes('MONTHLY') || code.includes('MON')) {
+                planType = 'MONTHLY';
+                movieLimit = 999;
+                daysAccess = 30;
+                price = 15000;
+            } else if (code.includes('PREMIUM') || code.includes('PRE')) {
+                planType = 'PREMIUM';
+                movieLimit = 999;
+                daysAccess = 30;
+                price = 25000;
+            }
+            // Default is DAILY (as above)
+
             // SECURE: Any code starting with TMW works
-            // YOU control which codes are valid by what you send to customers
             if (code.startsWith('TMW') && code.length >= 7) {
-                // Default to 1 day access (you can change this per customer)
                 const subscription = {
-                    plan: 'PREMIUM',
+                    plan: planType,
+                    price: price,
+                    movieLimit: movieLimit,
                     activated: new Date().toISOString(),
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+                    expires: new Date(Date.now() + daysAccess * 24 * 60 * 60 * 1000).toISOString(),
+                    moviesWatched: 0,
                     status: 'active'
                 };
                 
                 localStorage.setItem('tmw_subscription', JSON.stringify(subscription));
                 
-                showMessage('✅ Subscription Activated! Going to movies...', 'success');
+                showMessage(`✅ ${planType} PLAN ACTIVATED! \n\nYou can watch ${movieLimit} movies for ${daysAccess} day(s)\n\nGoing to movies...`, 'success');
                 
                 setTimeout(() => {
-                    window.location.href = 'movies.html';
-                }, 2000);
+                    // REDIRECT TO HOME PAGE (index.html) NOT movies.html
+                    window.location.href = 'index.html';
+                }, 3000);
             } else {
                 showMessage('❌ Invalid code. Please check the code Marvin sent you.', 'error');
             }
