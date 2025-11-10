@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,6 @@
             align-items: center;
         }
 
-        /* Login Container */
         .login-container {
             background: #1a1a1a;
             padding: 40px;
@@ -74,13 +74,18 @@
             display: none;
         }
 
-        /* Admin Panel (Hidden until login) */
+        .security-note {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
         #adminPanel {
             display: none;
             width: 100%;
         }
 
-        /* Netflix-style Header */
         .admin-header {
             background: linear-gradient(180deg, #000 0%, transparent 100%);
             padding: 20px 50px;
@@ -123,13 +128,11 @@
             cursor: pointer;
         }
 
-        /* Main Content */
         .admin-main {
             margin-top: 80px;
             padding: 30px 50px;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -156,7 +159,6 @@
             font-size: 0.9rem;
         }
 
-        /* Growth Insights */
         .growth-insights {
             background: #1a1a1a;
             padding: 25px;
@@ -200,7 +202,6 @@
             margin-left: 10px;
         }
 
-        /* Section Titles */
         .section-title {
             font-size: 24px;
             color: #e50914;
@@ -209,7 +210,6 @@
             padding-left: 15px;
         }
 
-        /* Customer Sections */
         .customers-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -256,7 +256,6 @@
         .plan-monthly { background: #45b7d1; color: white; }
         .plan-premium { background: #ffd93d; color: black; }
 
-        /* Movie Management */
         .movie-management {
             background: #1a1a1a;
             padding: 25px;
@@ -333,7 +332,6 @@
             font-size: 0.8rem;
         }
 
-        /* Code Management */
         .code-management {
             background: #1a1a1a;
             padding: 25px;
@@ -372,7 +370,6 @@
         .status-available { background: #28a745; color: white; }
         .status-used { background: #6c757d; color: white; }
 
-        /* Instructions */
         .instructions {
             background: #1a1a1a;
             padding: 20px;
@@ -388,7 +385,6 @@
             border-radius: 5px;
         }
 
-        /* Link Type Selector */
         .link-type-selector {
             display: flex;
             gap: 10px;
@@ -417,7 +413,6 @@
             display: block;
         }
 
-        /* Tab Content */
         .tab-content {
             display: none;
         }
@@ -426,7 +421,6 @@
             display: block;
         }
 
-        /* Poster Buttons */
         .poster-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -464,15 +458,13 @@
             ❌ Invalid username or password
         </div>
 
-        <div style="margin-top: 20px; color: #666; font-size: 0.9rem;">
-            <p>Username: <strong>TMW CEO MARVIN</strong></p>
-            <p>Password: <strong>TMW LIFE</strong></p>
+        <div class="security-note">
+            🔒 Secure Admin Access
         </div>
     </div>
 
     <!-- Admin Panel (Hidden until login) -->
     <div id="adminPanel">
-        <!-- Netflix-style Header -->
         <header class="admin-header">
             <div class="admin-logo">TMW ADMIN</div>
             <div class="admin-nav">
@@ -484,11 +476,8 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="admin-main">
-            <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
-                <!-- Stats Grid -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-number" id="totalRevenue">UGX 0</div>
@@ -508,7 +497,6 @@
                     </div>
                 </div>
 
-                <!-- Growth Insights -->
                 <div class="growth-insights">
                     <h2 class="section-title">📈 GROWTH INSIGHTS</h2>
                     <div class="insight-grid">
@@ -531,48 +519,30 @@
                     </div>
                 </div>
 
-                <!-- Customer Segmentation -->
                 <h2 class="section-title">CUSTOMER SEGMENTS</h2>
                 <div class="customers-grid">
-                    <!-- Daily Customers -->
                     <div class="customer-section daily-section">
                         <h3>📅 DAILY CUSTOMERS</h3>
-                        <div class="customer-list" id="dailyCustomers">
-                            <!-- Daily customers will appear here -->
-                        </div>
+                        <div class="customer-list" id="dailyCustomers"></div>
                     </div>
-
-                    <!-- Weekly Customers -->
                     <div class="customer-section weekly-section">
                         <h3>📆 WEEKLY CUSTOMERS</h3>
-                        <div class="customer-list" id="weeklyCustomers">
-                            <!-- Weekly customers will appear here -->
-                        </div>
+                        <div class="customer-list" id="weeklyCustomers"></div>
                     </div>
-
-                    <!-- Monthly Customers -->
                     <div class="customer-section monthly-section">
                         <h3>📊 MONTHLY CUSTOMERS</h3>
-                        <div class="customer-list" id="monthlyCustomers">
-                            <!-- Monthly customers will appear here -->
-                        </div>
+                        <div class="customer-list" id="monthlyCustomers"></div>
                     </div>
-
-                    <!-- Premium Customers -->
                     <div class="customer-section premium-section">
                         <h3>⭐ PREMIUM CUSTOMERS</h3>
-                        <div class="customer-list" id="premiumCustomers">
-                            <!-- Premium customers will appear here -->
-                        </div>
+                        <div class="customer-list" id="premiumCustomers"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Movies Management Tab -->
             <div id="movies" class="tab-content">
                 <h2 class="section-title">MANAGE MOVIES</h2>
                 
-                <!-- Link Type Selector -->
                 <div class="instructions">
                     <h3>🎬 CHOOSE MOVIE SOURCE:</h3>
                     <div class="link-type-selector">
@@ -580,25 +550,22 @@
                         <button class="link-type-btn" onclick="showLinkType('drive')">📱 Google Drive</button>
                     </div>
 
-                    <!-- Direct Link Instructions -->
                     <div id="directInstructions" class="link-input-container active">
                         <h4>For Direct Video Links:</h4>
                         <div class="instruction-step">
                             <strong>Use direct .mp4, .mkv links from:</strong><br>
                             • MediaFire, Dropbox, Mega.nz<br>
-                            • Any direct video URL<br>
-                            • Example: https://example.com/movie.mp4
+                            • Any direct video URL
                         </div>
                     </div>
 
-                    <!-- Google Drive Instructions -->
                     <div id="driveInstructions" class="link-input-container">
                         <h4>For Google Drive:</h4>
                         <div class="instruction-step">
                             <strong>Step 1:</strong> Upload movie to Google Drive
                         </div>
                         <div class="instruction-step">
-                            <strong>Step 2:</strong> Get shareable link (Anyone with link can view)
+                            <strong>Step 2:</strong> Get shareable link
                         </div>
                         <div class="instruction-step">
                             <strong>Step 3:</strong> Paste Google Drive link below
@@ -607,7 +574,6 @@
                 </div>
                 
                 <div class="movie-management">
-                    <!-- Add Movie Form -->
                     <div class="movie-form">
                         <input type="text" class="form-input-admin" id="movieTitle" placeholder="Movie Title">
                         <input type="text" class="form-input-admin" id="moviePoster" placeholder="Poster Image URL">
@@ -615,7 +581,6 @@
                         <button class="add-btn" onclick="addMovie()">Add Movie</button>
                     </div>
 
-                    <!-- Poster Buttons -->
                     <div style="margin-bottom: 20px;">
                         <h4 style="color: #e50914; margin-bottom: 10px;">🎭 QUICK POSTER SELECTION:</h4>
                         <div class="poster-buttons">
@@ -628,19 +593,14 @@
                         </div>
                     </div>
 
-                    <!-- Movies Grid -->
-                    <div class="movies-grid" id="moviesList">
-                        <!-- Movies will appear here -->
-                    </div>
+                    <div class="movies-grid" id="moviesList"></div>
                 </div>
             </div>
 
-            <!-- Code Management Tab -->
             <div id="codes" class="tab-content">
                 <h2 class="section-title">MANAGE CODES</h2>
                 
                 <div class="code-management">
-                    <!-- Generate Codes Form -->
                     <div class="code-form">
                         <select class="form-input-admin" id="codePlan">
                             <option value="DAILY">DAILY PLAN</option>
@@ -651,25 +611,18 @@
                         <button class="add-btn" onclick="generateCodes()">Generate 5 Codes</button>
                     </div>
 
-                    <!-- Codes List -->
-                    <div class="code-list" id="codesList">
-                        <!-- Codes will appear here -->
-                    </div>
+                    <div class="code-list" id="codesList"></div>
                 </div>
             </div>
 
-            <!-- Customers Tab -->
             <div id="customers" class="tab-content">
                 <h2 class="section-title">ALL CUSTOMERS</h2>
-                <div class="customer-list" id="allCustomers">
-                    <!-- All customers will appear here -->
-                </div>
+                <div class="customer-list" id="allCustomers"></div>
             </div>
         </main>
     </div>
 
     <script>
-        // Login Credentials - YOUR CUSTOM CREDENTIALS
         const ADMIN_USERNAME = "TMW CEO MARVIN";
         const ADMIN_PASSWORD = "TMW LIFE";
 
@@ -685,30 +638,25 @@
             }
         };
 
-        // Set Poster Function
         function setPoster(posterUrl) {
             document.getElementById('moviePoster').value = posterUrl;
         }
 
-        // Login Function
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('loginError');
 
             if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                // Successful login
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
                 updateDashboard();
                 updateGrowthInsights();
             } else {
-                // Failed login
                 errorDiv.style.display = 'block';
             }
         }
 
-        // Logout Function
         function logout() {
             document.getElementById('loginScreen').style.display = 'block';
             document.getElementById('adminPanel').style.display = 'none';
@@ -717,9 +665,7 @@
             document.getElementById('loginError').style.display = 'none';
         }
 
-        // Update Growth Insights
         function updateGrowthInsights() {
-            // Calculate daily growth
             const todayCustomers = adminData.customers.filter(c => {
                 const customerDate = new Date(c.activated);
                 const today = new Date();
@@ -736,7 +682,6 @@
             const dailyGrowth = yesterdayCustomers > 0 ? 
                 Math.round(((todayCustomers - yesterdayCustomers) / yesterdayCustomers) * 100) : 0;
 
-            // Calculate weekly growth
             const thisWeekCustomers = adminData.customers.filter(c => {
                 const customerDate = new Date(c.activated);
                 const oneWeekAgo = new Date();
@@ -756,30 +701,23 @@
             const weeklyGrowth = lastWeekCustomers > 0 ? 
                 Math.round(((thisWeekCustomers - lastWeekCustomers) / lastWeekCustomers) * 100) : 0;
 
-            // Find most popular movie
             const popularMovie = adminData.movies.length > 0 ? 
                 adminData.movies.reduce((prev, current) => (prev.views > current.views) ? prev : current).title : 
                 "No movies";
 
-            // Calculate revenue trend
             const totalRevenue = adminData.customers.reduce((sum, customer) => sum + customer.price, 0);
-            const revenueTrend = totalRevenue;
 
-            // Update insights
             document.getElementById('dailyGrowth').textContent = dailyGrowth + '%';
             document.getElementById('weeklyGrowth').textContent = weeklyGrowth + '%';
             document.getElementById('popularMovie').textContent = popularMovie.length > 20 ? popularMovie.substring(0, 20) + '...' : popularMovie;
-            document.getElementById('revenueTrend').textContent = 'UGX ' + revenueTrend.toLocaleString();
+            document.getElementById('revenueTrend').textContent = 'UGX ' + totalRevenue.toLocaleString();
 
-            // Add growth badges
             const dailyElement = document.getElementById('dailyGrowth');
             const weeklyElement = document.getElementById('weeklyGrowth');
             
-            // Remove existing badges
             dailyElement.innerHTML = dailyElement.textContent;
             weeklyElement.innerHTML = weeklyElement.textContent;
             
-            // Add badges for positive growth
             if (dailyGrowth > 0) {
                 dailyElement.innerHTML += '<span class="growth-badge">↑</span>';
             } else if (dailyGrowth < 0) {
@@ -793,7 +731,6 @@
             }
         }
 
-        // Switch between link types
         function showLinkType(type) {
             currentLinkType = type;
             document.querySelectorAll('.link-type-btn').forEach(btn => {
@@ -813,7 +750,6 @@
             }
         }
 
-        // Tab Navigation
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -821,14 +757,12 @@
             document.getElementById(tabName).classList.add('active');
         }
 
-        // Save data to localStorage
         function saveAdminData() {
             localStorage.setItem('tmw_movies_data', JSON.stringify(adminData));
             updateDashboard();
             updateGrowthInsights();
         }
 
-        // Update Dashboard Stats
         function updateDashboard() {
             const totalRevenue = adminData.customers.reduce((sum, customer) => sum + customer.price, 0);
             const totalCustomers = adminData.customers.length;
@@ -846,7 +780,6 @@
             updateAllCustomers();
         }
 
-        // Update Customer Segments
         function updateCustomerSegments() {
             const dailyCustomers = adminData.customers.filter(c => c.plan === 'DAILY');
             const weeklyCustomers = adminData.customers.filter(c => c.plan === 'WEEKLY');
@@ -880,7 +813,6 @@
             renderCustomerList(premiumCustomers, 'premiumCustomers');
         }
 
-        // Add Movie with DUAL OPTIONS
         function addMovie() {
             const title = document.getElementById('movieTitle').value.trim();
             const poster = document.getElementById('moviePoster').value.trim();
@@ -923,13 +855,11 @@
             alert('✅ Movie added successfully!');
         }
 
-        // Delete Movie
         function deleteMovie(movieId) {
             adminData.movies = adminData.movies.filter(movie => movie.id !== movieId);
             saveAdminData();
         }
 
-        // Update Movies List
         function updateMoviesList() {
             const container = document.getElementById('moviesList');
             if (adminData.movies.length === 0) {
@@ -953,7 +883,6 @@
             `).join('');
         }
 
-        // Generate Codes
         function generateCodes() {
             const plan = document.getElementById('codePlan').value;
             const newCodes = [];
@@ -973,7 +902,6 @@
             alert(`Generated 5 new ${plan} codes!`);
         }
 
-        // Update Codes List
         function updateCodesList() {
             const container = document.getElementById('codesList');
             if (adminData.codes.length === 0) {
@@ -994,7 +922,6 @@
             `).join('');
         }
 
-        // Update All Customers
         function updateAllCustomers() {
             const container = document.getElementById('allCustomers');
             if (adminData.customers.length === 0) {
@@ -1019,14 +946,11 @@
             `).join('');
         }
 
-        // Enter key login
         document.getElementById('password').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') login();
         });
 
-        // Initialize
         window.addEventListener('load', function() {
-            // Empty fields for security
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
         });
