@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -314,11 +313,11 @@
                     <h4 style="color: #e50914; margin-bottom: 10px; text-align: center;">CHOOSE PLAN</h4>
                     <div class="plan-option" onclick="window.location.href='subscribe.html'">
                         <strong>DAILY PLAN</strong><br>
-                        <span class="plan-price">UGX 2,000</span> - 5 Movies/Day
+                        <span class="plan-price">UGX 2,000</span> - 5 Movies Only
                     </div>
                     <div class="plan-option" onclick="window.location.href='subscribe.html'">
                         <strong>WEEKLY PLAN</strong><br>
-                        <span class="plan-price">UGX 6,000</span> - 15 Movies/Week
+                        <span class="plan-price">UGX 6,000</span> - 15 Movies Only
                     </div>
                     <div class="plan-option" onclick="window.location.href='subscribe.html'">
                         <strong>MONTHLY PLAN</strong><br>
@@ -584,7 +583,7 @@
     </footer>
 
     <script>
-        // Stream movie function
+        // FIXED MOVIE LIMIT SYSTEM
         function streamMovie(movieTitle, views) {
             const subscription = localStorage.getItem('tmw_subscription');
             
@@ -594,7 +593,31 @@
                 const now = new Date();
 
                 if (expires > now) {
-                    // Create streaming page
+                    // CHECK MOVIE LIMITS
+                    let moviesWatched = subData.moviesWatched || 0;
+                    let moviesLimit = 5; // Default daily limit
+                    
+                    // SET LIMIT BASED ON PLAN
+                    if (subData.plan === 'WEEKLY') moviesLimit = 15;
+                    if (subData.plan === 'MONTHLY') moviesLimit = 999;
+                    if (subData.plan === 'PREMIUM') moviesLimit = 999;
+                    
+                    // CHECK IF LIMIT REACHED
+                    if (moviesWatched >= moviesLimit) {
+                        alert(`🚫 MOVIE LIMIT REACHED!\n\nPlan: ${subData.plan}\nWatched: ${moviesWatched}/${moviesLimit} movies\n\nPlease subscribe again!`);
+                        window.location.href = 'subscribe.html';
+                        return;
+                    }
+                    
+                    // COUNT THIS MOVIE
+                    moviesWatched += 1;
+                    subData.moviesWatched = moviesWatched;
+                    localStorage.setItem('tmw_subscription', JSON.stringify(subData));
+                    
+                    // SHOW MOVIE COUNT
+                    alert(`🎬 Now streaming: ${movieTitle}\n\nPlan: ${subData.plan}\nMovies watched: ${moviesWatched}/${moviesLimit}`);
+                    
+                    // STREAMING PAGE
                     const streamingPage = `
                         <!DOCTYPE html>
                         <html>
@@ -603,6 +626,7 @@
                             <style>
                                 body { margin: 0; background: #000; color: white; font-family: Arial; text-align: center; }
                                 .stream-header { background: #e50914; padding: 15px; }
+                                .movie-counter { background: #333; padding: 10px; margin: 10px; border-radius: 5px; }
                                 .video-placeholder { background: #1a1a1a; padding: 80px; margin: 20px; border-radius: 10px; border: 2px solid #e50914; }
                                 .back-btn { background: #e50914; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 10px; }
                             </style>
@@ -611,10 +635,13 @@
                             <div class="stream-header">
                                 <h1>Streaming: ${movieTitle}</h1>
                             </div>
+                            <div class="movie-counter">
+                                <h3>📊 ${subData.plan} PLAN: ${moviesWatched}/${moviesLimit} movies</h3>
+                            </div>
                             <div class="video-placeholder">
                                 <h2>TMW VIDEO PLAYER</h2>
-                                <p>${movieTitle} - Streaming directly on TMW</p>
-                                <p>Movie would play here internally</p>
+                                <p>${movieTitle}</p>
+                                <p>Streaming directly on TMW</p>
                             </div>
                             <button class="back-btn" onclick="window.history.back()">Back to Movies</button>
                             <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -625,11 +652,11 @@
                     document.write(streamingPage);
                     
                 } else {
-                    alert('YOUR SUBSCRIPTION HAS EXPIRED\n\nPlease resubscribe and enjoy latest translated movies!');
+                    alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again!');
                     window.location.href = 'subscribe.html';
                 }
             } else {
-                alert('SUBSCRIPTION REQUIRED\n\nPlease subscribe to stream movies!');
+                alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe to watch movies!');
                 window.location.href = 'subscribe.html';
             }
         }
