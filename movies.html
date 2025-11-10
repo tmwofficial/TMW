@@ -3,182 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies - TMW Streaming</title>
+    <title>Redirecting to TMW - Translated Movie World</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             background: purple; 
+            color: white;
             min-height: 100vh; 
-            padding: 20px; 
-        }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .header { 
-            text-align: center; 
-            color: white; 
-            margin-bottom: 30px; 
-        }
-        .logo { font-size: 2.5rem; font-weight: bold; margin-bottom: 10px; }
-        .subscription-info {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 20px;
         }
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+        .container { 
+            max-width: 500px; 
         }
-        .movie-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
+        .logo { 
+            font-size: 3rem; 
+            font-weight: bold; 
+            margin-bottom: 20px;
         }
-        .movie-title {
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .watch-btn {
-            background: purple;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            width: 100%;
-            cursor: pointer;
-        }
-        .subscribe-btn {
-            background: red;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
+        .message {
             font-size: 1.2rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
+            margin: 20px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">TMW</div>
-            <div>Translated Movie World</div>
+        <div class="logo">TMW</div>
+        <h1>Translated Movie World</h1>
+        <div class="message">
+            🎬 Taking you to our new movie collection...
         </div>
-
-        <div id="subscriptionStatus"></div>
-
-        <div class="movie-grid">
-            <div class="movie-card">
-                <div>🎬</div>
-                <div class="movie-title">Action Movie 1</div>
-                <button class="watch-btn" onclick="watchMovie('Action 1')">Watch Now</button>
-            </div>
-            <div class="movie-card">
-                <div>🎬</div>
-                <div class="movie-title">Comedy Movie 1</div>
-                <button class="watch-btn" onclick="watchMovie('Comedy 1')">Watch Now</button>
-            </div>
-            <div class="movie-card">
-                <div>🎬</div>
-                <div class="movie-title">Drama Movie 1</div>
-                <button class="watch-btn" onclick="watchMovie('Drama 1')">Watch Now</button>
-            </div>
-            <div class="movie-card">
-                <div>🎬</div>
-                <div class="movie-title">Action Movie 2</div>
-                <button class="watch-btn" onclick="watchMovie('Action 2')">Watch Now</button>
-            </div>
-        </div>
-
-        <div style="text-align: center; color: white; margin-top: 30px;">
-            <p>📞 Support: 0747329915</p>
-            <p>More movies added daily!</p>
-        </div>
+        <div class="spinner"></div>
+        <p>If you are not redirected automatically, <a href="index.html" style="color: white; text-decoration: underline;">click here</a></p>
     </div>
 
     <script>
-        // Check if user has active subscription
-        function checkSubscription() {
-            const subscription = localStorage.getItem('tmw_subscription');
-            const statusDiv = document.getElementById('subscriptionStatus');
-
-            if (subscription) {
-                const subData = JSON.parse(subscription);
-                const expires = new Date(subData.expires);
-                const now = new Date();
-
-                if (expires > now) {
-                    // Active subscription
-                    const daysLeft = Math.ceil((expires - now) / (1000 * 60 * 60 * 24));
-                    statusDiv.innerHTML = `
-                        <div class="subscription-info" style="background: #d4edda; color: #155724;">
-                            <strong>✅ ACTIVE SUBSCRIPTION</strong><br>
-                            Plan: ${subData.plan} | Expires in: ${daysLeft} days
-                        </div>
-                    `;
-                } else {
-                    // Expired subscription
-                    statusDiv.innerHTML = `
-                        <div class="subscription-info" style="background: #f8d7da; color: #721c24;">
-                            <strong>❌ SUBSCRIPTION EXPIRED</strong><br>
-                            Your access has ended. Subscribe again to continue watching.
-                            <button class="subscribe-btn" onclick="window.location.href='subscribe.html'">
-                                Subscribe Again
-                            </button>
-                        </div>
-                    `;
-                    disableMovies();
-                }
-            } else {
-                // No subscription
-                statusDiv.innerHTML = `
-                    <div class="subscription-info" style="background: #fff3cd; color: #856404;">
-                        <strong>🔒 SUBSCRIPTION REQUIRED</strong><br>
-                        You need a subscription to watch movies.
-                        <button class="subscribe-btn" onclick="window.location.href='subscribe.html'">
-                            Subscribe Now
-                        </button>
-                    </div>
-                `;
-                disableMovies();
-            }
-        }
-
-        function disableMovies() {
-            const buttons = document.querySelectorAll('.watch-btn');
-            buttons.forEach(btn => {
-                btn.disabled = true;
-                btn.style.background = 'gray';
-                btn.textContent = 'Subscribe to Watch';
-            });
-        }
-
-        function watchMovie(movieTitle) {
-            const subscription = localStorage.getItem('tmw_subscription');
-            if (subscription) {
-                const subData = JSON.parse(subscription);
-                const expires = new Date(subData.expires);
-                const now = new Date();
-
-                if (expires > now) {
-                    alert(`🎬 Now playing: ${movieTitle}\n\nEnjoy your movie!`);
-                    // Here you would normally play the actual movie
-                } else {
-                    alert('❌ Your subscription has expired. Please subscribe again.');
-                }
-            } else {
-                alert('❌ Please subscribe first to watch movies.');
-            }
-        }
-
-        // Check subscription when page loads
-        checkSubscription();
+        // Auto-redirect to the new beautiful home page
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 2000); // Redirect after 2 seconds
     </script>
 </body>
 </html>
