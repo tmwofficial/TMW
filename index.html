@@ -1,217 +1,683 @@
-.<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Translated Movie World (TMW)</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #000;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMW - Ultimate Translated Movies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: white;
+        }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      background-color: #111;
-      position: sticky;
-      top: 0;
-    }<nav>
-    <a href="#">Home</a>
-    <a href="#">Movies</a>
-      <a href="subscribe.html">Subscribe</a>
-</nav>
+        /* Welcome Banner */
+        .welcome-banner {
+            background: #e50914;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
 
-    header h1 {
-      font-size: 22px;
-      color: #e50914;
-      margin: 0;
-    }
+        .welcome-banner p {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+        }
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+        /* Navigation */
+        .nav-bar {
+            background: #141414;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            z-index: 999;
+            border-bottom: 2px solid #e50914;
+        }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e50914;
+        }
 
-    nav a:hover {
-      color: #e50914;
-    }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #333;
+            border-radius: 20px;
+            padding: 8px 15px;
+            width: 300px;
+        }
 
-    .search-bar {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-    }
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
 
-    .search-bar input {
-      padding: 10px;
-      width: 80%;
-      border: none;
-      border-radius: 5px;
-      outline: none;
-    }
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
 
-    .welcome {
-      text-align: center;
-      font-size: 18px;
-      background: #e50914;
-      padding: 10px;
-      margin-top: 10px;
-    }
+        .nav-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-    .movies-section {
-      padding: 20px;
-    }
+        .menu-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-    .section-title {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            padding: 20px 50px;
+        }
 
-    .movies-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
+        .section-title {
+            font-size: 24px;
+            color: #e50914;
+            margin-bottom: 20px;
+            border-left: 4px solid #e50914;
+            padding-left: 10px;
+        }
 
-    .movie-card {
-      background: #111;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-    }
+        /* 3 Movies Vertical */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
 
-    .movie-card img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-    }
+        .movie-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
 
-    .movie-card h3 {
-      text-align: center;
-      font-size: 14px;
-      padding: 10px;
-    }
+        .movie-poster {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
 
-    .plans {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-      margin: 20px;
-      border-radius: 10px;
-    }
+        .movie-info {
+            padding: 15px;
+        }
 
-    .plan {
-      border: 1px solid #e50914;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 10px auto;
-      max-width: 400px;
-    }
+        .movie-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
 
-    .plan h3 {
-      color: #e50914;
-      margin-bottom: 5px;
-    }
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #111;
-      color: #aaa;
-      font-size: 14px;
-      margin-top: 20px;
-    }
+        .movie-genre {
+            color: #e50914;
+        }
 
-    .btn {
-      display: inline-block;
-      background-color: #e50914;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 5px;
-      text-decoration: none;
-      margin-top: 10px;
-    }
+        .movie-views {
+            color: #ccc;
+        }
 
-    .btn:hover {
-      background-color: #ff1b2a;
-    }
-  </style>
+        .stream-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .stream-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        /* Dropdowns */
+        .subscription-dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #1a1a1a;
+            width: 280px;
+            padding: 15px;
+            border-radius: 8px;
+            top: 100%;
+            right: 0;
+            border: 2px solid #e50914;
+        }
+
+        .subscription-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .plan-option {
+            background: #333;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .plan-price {
+            color: #e50914;
+            font-weight: bold;
+        }
+
+        .menu-dropdown {
+            position: relative;
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            background: #1a1a1a;
+            width: 180px;
+            padding: 10px;
+            border-radius: 8px;
+            top: 100%;
+            right: 0;
+            border: 2px solid #e50914;
+        }
+
+        .menu-dropdown:hover .menu-content {
+            display: block;
+        }
+
+        .menu-option {
+            background: #333;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Support Section */
+        .support-section {
+            background: #1a1a1a;
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 10px;
+            border: 2px solid #e50914;
+        }
+
+        .support-title {
+            font-size: 24px;
+            color: #e50914;
+            margin-bottom: 20px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .call-btn {
+            background: #e50914;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            padding: 30px;
+            text-align: center;
+            border-top: 2px solid #e50914;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <p>WELCOME TO TMW . SUBSCRIBE AND ENJOY.</p>
+    </div>
 
-  <header>
-    <h1>TMW</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Movies</a>
-      <a href="#">Subscribe</a>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="logo">TMW</div>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Search movies...">
+        </div>
+        
+        <div class="nav-buttons">
+            <div class="subscription-dropdown">
+                <button class="nav-btn">SUBSCRIPTION</button>
+                <div class="dropdown-content">
+                    <h4 style="color: #e50914; margin-bottom: 10px; text-align: center;">CHOOSE PLAN</h4>
+                    <div class="plan-option" onclick="window.location.href='subscribe.html'">
+                        <strong>DAILY PLAN</strong><br>
+                        <span class="plan-price">UGX 2,000</span> - 5 Movies/Day
+                    </div>
+                    <div class="plan-option" onclick="window.location.href='subscribe.html'">
+                        <strong>WEEKLY PLAN</strong><br>
+                        <span class="plan-price">UGX 6,000</span> - 15 Movies/Week
+                    </div>
+                    <div class="plan-option" onclick="window.location.href='subscribe.html'">
+                        <strong>MONTHLY PLAN</strong><br>
+                        <span class="plan-price">UGX 15,000</span> - All Movies
+                    </div>
+                    <div class="plan-option" onclick="window.location.href='subscribe.html'">
+                        <strong>PREMIUM PLAN</strong><br>
+                        <span class="plan-price">UGX 25,000</span> - All Content
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-dropdown">
+                <button class="menu-btn">MENU</button>
+                <div class="menu-content">
+                    <div class="menu-option" onclick="window.location.href='index.html'">HOME</div>
+                    <div class="menu-option" onclick="showSeries()">SERIES</div>
+                    <div class="menu-option" onclick="showMovies()">MOVIES</div>
+                    <div class="menu-option" onclick="openSupport()">SUPPORT</div>
+                </div>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Search movies or VJs..." />
-  </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Popular Movies -->
+        <section>
+            <h2 class="section-title">POPULAR MOVIES</h2>
+            <div class="movies-grid">
+                <!-- Column 1 -->
+                <div>
+                    <div class="movie-card" onclick="streamMovie('Extraction 2', 15240)">
+                        <img src="https://i.ibb.co/Z1TTr8n/movie1.jpg" alt="Extraction 2" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Extraction 2 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">15,240 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
 
-  <div class="welcome">
-    WELCOME TO OUR MOVIE WORLD WEBSITE — JUST SUBSCRIBE AND ENJOY!
-  </div>
+                    <div class="movie-card" onclick="streamMovie('Fast X', 12890)">
+                        <img src="https://i.ibb.co/g9vQH4T/movie2.jpg" alt="Fast X" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Fast X [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">12,890 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
 
-  <section class="movies-section">
-    <h2 class="section-title">Trending Now</h2>
-    <div class="movies-grid">
-      <div class="movie-card"><img src="https://i.ibb.co/Z1TTr8n/movie1.jpg"><h3>Extraction 2</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/g9vQH4T/movie2.jpg"><h3>Fast X</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/58yjgnj/movie3.jpg"><h3>John Wick 4</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/3vvL1bK/movie4.jpg"><h3>Avatar: The Way of Water</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/hfkzwPd/movie5.jpg"><h3>Black Panther: Wakanda Forever</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/0Z9Nw7h/movie6.jpg"><h3>Spider-Man: No Way Home</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/qnYJzVz/movie7.jpg"><h3>The Batman</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/dkvh3B7/movie8.jpg"><h3>Doctor Strange 2</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/kHq2ycH/movie9.jpg"><h3>Mission Impossible: Dead Reckoning</h3></div>
-      <div class="movie-card"><img src="https://i.ibb.co/vjfbqZP/movie10.jpg"><h3>Transformers: Rise of the Beasts</h3></div>
+                    <div class="movie-card" onclick="streamMovie('John Wick 4', 14200)">
+                        <img src="https://i.ibb.co/0Q8LZ2R/movie3.jpg" alt="John Wick 4" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">John Wick 4 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">14,200 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <div class="movie-card" onclick="streamMovie('Avatar 2', 18500)">
+                        <img src="https://i.ibb.co/7W0Rk0C/movie4.jpg" alt="Avatar 2" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Avatar 2 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">SCI-FI</span>
+                                <span class="movie-views">18,500 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('Black Panther 2', 16200)">
+                        <img src="https://i.ibb.co/4T2Y5yJ/movie5.jpg" alt="Black Panther 2" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Black Panther 2 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">16,200 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('Spider-Man', 17500)">
+                        <img src="https://i.ibb.co/0jK2B2R/movie6.jpg" alt="Spider-Man" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Spider-Man [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">17,500 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <div class="movie-card" onclick="streamMovie('Action Movie', 9800)">
+                        <img src="https://i.ibb.co/Z1TTr8n/movie1.jpg" alt="Action Movie" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Action Movie [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">9,800 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('Drama Movie', 7600)">
+                        <img src="https://i.ibb.co/g9vQH4T/movie2.jpg" alt="Drama Movie" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Drama Movie [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">DRAMA</span>
+                                <span class="movie-views">7,600 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('Comedy Movie', 8200)">
+                        <img src="https://i.ibb.co/0Q8LZ2R/movie3.jpg" alt="Comedy Movie" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">Comedy Movie [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">COMEDY</span>
+                                <span class="movie-views">8,200 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Releases -->
+        <section>
+            <h2 class="section-title">NEW RELEASES</h2>
+            <div class="movies-grid">
+                <!-- Column 1 -->
+                <div>
+                    <div class="movie-card" onclick="streamMovie('New Movie 1', 5200)">
+                        <img src="https://i.ibb.co/7W0Rk0C/movie4.jpg" alt="New Movie 1" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">New Movie 1 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">5,200 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('New Movie 2', 4800)">
+                        <img src="https://i.ibb.co/4T2Y5yJ/movie5.jpg" alt="New Movie 2" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">New Movie 2 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">DRAMA</span>
+                                <span class="movie-views">4,800 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <div class="movie-card" onclick="streamMovie('New Movie 3', 6100)">
+                        <img src="https://i.ibb.co/0jK2B2R/movie6.jpg" alt="New Movie 3" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">New Movie 3 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">COMEDY</span>
+                                <span class="movie-views">6,100 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('New Movie 4', 3900)">
+                        <img src="https://i.ibb.co/Z1TTr8n/movie1.jpg" alt="New Movie 4" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">New Movie 4 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ACTION</span>
+                                <span class="movie-views">3,900 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <div class="movie-card" onclick="streamMovie('New Movie 5', 4500)">
+                        <img src="https://i.ibb.co/g9vQH4T/movie2.jpg" alt="New Movie 5" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">New Movie 5 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">THRILLER</span>
+                                <span class="movie-views">4,500 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+
+                    <div class="movie-card" onclick="streamMovie('New Movie 6', 5200)">
+                        <img src="https://i.ibb.co/0Q8LZ2R/movie3.jpg" alt="New Movie 6" class="movie-poster">
+                        <div class="movie-info">
+                            <h3 class="movie-title">New Movie 6 [Translated]</h3>
+                            <div class="movie-meta">
+                                <span class="movie-genre">ROMANCE</span>
+                                <span class="movie-views">5,200 views</span>
+                            </div>
+                            <button class="stream-btn">STREAM NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-  </section>
 
-  <div class="plans">
-    <h2>Subscription Plans</h2>
-    <div class="plan">
-      <h3>Daily Plan</h3>
-      <p>UGX 2,000 — Watch 5 Movies/Day</p>
-      <p>Pay via Airtel Money: <strong>0704557858</strong></p>
-      <a class="btn" href="#">Subscribe</a>
-    </div>
+    <!-- Support Section -->
+    <section class="support-section">
+        <h2 class="support-title">NEED HELP WITH STREAMING?</h2>
+        <p>Contact us directly for instant support</p>
+        
+        <div class="contact-buttons">
+            <a href="https://wa.me/256704557858?text=Hello%20TMW%2C%20I%20need%20help%20with%20streaming" class="whatsapp-btn" target="_blank">
+                WhatsApp: 0704557858
+            </a>
+            <a href="tel:0765206238" class="call-btn">
+                Call: 0765206238
+            </a>
+        </div>
+        
+        <p>We help with streaming issues, subscriptions, and movie requests</p>
+        <p>Fast response guaranteed!</p>
+    </section>
 
-    <div class="plan">
-      <h3>Weekly Plan</h3>
-      <p>UGX 6,000 — Watch 15 Movies/Week</p>
-      <p>Pay via Airtel Money: <strong>0704557858</strong></p>
-      <a class="btn" href="#">Subscribe</a>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">TRANSLATED MOVIE WORLD</div>
+        <div>(TMW)</div>
+        <p>Your ultimate destination for super translated movies</p>
+        <p>Stream directly on our website • No external links</p>
+        <p>© 2025 Made by Marvin • All rights reserved</p>
+    </footer>
 
-    <div class="plan">
-      <h3>Monthly Plan</h3>
-      <p>UGX 15,000 — Watch All Movies + Download Access</p>
-      <p>Pay via Airtel Money: <strong>0704557858</strong></p>
-      <a class="btn" href="#">Subscribe</a>
-    </div>
-  </div>
+    <script>
+        // Stream movie function
+        function streamMovie(movieTitle, views) {
+            const subscription = localStorage.getItem('tmw_subscription');
+            
+            if (subscription) {
+                const subData = JSON.parse(subscription);
+                const expires = new Date(subData.expires);
+                const now = new Date();
 
-  <footer>
-    <p>Support Call: 0747329915</p>
-    <p>Made by Marvin © 2025 Translated Movie World (TMW)</p>
-  </footer>
+                if (expires > now) {
+                    // Create streaming page
+                    const streamingPage = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Streaming ${movieTitle} - TMW</title>
+                            <style>
+                                body { margin: 0; background: #000; color: white; font-family: Arial; text-align: center; }
+                                .stream-header { background: #e50914; padding: 15px; }
+                                .video-placeholder { background: #1a1a1a; padding: 80px; margin: 20px; border-radius: 10px; border: 2px solid #e50914; }
+                                .back-btn { background: #e50914; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 10px; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="stream-header">
+                                <h1>Streaming: ${movieTitle}</h1>
+                            </div>
+                            <div class="video-placeholder">
+                                <h2>TMW VIDEO PLAYER</h2>
+                                <p>${movieTitle} - Streaming directly on TMW</p>
+                                <p>Movie would play here internally</p>
+                            </div>
+                            <button class="back-btn" onclick="window.history.back()">Back to Movies</button>
+                            <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+                        </body>
+                        </html>
+                    `;
+                    
+                    document.write(streamingPage);
+                    
+                } else {
+                    alert('YOUR SUBSCRIPTION HAS EXPIRED\n\nPlease resubscribe and enjoy latest translated movies!');
+                    window.location.href = 'subscribe.html';
+                }
+            } else {
+                alert('SUBSCRIPTION REQUIRED\n\nPlease subscribe to stream movies!');
+                window.location.href = 'subscribe.html';
+            }
+        }
 
+        // Menu functions
+        function showSeries() {
+            alert('Series section would open here');
+        }
+
+        function showMovies() {
+            alert('Movies section would open here');
+        }
+
+        function openSupport() {
+            const choice = confirm('Choose support option:\n\nOK - WhatsApp\nCancel - Phone Call');
+            if (choice) {
+                window.open('https://wa.me/256704557858', '_blank');
+            } else {
+                window.open('tel:0765206238', '_self');
+            }
+        }
+
+        // Check subscription on page load
+        function checkSubscription() {
+            const subscription = localStorage.getItem('tmw_subscription');
+            const buttons = document.querySelectorAll('.stream-btn');
+            
+            if (!subscription) {
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.textContent = 'SUBSCRIBE TO STREAM';
+                });
+            } else {
+                const subData = JSON.parse(subscription);
+                const expires = new Date(subData.expires);
+                const now = new Date();
+                
+                if (expires <= now) {
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.textContent = 'SUBSCRIPTION EXPIRED';
+                    });
+                }
+            }
+        }
+
+        // Run when page loads
+        window.addEventListener('load', checkSubscription);
+    </script>
 </body>
 </html>
