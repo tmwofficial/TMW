@@ -151,7 +151,7 @@
 
         .movie-form {
             display: grid;
-            grid-template-columns: 1fr 1fr auto;
+            grid-template-columns: 1fr 1fr 1fr auto;
             gap: 15px;
             margin-bottom: 20px;
         }
@@ -257,33 +257,48 @@
         .status-available { background: #28a745; color: white; }
         .status-used { background: #6c757d; color: white; }
 
-        /* Tabs */
-        .admin-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+        /* Instructions */
+        .instructions {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #e50914;
         }
 
-        .tab-btn {
+        .instruction-step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 5px;
+        }
+
+        /* Link Type Selector */
+        .link-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .link-type-btn {
             background: #333;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px 5px 0 0;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
+            flex: 1;
         }
 
-        .tab-btn.active {
+        .link-type-btn.active {
             background: #e50914;
         }
 
-        .tab-content {
+        .link-input-container {
             display: none;
         }
 
-        .tab-content.active {
+        .link-input-container.active {
             display: block;
         }
     </style>
@@ -365,11 +380,46 @@
         <div id="movies" class="tab-content">
             <h2 class="section-title">MANAGE MOVIES</h2>
             
+            <!-- Link Type Selector -->
+            <div class="instructions">
+                <h3>🎬 CHOOSE MOVIE SOURCE:</h3>
+                <div class="link-type-selector">
+                    <button class="link-type-btn active" onclick="showLinkType('direct')">🌐 Direct Video Link</button>
+                    <button class="link-type-btn" onclick="showLinkType('drive')">📱 Google Drive</button>
+                </div>
+
+                <!-- Direct Link Instructions -->
+                <div id="directInstructions" class="link-input-container active">
+                    <h4>For Direct Video Links:</h4>
+                    <div class="instruction-step">
+                        <strong>Use direct .mp4, .mkv links from:</strong><br>
+                        • MediaFire, Dropbox, Mega.nz<br>
+                        • Any direct video URL<br>
+                        • Example: https://example.com/movie.mp4
+                    </div>
+                </div>
+
+                <!-- Google Drive Instructions -->
+                <div id="driveInstructions" class="link-input-container">
+                    <h4>For Google Drive:</h4>
+                    <div class="instruction-step">
+                        <strong>Step 1:</strong> Upload movie to Google Drive
+                    </div>
+                    <div class="instruction-step">
+                        <strong>Step 2:</strong> Get shareable link (Anyone with link can view)
+                    </div>
+                    <div class="instruction-step">
+                        <strong>Step 3:</strong> Paste Google Drive link below
+                    </div>
+                </div>
+            </div>
+            
             <div class="movie-management">
                 <!-- Add Movie Form -->
                 <div class="movie-form">
                     <input type="text" class="form-input" id="movieTitle" placeholder="Movie Title">
-                    <input type="text" class="form-input" id="moviePoster" placeholder="Poster URL">
+                    <input type="text" class="form-input" id="moviePoster" placeholder="Poster Image URL">
+                    <input type="text" class="form-input" id="movieLink" placeholder="Paste video link here">
                     <button class="add-btn" onclick="addMovie()">Add Movie</button>
                 </div>
 
@@ -413,47 +463,65 @@
     </main>
 
     <script>
-        // Admin Data Storage
-        let adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || {
+        let currentLinkType = 'direct'; // Default to direct links
+
+        // Admin Data Storage - SHARED WITH WEBSITE!
+        let adminData = JSON.parse(localStorage.getItem('tmw_movies_data')) || {
             movies: [],
             codes: [],
             customers: []
         };
 
-        // Save data to localStorage
+        // Switch between link types
+        function showLinkType(type) {
+            currentLinkType = type;
+            
+            // Update button states
+            document.querySelectorAll('.link-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide instructions
+            document.getElementById('directInstructions').classList.remove('active');
+            document.getElementById('driveInstructions').classList.remove('active');
+            document.getElementById(type + 'Instructions').classList.add('active');
+            
+            // Update placeholder text
+            const linkInput = document.getElementById('movieLink');
+            if (type === 'direct') {
+                linkInput.placeholder = 'Paste direct video link (mp4, mkv, etc.)';
+            } else {
+                linkInput.placeholder = 'Paste Google Drive link';
+            }
+        }
+
+        // Save data to localStorage - SHARED!
         function saveAdminData() {
-            localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
+            localStorage.setItem('tmw_movies_data', JSON.stringify(adminData));
             updateDashboard();
         }
 
         // Tab Navigation
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
         }
 
         // Update Dashboard Stats
         function updateDashboard() {
-            // Calculate stats
             const totalRevenue = adminData.customers.reduce((sum, customer) => sum + customer.price, 0);
             const totalCustomers = adminData.customers.length;
-            const activeSubscriptions = adminData.customers.filter(c => {
-                return new Date(c.expires) > new Date();
-            }).length;
+            const activeSubscriptions = adminData.customers.filter(c => new Date(c.expires) > new Date()).length;
             const totalMovies = adminData.movies.length;
 
-            // Update stats
             document.getElementById('totalRevenue').textContent = `UGX ${totalRevenue.toLocaleString()}`;
             document.getElementById('totalCustomers').textContent = totalCustomers;
             document.getElementById('activeSubscriptions').textContent = activeSubscriptions;
             document.getElementById('totalMovies').textContent = totalMovies;
 
-            // Update customer segments
             updateCustomerSegments();
             updateMoviesList();
             updateCodesList();
@@ -473,7 +541,6 @@
                     container.innerHTML = '<div class="customer-item">No customers yet</div>';
                     return;
                 }
-
                 container.innerHTML = customers.map(customer => `
                     <div class="customer-item">
                         <div>
@@ -495,20 +562,37 @@
             renderCustomerList(premiumCustomers, 'premiumCustomers');
         }
 
-        // Add Movie
+        // Add Movie with DUAL OPTIONS
         function addMovie() {
             const title = document.getElementById('movieTitle').value.trim();
             const poster = document.getElementById('moviePoster').value.trim();
+            const link = document.getElementById('movieLink').value.trim();
 
-            if (!title || !poster) {
-                alert('Please enter both movie title and poster URL');
+            if (!title || !poster || !link) {
+                alert('Please fill all fields');
                 return;
+            }
+
+            let streamingLink = link;
+            let linkType = currentLinkType;
+
+            // Process based on link type
+            if (currentLinkType === 'drive' && link.includes('drive.google.com/file/d/')) {
+                // Convert Google Drive link to embeddable format
+                const fileId = link.split('/file/d/')[1].split('/')[0];
+                streamingLink = `https://drive.google.com/file/d/${fileId}/preview`;
+                linkType = 'drive';
+            } else {
+                // Direct link - use as is
+                linkType = 'direct';
             }
 
             const newMovie = {
                 id: Date.now(),
                 title: title,
                 poster: poster,
+                videoLink: streamingLink,
+                linkType: linkType,
                 genre: 'ACTION',
                 views: Math.floor(Math.random() * 10000) + 1000,
                 added: new Date().toISOString()
@@ -520,6 +604,9 @@
             // Clear form
             document.getElementById('movieTitle').value = '';
             document.getElementById('moviePoster').value = '';
+            document.getElementById('movieLink').value = '';
+            
+            alert('✅ Movie added successfully! It will appear on your live website.');
         }
 
         // Delete Movie
@@ -541,7 +628,9 @@
                     <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" onerror="this.src='https://via.placeholder.com/200x150/333/fff?text=No+Image'">
                     <div class="movie-admin-info">
                         <div class="movie-admin-title">${movie.title}</div>
-                        <div style="font-size: 0.8rem; color: #ccc;">${movie.views} views</div>
+                        <div style="font-size: 0.8rem; color: #ccc;">
+                            ${movie.views} views • ${movie.linkType.toUpperCase()}
+                        </div>
                         <div class="movie-actions">
                             <button class="delete-btn" onclick="deleteMovie(${movie.id})">Delete</button>
                         </div>
@@ -616,56 +705,9 @@
             `).join('');
         }
 
-        // Simulate customer activation (for demo)
-        function simulateCustomerActivation() {
-            const plans = ['DAILY', 'WEEKLY', 'MONTHLY', 'PREMIUM'];
-            const prices = [2000, 6000, 15000, 25000];
-            const planIndex = Math.floor(Math.random() * 4);
-            
-            const customer = {
-                code: `TMW${plans[planIndex].substring(0, 3)}${Math.floor(1000 + Math.random() * 9000)}`,
-                plan: plans[planIndex],
-                price: prices[planIndex],
-                activated: new Date().toISOString(),
-                expires: new Date(Date.now() + (planIndex + 1) * 24 * 60 * 60 * 1000).toISOString()
-            };
-
-            adminData.customers.push(customer);
-            saveAdminData();
-        }
-
         // Initialize dashboard
         window.addEventListener('load', function() {
             updateDashboard();
-            
-            // Add some sample data if empty (for demo)
-            if (adminData.movies.length === 0) {
-                adminData.movies = [
-                    {
-                        id: 1,
-                        title: "Extraction 2 [Translated]",
-                        poster: "https://i.ibb.co/Z1TTr8n/movie1.jpg",
-                        genre: "ACTION",
-                        views: 15240,
-                        added: new Date().toISOString()
-                    },
-                    {
-                        id: 2,
-                        title: "Fast X [Translated]",
-                        poster: "https://i.ibb.co/g9vQH4T/movie2.jpg",
-                        genre: "ACTION", 
-                        views: 12890,
-                        added: new Date().toISOString()
-                    }
-                ];
-                saveAdminData();
-            }
-
-            // Simulate some customers (for demo)
-            if (adminData.customers.length === 0) {
-                setTimeout(simulateCustomerActivation, 1000);
-                setTimeout(simulateCustomerActivation, 2000);
-            }
         });
     </script>
 </body>
