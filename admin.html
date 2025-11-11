@@ -594,11 +594,11 @@
     </div>
 
     <script>
-        // SECRET CREDENTIALS
+        // SECRET CREDENTIALS - HIDDEN IN CODE
         const ADMIN_USERNAME = "TMWAdmin";
         const ADMIN_PASSWORD = "Movie2024!";
 
-        let currentLinkType = 'google_drive'; // Default to Google Drive
+        let currentLinkType = 'google_drive';
         let adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || {
             movies: [],
             codes: [],
@@ -609,13 +609,11 @@
         function setLinkType(type) {
             currentLinkType = type;
             
-            // Update button styles
             document.querySelectorAll('.link-type-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Update instructions
             if (type === 'google_drive') {
                 document.getElementById('googleDriveInfo').style.display = 'block';
                 document.getElementById('externalLinkInfo').style.display = 'none';
@@ -681,7 +679,7 @@
                     title: title,
                     poster: poster,
                     link: link,
-                    linkType: currentLinkType, // Store the link type
+                    linkType: currentLinkType,
                     views: Math.floor(Math.random() * 1000) + 100,
                     addedDate: new Date().toLocaleDateString()
                 };
@@ -719,16 +717,12 @@
         }
 
         function loadAdminData() {
-            // Update dashboard
             document.getElementById('totalRevenue').textContent = `UGX ${adminData.revenue.toLocaleString()}`;
             document.getElementById('totalCustomers').textContent = adminData.customers.length;
             document.getElementById('activeSubscriptions').textContent = adminData.customers.filter(c => c.status === 'active').length || 0;
             document.getElementById('totalMovies').textContent = adminData.movies.length;
             
-            // Update movies list
             updateMoviesList();
-            
-            // Update codes list
             updateCodesList();
         }
 
