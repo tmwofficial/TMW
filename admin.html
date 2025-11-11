@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - TMW</title>
+    <title>TMW Admin</title>
     <style>
         * {
             margin: 0;
@@ -18,8 +18,8 @@
             min-height: 100vh;
         }
 
-        /* Login Styles */
-        .login-container {
+        /* LOGIN STYLES */
+        #loginScreen {
             background: #1a1a1a;
             padding: 40px;
             border-radius: 15px;
@@ -75,21 +75,14 @@
             display: none;
         }
 
-        .security-note {
-            margin-top: 20px;
-            color: #666;
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-
-        /* Admin Panel Styles (Hidden until login) */
+        /* ADMIN PANEL STYLES - BRAND NEW */
         #adminPanel {
             display: none;
         }
 
         .admin-header {
-            background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.9) 100%);
-            padding: 20px 50px;
+            background: #141414;
+            padding: 15px 50px;
             position: fixed;
             width: 100%;
             top: 0;
@@ -101,7 +94,7 @@
         }
 
         .admin-logo {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: #e50914;
         }
@@ -131,7 +124,7 @@
         }
 
         .admin-main {
-            margin-top: 100px;
+            margin-top: 80px;
             padding: 30px 50px;
         }
 
@@ -169,6 +162,15 @@
             padding-left: 15px;
         }
 
+        .tab-content {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* MOVIE MANAGEMENT */
         .movie-management {
             background: #1a1a1a;
             padding: 25px;
@@ -193,18 +195,38 @@
             font-weight: bold;
         }
 
-        .tab-content {
-            display: none;
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
-        .tab-content.active {
-            display: block;
+        .movie-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-title {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-container">
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
         <div class="login-logo">TMW</div>
         <h2>SECURE ADMIN ACCESS</h2>
         
@@ -220,26 +242,22 @@
         <div id="successMessage" class="success-message">
             ✅ Authentication successful! Loading admin panel...
         </div>
-
-        <div class="security-note">
-            🔒 Authorized personnel only
-        </div>
     </div>
 
-    <!-- Admin Panel (Hidden until login) -->
+    <!-- ADMIN PANEL - BRAND NEW -->
     <div id="adminPanel">
         <header class="admin-header">
-            <div class="admin-logo">TMW ADMIN</div>
+            <div class="admin-logo">🎬 TMW ADMIN PANEL</div>
             <div class="admin-nav">
                 <button class="nav-btn" onclick="showTab('dashboard')">📊 Dashboard</button>
-                <button class="nav-btn" onclick="showTab('movies')">🎬 Movies</button>
-                <button class="nav-btn" onclick="showTab('codes')">🔑 Codes</button>
+                <button class="nav-btn" onclick="showTab('movies')">🎬 Manage Movies</button>
+                <button class="nav-btn" onclick="showTab('codes')">🔑 Generate Codes</button>
                 <button class="logout-btn" onclick="logout()">🚪 Logout</button>
             </div>
         </header>
 
         <main class="admin-main">
-            <!-- Dashboard Tab -->
+            <!-- DASHBOARD TAB -->
             <div id="dashboard" class="tab-content active">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -260,28 +278,58 @@
                     </div>
                 </div>
 
-                <h2 class="section-title">Welcome to TMW Admin Panel</h2>
-                <p>Manage your movie streaming business efficiently.</p>
-            </div>
-
-            <!-- Movies Tab -->
-            <div id="movies" class="tab-content">
-                <h2 class="section-title">Manage Movies</h2>
-                <div class="movie-management">
-                    <div class="movie-form">
-                        <input type="text" class="form-input" placeholder="Movie Title">
-                        <input type="text" class="form-input" placeholder="Poster URL">
-                        <input type="text" class="form-input" placeholder="Video Link">
-                        <button class="add-btn">Add Movie</button>
-                    </div>
-                    <p>Movie management system ready!</p>
+                <h2 class="section-title">📈 Business Overview</h2>
+                <p>Welcome to your TMW Admin Panel! Manage your movie streaming business efficiently.</p>
+                
+                <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h3 style="color: #e50914;">Quick Actions</h3>
+                    <button class="nav-btn" onclick="showTab('movies')" style="margin: 5px;">➕ Add New Movie</button>
+                    <button class="nav-btn" onclick="showTab('codes')" style="margin: 5px;">🎫 Generate Codes</button>
                 </div>
             </div>
 
-            <!-- Codes Tab -->
+            <!-- MOVIES TAB -->
+            <div id="movies" class="tab-content">
+                <h2 class="section-title">🎬 Movie Management</h2>
+                
+                <div class="movie-management">
+                    <h3 style="color: #e50914; margin-bottom: 15px;">Add New Movie</h3>
+                    <div class="movie-form">
+                        <input type="text" class="form-input" placeholder="Movie Title" id="movieTitle">
+                        <input type="text" class="form-input" placeholder="Poster Image URL" id="moviePoster">
+                        <input type="text" class="form-input" placeholder="Video Link" id="movieLink">
+                        <button class="add-btn" onclick="addMovie()">Add Movie</button>
+                    </div>
+                    
+                    <h3 style="color: #e50914; margin: 20px 0 10px 0;">Your Movies</h3>
+                    <div class="movies-grid" id="moviesList">
+                        <div style="text-align: center; color: #666; padding: 40px;">
+                            No movies added yet. Add your first movie above!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CODES TAB -->
             <div id="codes" class="tab-content">
-                <h2 class="section-title">Manage Codes</h2>
-                <p>Generate subscription codes for customers.</p>
+                <h2 class="section-title">🔑 Subscription Code Generator</h2>
+                
+                <div style="background: #1a1a1a; padding: 25px; border-radius: 10px;">
+                    <h3 style="color: #e50914; margin-bottom: 15px;">Generate Codes</h3>
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 15px; margin-bottom: 20px;">
+                        <select class="form-input" id="codePlan">
+                            <option value="DAILY">📅 DAILY PLAN - UGX 2,000</option>
+                            <option value="WEEKLY">📆 WEEKLY PLAN - UGX 6,000</option>
+                            <option value="MONTHLY">📊 MONTHLY PLAN - UGX 15,000</option>
+                            <option value="PREMIUM">⭐ PREMIUM PLAN - UGX 25,000</option>
+                        </select>
+                        <button class="add-btn" onclick="generateCodes()">Generate 5 Codes</button>
+                    </div>
+                    
+                    <div id="codesList" style="color: #666; text-align: center; padding: 20px;">
+                        No codes generated yet. Generate some codes above!
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -290,6 +338,9 @@
         // SECRET CREDENTIALS
         const ADMIN_USERNAME = "TMWAdmin";
         const ADMIN_PASSWORD = "Movie2024!";
+
+        let movies = [];
+        let codes = [];
 
         function login() {
             const username = document.getElementById('username').value;
@@ -301,8 +352,7 @@
                 successDiv.style.display = 'block';
                 errorDiv.style.display = 'none';
                 
-                // SHOW ADMIN PANEL AFTER SUCCESS
-                setTimeout(function() {
+                setTimeout(() => {
                     document.getElementById('loginScreen').style.display = 'none';
                     document.getElementById('adminPanel').style.display = 'block';
                 }, 1500);
@@ -328,6 +378,88 @@
                 tab.classList.remove('active');
             });
             document.getElementById(tabName).classList.add('active');
+        }
+
+        function addMovie() {
+            const title = document.getElementById('movieTitle').value;
+            const poster = document.getElementById('moviePoster').value;
+            const link = document.getElementById('movieLink').value;
+
+            if (title && poster && link) {
+                const movie = {
+                    id: Date.now(),
+                    title: title,
+                    poster: poster,
+                    link: link,
+                    views: Math.floor(Math.random() * 1000) + 100
+                };
+                
+                movies.push(movie);
+                updateMoviesList();
+                
+                document.getElementById('movieTitle').value = '';
+                document.getElementById('moviePoster').value = '';
+                document.getElementById('movieLink').value = '';
+                
+                alert('✅ Movie added successfully!');
+            } else {
+                alert('❌ Please fill all fields!');
+            }
+        }
+
+        function updateMoviesList() {
+            const container = document.getElementById('moviesList');
+            
+            if (movies.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px;">No movies added yet. Add your first movie above!</div>';
+                return;
+            }
+
+            container.innerHTML = movies.map(movie => `
+                <div class="movie-card">
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/200x150/333/fff?text=No+Image'">
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div style="font-size: 0.8rem; color: #ccc;">${movie.views} views</div>
+                        <button class="logout-btn" onclick="deleteMovie(${movie.id})" style="margin-top: 10px; width: 100%;">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteMovie(movieId) {
+            movies = movies.filter(movie => movie.id !== movieId);
+            updateMoviesList();
+        }
+
+        function generateCodes() {
+            const plan = document.getElementById('codePlan').value;
+            const newCodes = [];
+
+            for (let i = 0; i < 5; i++) {
+                const code = `TMW${plan}${Math.floor(1000 + Math.random() * 9000)}`;
+                newCodes.push(code);
+            }
+
+            codes.push(...newCodes);
+            updateCodesList();
+            
+            alert(`✅ Generated 5 new ${plan} codes!`);
+        }
+
+        function updateCodesList() {
+            const container = document.getElementById('codesList');
+            
+            if (codes.length === 0) {
+                container.innerHTML = 'No codes generated yet. Generate some codes above!';
+                return;
+            }
+
+            container.innerHTML = codes.map(code => `
+                <div style="background: #2a2a2a; padding: 10px; margin: 5px 0; border-radius: 5px;">
+                    <strong>${code}</strong>
+                </div>
+            `).join('');
         }
 
         // Enter key support
