@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,7 +194,7 @@
             display: none;
             position: absolute;
             background: #1a1a1a;
-            width: 380px;
+            width: 350px;
             padding: 15px;
             border-radius: 8px;
             top: 100%;
@@ -206,11 +207,18 @@
             display: block;
         }
 
-        .plan-header {
+        .plan-option {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
             text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
+        }
+
+        .plan-option:hover {
+            background: #444;
         }
 
         .plan-title {
@@ -223,46 +231,40 @@
             color: #e50914;
             font-weight: bold;
             font-size: 16px;
+            margin-bottom: 5px;
         }
 
         .plan-description {
             color: #ccc;
             font-size: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        .payment-options {
+        .payment-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 10px;
         }
 
-        .option-header {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 12px;
-        }
-
-        .dial-option {
+        .auto-dial-btn {
             background: #25D366;
             color: white;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
             border: none;
-            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        .manual-option {
+        .manual-pay-btn {
             background: #e50914;
             color: white;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
             border: none;
-            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         .menu-dropdown {
@@ -300,8 +302,8 @@
             background: #444;
         }
 
-        /* Payment Instructions */
-        .payment-section {
+        /* Payment Methods Section */
+        .payment-methods {
             background: #1a1a1a;
             padding: 30px;
             margin: 30px 0;
@@ -310,36 +312,43 @@
             text-align: center;
         }
 
-        .payment-title {
-            color: #e50914;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        .payment-steps {
+        .methods-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             margin: 20px 0;
         }
 
-        .step {
+        .method-card {
             background: #333;
             padding: 20px;
             border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
 
-        .step-number {
+        .method-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .method-card.mtn {
+            background: #ffcc00;
+            color: black;
+        }
+
+        .method-card.airtel {
             background: #e50914;
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
+        }
+
+        .method-card.bank {
+            background: #25D366;
+            color: white;
+        }
+
+        .method-card.sms {
+            background: #007bff;
+            color: white;
         }
 
         /* Support Section */
@@ -406,44 +415,6 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
-
-        .quick-dial {
-            background: #1a1a1a;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            border: 2px solid #25D366;
-        }
-
-        .dial-title {
-            color: #25D366;
-            margin-bottom: 15px;
-        }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .method-btn {
-            background: #333;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: none;
-            font-size: 14px;
-        }
-
-        .method-btn.dial {
-            background: #25D366;
-        }
-
-        .method-btn.manual {
-            background: #e50914;
-        }
     </style>
 </head>
 <body>
@@ -466,99 +437,70 @@
         </div>
         
         <div class="nav-buttons">
+            <!-- ACTIVATE CODE BUTTON (MOVED BEFORE SUBSCRIPTION) -->
+            <button class="nav-btn" onclick="window.location.href='activate.html'">ACTIVATE CODE</button>
+            
             <div class="subscription-dropdown">
                 <button class="nav-btn">SUBSCRIPTION</button>
                 <div class="dropdown-content">
-                    <h4 style="color: #e50914; margin-bottom: 20px; text-align: center;">CHOOSE PLAN & PAYMENT</h4>
+                    <h4 style="color: #e50914; margin-bottom: 20px; text-align: center;">CHOOSE YOUR PLAN</h4>
                     
                     <!-- DAILY PLAN -->
-                    <div class="plan-header">
+                    <div class="plan-option">
                         <div class="plan-title">DAILY PLAN</div>
                         <div class="plan-price">UGX 2,000</div>
-                        <div class="plan-description">5 Movies Only • 24 Hours Access</div>
-                    </div>
-                    <div class="payment-options">
-                        <div>
-                            <div class="option-header">FOR AUTO DIAL</div>
-                            <button class="dial-option" onclick="dialPayment('DAILY')">
-                                📞 AUTO DIAL<br>
-                                <small>One-Tap Payment</small>
+                        <div class="plan-description">5 Movies • 24 Hours Access</div>
+                        <div class="payment-buttons">
+                            <button class="auto-dial-btn" onclick="autoDialPayment('DAILY', 2000)">
+                                📞 AUTO DIAL
                             </button>
-                        </div>
-                        <div>
-                            <div class="option-header">FOR MANUAL CODE</div>
-                            <button class="manual-option" onclick="manualPayment('DAILY')">
-                                📝 GET CODE<br>
-                                <small>Pay Manually</small>
+                            <button class="manual-pay-btn" onclick="manualPayment('DAILY', 2000)">
+                                💰 MANUAL PAY
                             </button>
                         </div>
                     </div>
                     
                     <!-- WEEKLY PLAN -->
-                    <div class="plan-header" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #333;">
+                    <div class="plan-option">
                         <div class="plan-title">WEEKLY PLAN</div>
                         <div class="plan-price">UGX 6,000</div>
-                        <div class="plan-description">15 Movies Only • 7 Days Access</div>
-                    </div>
-                    <div class="payment-options">
-                        <div>
-                            <div class="option-header">FOR AUTO DIAL</div>
-                            <button class="dial-option" onclick="dialPayment('WEEKLY')">
-                                📞 AUTO DIAL<br>
-                                <small>One-Tap Payment</small>
+                        <div class="plan-description">15 Movies • 7 Days Access</div>
+                        <div class="payment-buttons">
+                            <button class="auto-dial-btn" onclick="autoDialPayment('WEEKLY', 6000)">
+                                📞 AUTO DIAL
                             </button>
-                        </div>
-                        <div>
-                            <div class="option-header">FOR MANUAL CODE</div>
-                            <button class="manual-option" onclick="manualPayment('WEEKLY')">
-                                📝 GET CODE<br>
-                                <small>Pay Manually</small>
+                            <button class="manual-pay-btn" onclick="manualPayment('WEEKLY', 6000)">
+                                💰 MANUAL PAY
                             </button>
                         </div>
                     </div>
                     
                     <!-- MONTHLY PLAN -->
-                    <div class="plan-header" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #333;">
+                    <div class="plan-option">
                         <div class="plan-title">MONTHLY PLAN</div>
                         <div class="plan-price">UGX 15,000</div>
                         <div class="plan-description">All Movies • 30 Days Access</div>
-                    </div>
-                    <div class="payment-options">
-                        <div>
-                            <div class="option-header">FOR AUTO DIAL</div>
-                            <button class="dial-option" onclick="dialPayment('MONTHLY')">
-                                📞 AUTO DIAL<br>
-                                <small>One-Tap Payment</small>
+                        <div class="payment-buttons">
+                            <button class="auto-dial-btn" onclick="autoDialPayment('MONTHLY', 15000)">
+                                📞 AUTO DIAL
                             </button>
-                        </div>
-                        <div>
-                            <div class="option-header">FOR MANUAL CODE</div>
-                            <button class="manual-option" onclick="manualPayment('MONTHLY')">
-                                📝 GET CODE<br>
-                                <small>Pay Manually</small>
+                            <button class="manual-pay-btn" onclick="manualPayment('MONTHLY', 15000)">
+                                💰 MANUAL PAY
                             </button>
                         </div>
                     </div>
                     
                     <!-- PREMIUM PLAN -->
-                    <div class="plan-header" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #333;">
+                    <div class="plan-option">
                         <div class="plan-title">PREMIUM PLAN</div>
                         <div class="plan-price">UGX 25,000</div>
                         <div class="plan-description">All Content • 30 Days Access</div>
-                    </div>
-                    <div class="payment-options">
-                        <div>
-                            <div class="option-header">FOR AUTO DIAL</div>
-                            <button class="dial-option" onclick="dialPayment('PREMIUM')">
-                                📞 AUTO DIAL<br>
-                                <small>One-Tap Payment</small>
+                        <div class="payment-buttons">
+                            <button class="auto-dial-btn" onclick="autoDialPayment('PREMIUM', 25000)">
+                                📞 AUTO DIAL
                             </button>
-                        </div>
-                        <div>
-                            <div class="option-header">FOR MANUAL CODE</div>
-                            <button class="manual-option" onclick="manualPayment('PREMIUM')">
-                                📝 GET CODE<br>
-                                <small>Pay Manually</small>
+                            <button class="manual-pay-btn" onclick="manualPayment('PREMIUM', 25000)">
+                                💰 MANUAL PAY
                             </button>
                         </div>
                     </div>
@@ -572,7 +514,6 @@
                     <div class="menu-option" onclick="showSeries()">SERIES</div>
                     <div class="menu-option" onclick="showMovies()">MOVIES</div>
                     <div class="menu-option" onclick="openSupport()">SUPPORT</div>
-                    <div class="menu-option" onclick="window.location.href='activate.html'">ACTIVATE CODE</div>
                 </div>
             </div>
         </div>
@@ -584,70 +525,48 @@
         <section>
             <h2 class="section-title">POPULAR MOVIES</h2>
             <div class="movies-grid" id="popularMovies">
-                <!-- Movies will be loaded here from admin panel -->
                 <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
                     Loading movies from TMW...
                 </div>
             </div>
         </section>
 
-        <!-- New Releases -->
-        <section>
-            <h2 class="section-title">NEW RELEASES</h2>
-            <div class="movies-grid" id="newReleases">
-                <!-- Movies will be loaded here from admin panel -->
-                <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
-                    New movies coming soon...
-                </div>
-            </div>
-        </section>
-
-        <!-- Payment Instructions -->
-        <section class="payment-section">
-            <h2 class="payment-title">💰 CHOOSE YOUR PAYMENT METHOD</h2>
+        <!-- Payment Methods Section -->
+        <section class="payment-methods">
+            <h2 style="color: #e50914; margin-bottom: 20px;">💰 MULTIPLE PAYMENT OPTIONS</h2>
+            <p>Choose your preferred payment method</p>
             
-            <div class="payment-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Choose Plan</h3>
-                    <p>Select your preferred subscription plan</p>
+            <div class="methods-grid">
+                <div class="method-card mtn" onclick="showMTNPayment()">
+                    <h3>📱 MTN MOBILE MONEY</h3>
+                    <p>Pay via MTN</p>
+                    <small>Fast & Secure</small>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Payment Method</h3>
-                    <p>Choose Auto Dial or Manual Code</p>
+                
+                <div class="method-card airtel" onclick="showAirtelPayment()">
+                    <h3>📱 AIRTEL MONEY</h3>
+                    <p>Pay via Airtel</p>
+                    <small>Quick & Easy</small>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Enjoy Movies</h3>
-                    <p>Start streaming your favorite movies</p>
+                
+                <div class="method-card bank" onclick="showBankPayment()">
+                    <h3>🏦 BANK TRANSFER</h3>
+                    <p>Direct Bank Payment</p>
+                    <small>Secure Transfer</small>
+                </div>
+                
+                <div class="method-card sms" onclick="showSMSPayment()">
+                    <h3>💬 SMS PAYMENT</h3>
+                    <p>Pay via SMS</p>
+                    <small>Simple & Direct</small>
                 </div>
             </div>
             
-            <div class="quick-dial">
-                <h3 class="dial-title">🎬 TWO PAYMENT OPTIONS</h3>
-                
-                <div class="payment-methods">
-                    <button class="method-btn dial" onclick="showDialInstructions()">
-                        <strong>FOR AUTO DIAL</strong><br>
-                        <small>📞 One-Tap Payment</small><br>
-                        <small>Automatic Code Generation</small>
-                    </button>
-                    
-                    <button class="method-btn manual" onclick="showManualInstructions()">
-                        <strong>FOR MANUAL CODE</strong><br>
-                        <small>📝 Traditional Payment</small><br>
-                        <small>Get Code via SMS</small>
-                    </button>
-                </div>
-                
-                <div style="margin-top: 20px; background: #333; padding: 15px; border-radius: 8px;">
-                    <h4>📱 Auto Dial Codes:</h4>
-                    <p><strong>Daily:</strong> *185*1*1*0704557858#</p>
-                    <p><strong>Weekly:</strong> *185*1*2*0704557858#</p>
-                    <p><strong>Monthly:</strong> *185*1*3*0704557858#</p>
-                    <p><strong>Premium:</strong> *185*1*4*0704557858#</p>
-                </div>
+            <div style="background: #333; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                <h4>📞 AUTO DIAL PAYMENT</h4>
+                <p><strong>Dial:</strong> *185# then send to <strong>0704557858</strong></p>
+                <p><strong>Manual Payment:</strong> Send to <strong>0704557858</strong> and get code via SMS</p>
+                <p><strong>Activate Code:</strong> After payment, use ACTIVATE CODE button above</p>
             </div>
         </section>
     </div>
@@ -666,7 +585,7 @@
             </a>
         </div>
         
-        <p>We help with both Auto Dial and Manual Code payments</p>
+        <p>We help with all payment methods and activation codes</p>
         <p>Fast response guaranteed! 🚀</p>
     </section>
 
@@ -682,24 +601,51 @@
         <p>Your ultimate destination for super translated movies</p>
         <p>Stream directly on our website • No external links</p>
         
-        <div class="quick-dial" style="margin: 20px auto; max-width: 500px;">
-            <h3 class="dial-title">💳 PAYMENT METHODS</h3>
-            <p>Choose what works best for you:</p>
-            <div class="payment-methods">
-                <button class="method-btn dial" onclick="showDialInstructions()">
-                    FOR AUTO DIAL<br>Easy & Fast
-                </button>
-                <button class="method-btn manual" onclick="showManualInstructions()">
-                    FOR MANUAL CODE<br>Traditional
-                </button>
-            </div>
+        <div style="background: #1a1a1a; padding: 20px; margin: 20px 0; border-radius: 10px; border: 2px solid #25D366;">
+            <h3 style="color: #25D366;">💳 PAYMENT INFORMATION</h3>
+            <p><strong>Auto Dial:</strong> *185# → Send to 0704557858</p>
+            <p><strong>Manual Payment:</strong> Send to 0704557858</p>
+            <p><strong>Get Code:</strong> After payment, receive code via SMS</p>
+            <p><strong>Activate:</strong> Use ACTIVATE CODE button above</p>
         </div>
         
         <p>© 2025 Made by Marvin • All rights reserved</p>
     </footer>
 
     <script>
-        // LOAD MOVIES FROM ADMIN PANEL
+        // PAYMENT FUNCTIONS
+        function autoDialPayment(plan, amount) {
+            alert(`📞 ${plan} PLAN - Auto Dial\nAmount: UGX ${amount.toLocaleString()}\n\nINSTRUCTIONS:\n1. Dial *185# on your phone\n2. Select "Send Money"\n3. Enter 0704557858\n4. Enter amount: UGX ${amount.toLocaleString()}\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
+            
+            // Open dialer with *185#
+            window.location.href = "tel:*185%23";
+        }
+
+        function manualPayment(plan, amount) {
+            // Redirect to activation page with instructions
+            const message = `MANUAL PAYMENT: Send UGX ${amount.toLocaleString()} to 0704557858 for ${plan} plan. Include your name as reference. You will receive activation code via SMS.`;
+            localStorage.setItem('payment_instructions', message);
+            window.location.href = 'activate.html';
+        }
+
+        // PAYMENT METHODS
+        function showMTNPayment() {
+            alert(`📱 MTN MOBILE MONEY\n\n1. Go to MTN Mobile Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your chosen plan\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
+        }
+
+        function showAirtelPayment() {
+            alert(`📱 AIRTEL MONEY\n\n1. Go to Airtel Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your chosen plan\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
+        }
+
+        function showBankPayment() {
+            alert(`🏦 BANK TRANSFER\n\n1. Send bank transfer to:\n   Account: Marvin\n   Number: 0704557858\n   Amount: For your chosen plan\n2. Include your name as reference\n3. Send screenshot to WhatsApp: 0704557858\n4. You will receive activation code\n5. Use ACTIVATE CODE button to enter your code`);
+        }
+
+        function showSMSPayment() {
+            alert(`💬 SMS PAYMENT\n\n1. Send SMS to: 0704557858\n2. Format: "TMW [Plan] [Your Name]"\n   Example: "TMW DAILY John"\n3. You will receive payment instructions\n4. Complete payment\n5. Receive activation code via SMS\n6. Use ACTIVATE CODE button to enter your code`);
+        }
+
+        // KEEP ALL OTHER FUNCTIONS THE SAME
         function loadMoviesFromAdmin() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movies = adminData.movies;
@@ -715,17 +661,6 @@
             }
 
             displayMovies('popularMovies', movies);
-            
-            if (movies.length > 9) {
-                displayMovies('newReleases', movies.slice(9));
-            } else {
-                document.getElementById('newReleases').innerHTML = `
-                    <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
-                        🆕 New movies coming soon!
-                    </div>
-                `;
-            }
-            
             checkSubscription();
         }
 
@@ -762,63 +697,6 @@
             section.innerHTML = html;
         }
 
-        // PAYMENT METHODS - BOTH OPTIONS
-        function dialPayment(plan) {
-            let ussdCode = '';
-            let amount = '';
-            
-            switch(plan) {
-                case 'DAILY':
-                    ussdCode = '*185*1*1*0704557858%23';
-                    amount = 'UGX 2,000';
-                    break;
-                case 'WEEKLY':
-                    ussdCode = '*185*1*2*0704557858%23';
-                    amount = 'UGX 6,000';
-                    break;
-                case 'MONTHLY':
-                    ussdCode = '*185*1*3*0704557858%23';
-                    amount = 'UGX 15,000';
-                    break;
-                case 'PREMIUM':
-                    ussdCode = '*185*1*4*0704557858%23';
-                    amount = 'UGX 25,000';
-                    break;
-            }
-            
-            const confirmPayment = confirm(`💰 ${plan} PLAN - Auto Dial\nAmount: ${amount}\n\nThis will open your dialer with the payment code.\n\nTap OK to proceed.`);
-            
-            if (confirmPayment) {
-                window.location.href = `tel:${ussdCode}`;
-                
-                setTimeout(() => {
-                    alert('📞 Payment Started!\n\n1. Complete the payment on your phone\n2. Wait for confirmation SMS\n3. Come back and activate your code\n4. Go to MENU → ACTIVATE CODE');
-                }, 1000);
-            }
-        }
-
-        function manualPayment(plan) {
-            let amount = '';
-            
-            switch(plan) {
-                case 'DAILY': amount = 'UGX 2,000'; break;
-                case 'WEEKLY': amount = 'UGX 6,000'; break;
-                case 'MONTHLY': amount = 'UGX 15,000'; break;
-                case 'PREMIUM': amount = 'UGX 25,000'; break;
-            }
-            
-            alert(`📝 ${plan} PLAN - Manual Payment\nAmount: ${amount}\n\nMANUAL PAYMENT STEPS:\n\n1. Send ${amount} to 0704557858 (Marvin)\n2. Include your name as reference\n3. Wait for payment confirmation\n4. You will receive activation code via SMS\n5. Go to MENU → ACTIVATE CODE\n\nAfter payment, contact us if you don't receive code within 5 minutes.`);
-        }
-
-        function showDialInstructions() {
-            alert('📞 FOR AUTO DIAL PAYMENT\n\nBENEFITS:\n• One-tap payment\n• Automatic code generation\n• Faster activation\n• Less manual work\n\nHOW IT WORKS:\n1. Choose your plan\n2. Tap "FOR AUTO DIAL" button\n3. Complete payment on your phone\n4. Receive code automatically\n5. Activate and enjoy!');
-        }
-
-        function showManualInstructions() {
-            alert('📝 FOR MANUAL CODE PAYMENT\n\nBENEFITS:\n• Traditional method\n• Pay to any number\n• Get code manually\n• Familiar process\n\nHOW IT WORKS:\n1. Choose your plan\n2. Tap "FOR MANUAL CODE" button\n3. Send money to 0704557858\n4. Receive code via SMS\n5. Activate and enjoy!');
-        }
-
-        // KEEP ALL OTHER FUNCTIONS THE SAME
         function streamMovieById(movieId) {
             const subscription = localStorage.getItem('tmw_subscription');
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
@@ -865,10 +743,6 @@
                 case 'PREMIUM': return 999;
                 default: return 5;
             }
-        }
-
-        function streamMovie(movieTitle, views) {
-            alert(`This is a demo movie: ${movieTitle}\n\nReal movies are loaded from the admin panel.`);
         }
 
         function showSeries() {
