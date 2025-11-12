@@ -96,6 +96,8 @@
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .menu-btn {
@@ -114,7 +116,7 @@
             padding: 20px 50px;
         }
 
-        /* CATEGORY TABS - NEW */
+        /* CATEGORY TABS - 3 CATEGORIES */
         .category-tabs {
             display: flex;
             gap: 0;
@@ -346,7 +348,7 @@
             background: #444;
         }
 
-        /* Payment Methods Section */
+        /* ENHANCED PAYMENT METHODS SECTION */
         .payment-methods {
             background: #1a1a1a;
             padding: 30px;
@@ -354,6 +356,17 @@
             border-radius: 10px;
             border: 2px solid #e50914;
             text-align: center;
+        }
+
+        .verification-banner {
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
         }
 
         .methods-grid {
@@ -368,31 +381,108 @@
             padding: 20px;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
         .method-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: #25D366;
         }
 
         .method-card.mtn {
-            background: #ffcc00;
+            background: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%);
             color: black;
         }
 
         .method-card.airtel {
-            background: #e50914;
+            background: linear-gradient(135deg, #e50914 0%, #990000 100%);
             color: white;
         }
 
         .method-card.bank {
-            background: #25D366;
+            background: linear-gradient(135deg, #25D366 0%, #1e7e34 100%);
             color: white;
         }
 
         .method-card.sms {
-            background: #007bff;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             color: white;
+        }
+
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .badge {
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .badge-text {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .instructions-box {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #25D366;
+            margin-top: 20px;
+        }
+
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .instruction-box {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e50914;
+        }
+
+        .instruction-box h5 {
+            color: #e50914;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .instruction-box p {
+            font-size: 0.9rem;
+            margin: 8px 0;
+        }
+
+        .guarantee {
+            text-align: center;
+            background: #25D366;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: bold;
         }
 
         /* Support Section */
@@ -460,7 +550,7 @@
             margin-bottom: 20px;
         }
 
-        /* VIDEO PLAYER STYLES - NEW */
+        /* VIDEO PLAYER STYLES - FULLSCREEN ENABLED */
         .video-player-overlay {
             display: none;
             position: fixed;
@@ -503,10 +593,168 @@
             height: 400px;
             border-radius: 8px;
             background: #000;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* FULLSCREEN STYLES */
+        .video-player:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        /* REGISTRATION MODAL STYLES */
+        .registration-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .registration-container {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            border: 3px solid #e50914;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .registration-title {
+            color: #e50914;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .registration-subtitle {
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            color: #e50914;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: #0a0a0a;
+            color: white;
+            font-size: 16px;
+        }
+
+        .form-input:focus {
+            border-color: #e50914;
+            outline: none;
+        }
+
+        .register-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .register-btn:hover {
+            background: #ff0000;
+        }
+
+        .login-link {
+            color: #25D366;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design for Payment Section */
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trust-badges {
+                grid-template-columns: 1fr;
+            }
+            
+            .instructions-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- REGISTRATION MODAL -->
+    <div class="registration-overlay" id="registrationOverlay">
+        <div class="registration-container">
+            <h2 class="registration-title">🎬 WELCOME TO TMW</h2>
+            <p class="registration-subtitle">Create your account to start streaming</p>
+            
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="userName" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="userPassword" placeholder="Create a password">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm your password">
+            </div>
+            
+            <button class="register-btn" onclick="registerUser()">
+                🚀 CREATE ACCOUNT & START STREAMING
+            </button>
+            
+            <p class="login-link" onclick="closeRegistration()">
+                Already have an account? Login
+            </p>
+        </div>
+    </div>
+
     <!-- Welcome Banner -->
     <div class="welcome-banner">
         <p>WELCOME TO TMW . SUBSCRIBE AND ENJOY.</p>
@@ -526,8 +774,11 @@
         </div>
         
         <div class="nav-buttons">
-            <!-- ACTIVATE CODE BUTTON (MOVED BEFORE SUBSCRIPTION) -->
+            <!-- ACTIVATE CODE BUTTON -->
             <button class="nav-btn" onclick="window.location.href='activate.html'">ACTIVATE CODE</button>
+            
+            <!-- MY ACCOUNT BUTTON -->
+            <a href="dashboard.html" class="nav-btn">👤 MY ACCOUNT</a>
             
             <div class="subscription-dropdown">
                 <button class="nav-btn">SUBSCRIPTION</button>
@@ -610,11 +861,11 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- CATEGORY TABS - NEW -->
+        <!-- CATEGORY TABS - 3 CATEGORIES -->
         <div class="category-tabs">
             <button class="category-tab active" onclick="switchCategory('popular')">POPULAR MOVIES</button>
             <button class="category-tab" onclick="switchCategory('series')">SERIES</button>
-            <button class="category-tab" onclick="switchCategory('trending')">TRENDING MOVIES</button>
+            <button class="category-tab" onclick="switchCategory('updates')">MOVIE UPDATES</button>
         </div>
 
         <!-- Popular Movies (Default) -->
@@ -636,66 +887,110 @@
             </div>
         </div>
 
-        <!-- Trending Movies -->
-        <div class="category-content" id="trending-content">
-            <div class="movies-grid" id="trendingMovies">
+        <!-- Movie Updates -->
+        <div class="category-content" id="updates-content">
+            <div class="movies-grid" id="updatesMovies">
                 <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
-                    🔥 Trending movies loading...<br>
-                    <small>Most watched movies will appear here</small>
+                    📢 Latest movie updates<br>
+                    <small>Stay tuned for new releases</small>
                 </div>
             </div>
         </div>
 
-        <!-- Payment Methods Section -->
+        <!-- ENHANCED PAYMENT METHODS SECTION -->
         <section class="payment-methods">
-            <h2 style="color: #e50914; margin-bottom: 20px;">💰 MULTIPLE PAYMENT OPTIONS</h2>
-            <p>Choose your preferred payment method</p>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div class="verification-banner">
+                    ✅ VERIFIED MOBILE MONEY MERCHANT
+                </div>
+                <h2 style="color: #e50914; margin-bottom: 10px; font-size: 1.8rem;">💰 MULTIPLE PAYMENT OPTIONS</h2>
+                <p style="color: #ccc;">Choose your preferred payment method - All secured by TMW</p>
+            </div>
             
             <div class="methods-grid">
                 <div class="method-card mtn" onclick="showMTNPayment()">
-                    <h3>📱 MTN MOBILE MONEY</h3>
-                    <p>Pay via MTN</p>
-                    <small>Fast & Secure</small>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <h3>📱 MTN MOBILE MONEY</h3>
+                        <span style="background: #25D366; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">POPULAR</span>
+                    </div>
+                    <p>Pay via MTN Mobile Money</p>
+                    <small>✅ Instant Activation</small>
                 </div>
                 
                 <div class="method-card airtel" onclick="showAirtelPayment()">
                     <h3>📱 AIRTEL MONEY</h3>
-                    <p>Pay via Airtel</p>
-                    <small>Quick & Easy</small>
+                    <p>Pay via Airtel Money</p>
+                    <small>✅ Fast & Secure</small>
                 </div>
                 
                 <div class="method-card bank" onclick="showBankPayment()">
                     <h3>🏦 BANK TRANSFER</h3>
                     <p>Direct Bank Payment</p>
-                    <small>Secure Transfer</small>
+                    <small>🔒 Secure Transfer</small>
                 </div>
                 
                 <div class="method-card sms" onclick="showSMSPayment()">
                     <h3>💬 SMS PAYMENT</h3>
                     <p>Pay via SMS</p>
-                    <small>Simple & Direct</small>
+                    <small>📝 Simple & Direct</small>
                 </div>
             </div>
             
-            <div style="background: #333; padding: 20px; border-radius: 8px; margin-top: 20px;">
-                <h4>📞 AUTO DIAL PAYMENT</h4>
-                <p><strong>Dial:</strong> *185# then send to <strong>0704557858</strong></p>
-                <p><strong>Manual Payment:</strong> Send to <strong>0704557858</strong> and get code via SMS</p>
-                <p><strong>Activate Code:</strong> After payment, use ACTIVATE CODE button above</p>
+            <!-- Trust Badges -->
+            <div class="trust-badges">
+                <div class="badge">
+                    <div class="badge-icon">🔒</div>
+                    <div class="badge-text">Secure Payments</div>
+                </div>
+                <div class="badge">
+                    <div class="badge-icon">⚡</div>
+                    <div class="badge-text">Instant Activation</div>
+                </div>
+                <div class="badge">
+                    <div class="badge-icon">📞</div>
+                    <div class="badge-text">24/7 Support</div>
+                </div>
+            </div>
+            
+            <!-- Payment Instructions -->
+            <div class="instructions-box">
+                <h4 style="color: #25D366; text-align: center; margin-bottom: 15px;">🎯 HOW TO PAY & GET INSTANT ACCESS</h4>
+                
+                <div class="instructions-grid">
+                    <div class="instruction-box">
+                        <h5>📞 For Auto Dial</h5>
+                        <p>1. Dial *185#</p>
+                        <p>2. Send to 0704557858</p>
+                        <p>3. Get code instantly</p>
+                    </div>
+                    <div class="instruction-box">
+                        <h5>💰 For Manual Payment</h5>
+                        <p>1. Send to 0704557858</p>
+                        <p>2. Include your name</p>
+                        <p>3. Receive code via SMS</p>
+                    </div>
+                </div>
+                
+                <div class="guarantee">
+                    💫 INSTANT ACTIVATION GUARANTEE: Codes delivered within 2 minutes of payment!
+                </div>
             </div>
         </section>
     </div>
 
-    <!-- VIDEO PLAYER OVERLAY - NEW -->
+    <!-- VIDEO PLAYER OVERLAY -->
     <div class="video-player-overlay" id="videoPlayerOverlay">
         <div class="video-player-container">
             <button class="close-player" onclick="closeVideoPlayer()">×</button>
-            <video id="moviePlayer" class="video-player" controls>
+            <video id="moviePlayer" class="video-player" controls controlsList="nodownload">
                 Your browser does not support the video tag.
             </video>
             <div style="text-align: center; margin-top: 15px;">
                 <h3 id="playingTitle" style="color: #e50914;"></h3>
                 <p id="playingInfo" style="color: #ccc;"></p>
+                <p style="color: #666; font-size: 12px; margin-top: 10px;">
+                    💡 Tip: Click the fullscreen button ↗️ or double-click video for fullscreen
+                </p>
             </div>
         </div>
     </div>
@@ -703,14 +998,14 @@
     <!-- Support Section -->
     <section class="support-section">
         <h2 class="support-title">NEED HELP WITH PAYMENT?</h2>
-        <p>Contact us for instant support with any payment method</p>
+        <p>Contact our support team for instant help</p>
         
         <div class="contact-buttons">
-            <a href="https://wa.me/256704557858?text=Hello%20TMW%2C%20I%20need%20help%20with%20payment" class="whatsapp-btn" target="_blank">
-                📱 WhatsApp: 0704557858
+            <a href="https://wa.me/256765206238?text=Hello%20TMW%20Support%2C%20I%20need%20help%20with%20payment" class="whatsapp-btn" target="_blank">
+                📱 WhatsApp Support: 0765206238
             </a>
             <a href="tel:0765206238" class="call-btn">
-                📞 Call: 0765206238
+                📞 Call Support: 0765206238
             </a>
         </div>
         
@@ -736,13 +1031,67 @@
             <p><strong>Manual Payment:</strong> Send to 0704557858</p>
             <p><strong>Get Code:</strong> After payment, receive code via SMS</p>
             <p><strong>Activate:</strong> Use ACTIVATE CODE button above</p>
+            <p><strong>Support:</strong> Call/WhatsApp: 0765206238</p>
         </div>
         
         <p>© 2025 Made by Marvin • All rights reserved</p>
     </footer>
 
     <script>
-        // CATEGORY SWITCHING - NEW
+        // REGISTRATION SYSTEM - WITH REDIRECT TO HOME
+        function showRegistration() {
+            document.getElementById('registrationOverlay').style.display = 'flex';
+        }
+
+        function closeRegistration() {
+            document.getElementById('registrationOverlay').style.display = 'none';
+        }
+
+        function registerUser() {
+            const name = document.getElementById('userName').value;
+            const password = document.getElementById('userPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!name || !password) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            if (password.length < 4) {
+                alert('Password must be at least 4 characters long!');
+                return;
+            }
+
+            // Save user data
+            const userData = {
+                name: name,
+                password: password,
+                registeredAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('tmw_user_data', JSON.stringify(userData));
+            localStorage.setItem('tmw_logged_in', 'true');
+
+            alert('🎉 Account created successfully! Welcome to TMW!');
+            closeRegistration();
+
+            // REDIRECT TO HOME PAGE AFTER REGISTRATION
+            window.location.href = 'index.html';
+        }
+
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                showRegistration();
+            }
+        }
+
+        // CATEGORY SWITCHING - 3 CATEGORIES
         function switchCategory(category) {
             // Remove active class from all tabs and contents
             document.querySelectorAll('.category-tab').forEach(tab => {
@@ -753,14 +1102,13 @@
             });
 
             // Add active class to clicked tab and corresponding content
-            document.querySelector(`.category-tab:nth-child(${getTabIndex(category)})`).classList.add('active');
+            const tabIndex = getTabIndex(category);
+            document.querySelector(`.category-tab:nth-child(${tabIndex})`).classList.add('active');
             document.getElementById(`${category}-content`).classList.add('active');
 
             // Load content for the category if needed
             if (category === 'popular') {
                 loadPopularMovies();
-            } else if (category === 'trending') {
-                loadTrendingMovies();
             }
         }
 
@@ -768,12 +1116,12 @@
             switch(category) {
                 case 'popular': return 1;
                 case 'series': return 2;
-                case 'trending': return 3;
+                case 'updates': return 3;
                 default: return 1;
             }
         }
 
-        // VIDEO PLAYER FUNCTIONS - NEW
+        // VIDEO PLAYER FUNCTIONS - FULLSCREEN ENABLED
         function playMovie(movieUrl, movieTitle, movieInfo) {
             const player = document.getElementById('moviePlayer');
             const overlay = document.getElementById('videoPlayerOverlay');
@@ -785,14 +1133,56 @@
             info.textContent = movieInfo;
             overlay.style.display = 'flex';
             
+            // ENABLE FULLSCREEN FUNCTIONALITY
+            enableFullscreenSupport(player);
+            
             player.play().catch(e => {
                 console.log('Auto-play prevented:', e);
             });
         }
 
+        function enableFullscreenSupport(videoElement) {
+            // Double-click to toggle fullscreen
+            videoElement.addEventListener('dblclick', function() {
+                toggleFullscreen(videoElement);
+            });
+
+            // Keyboard support for fullscreen
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'f' || e.key === 'F') {
+                    toggleFullscreen(videoElement);
+                }
+            });
+        }
+
+        function toggleFullscreen(element) {
+            if (!document.fullscreenElement) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
         function closeVideoPlayer() {
             const player = document.getElementById('moviePlayer');
             const overlay = document.getElementById('videoPlayerOverlay');
+            
+            // Exit fullscreen if active
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
             
             player.pause();
             player.src = '';
@@ -806,38 +1196,46 @@
             }
         });
 
+        // Close video player when ESC is pressed
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('videoPlayerOverlay').style.display === 'flex') {
+                    closeVideoPlayer();
+                }
+            }
+        });
+
         // PAYMENT FUNCTIONS
         function autoDialPayment(plan, amount) {
-            alert(`📞 ${plan} PLAN - Auto Dial\nAmount: UGX ${amount.toLocaleString()}\n\nINSTRUCTIONS:\n1. Dial *185# on your phone\n2. Select "Send Money"\n3. Enter 0704557858\n4. Enter amount: UGX ${amount.toLocaleString()}\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
+            alert(`📞 ${plan} PLAN - Auto Dial\nAmount: UGX ${amount.toLocaleString()}\n\nINSTRUCTIONS:\n1. Dial *185# on your phone\n2. Select "Send Money"\n3. Enter 0704557858\n4. Enter amount: UGX ${amount.toLocaleString()}\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code\n\nNeed help? Support: 0765206238`);
             
-            // Open dialer with *185#
             window.location.href = "tel:*185%23";
         }
 
         function manualPayment(plan, amount) {
-            const message = `MANUAL PAYMENT: Send UGX ${amount.toLocaleString()} to 0704557858 for ${plan} plan. Include your name as reference. You will receive activation code via SMS.`;
+            const message = `MANUAL PAYMENT: Send UGX ${amount.toLocaleString()} to 0704557858 for ${plan} plan. Include your name as reference. You will receive activation code via SMS. Need help? Support: 0765206238`;
             localStorage.setItem('payment_instructions', message);
             window.location.href = 'activate.html';
         }
 
-        // PAYMENT METHODS
+        // ENHANCED PAYMENT METHODS
         function showMTNPayment() {
-            alert(`📱 MTN MOBILE MONEY\n\n1. Go to MTN Mobile Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your chosen plan\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
+            alert(`📱 MTN MOBILE MONEY\n\n🌟 FEATURES:\n• Secure MTN transactions\n• Instant code delivery\n• UGX protected payments\n• 24/7 support available\n\n💳 PAYMENT STEPS:\n1. Go to MTN Mobile Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your plan\n5. Complete payment\n6. Receive code via SMS within 2 minutes\n7. Activate and start streaming!\n\n🔒 SECURITY: All transactions protected by MTN`);
         }
 
         function showAirtelPayment() {
-            alert(`📱 AIRTEL MONEY\n\n1. Go to Airtel Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your chosen plan\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
+            alert(`📱 AIRTEL MONEY\n\n🌟 FEATURES:\n• Quick Airtel payments\n• Fast activation\n• Secure transactions\n• Mobile optimized\n\n💳 PAYMENT STEPS:\n1. Go to Airtel Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your plan\n5. Complete payment\n6. Receive code via SMS within 2 minutes\n7. Activate and enjoy movies!\n\n⚡ SPEED: Typically activated in 1-2 minutes`);
         }
 
         function showBankPayment() {
-            alert(`🏦 BANK TRANSFER\n\n1. Send bank transfer to:\n   Account: Marvin\n   Number: 0704557858\n   Amount: For your chosen plan\n2. Include your name as reference\n3. Send screenshot to WhatsApp: 0704557858\n4. You will receive activation code\n5. Use ACTIVATE CODE button to enter your code`);
+            alert(`🏦 BANK TRANSFER\n\n🌟 FEATURES:\n• Direct bank payments\n• Secure transfers\n• Personal assistance\n• Flexible options\n\n💳 PAYMENT STEPS:\n1. Send bank transfer to:\n   Account: Marvin\n   Number: 0704557858\n2. Include your name as reference\n3. Send screenshot to WhatsApp Support: 0765206238\n4. Receive activation code instantly\n5. Use ACTIVATE CODE button\n\n📞 SUPPORT: We guide you through every step!`);
         }
 
         function showSMSPayment() {
-            alert(`💬 SMS PAYMENT\n\n1. Send SMS to: 0704557858\n2. Format: "TMW [Plan] [Your Name]"\n   Example: "TMW DAILY John"\n3. You will receive payment instructions\n4. Complete payment\n5. Receive activation code via SMS\n6. Use ACTIVATE CODE button to enter your code`);
+            alert(`💬 SMS PAYMENT\n\n🌟 FEATURES:\n• Simple text-based payment\n• Direct communication\n• Personal assistance\n• Flexible payment options\n\n💳 PAYMENT STEPS:\n1. Send SMS to: 0704557858\n2. Format: "TMW [Plan] [Your Name]"\n   Example: "TMW DAILY John"\n3. You'll receive payment instructions\n4. Complete payment as directed\n5. Receive activation code via SMS\n6. Activate your subscription\n\n📞 SUPPORT: We guide you through every step!`);
         }
 
-        // MOVIE FUNCTIONS - UPDATED
+        // MOVIE FUNCTIONS
         function loadPopularMovies() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movies = adminData.movies;
@@ -853,25 +1251,6 @@
             }
 
             displayMovies('popularMovies', movies);
-            checkSubscription();
-        }
-
-        function loadTrendingMovies() {
-            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
-            const movies = adminData.movies;
-            
-            // For now, show all movies as trending (you can add trending logic later)
-            if (movies.length === 0) {
-                document.getElementById('trendingMovies').innerHTML = `
-                    <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
-                        🔥 No trending movies yet<br>
-                        <small>Movies with most views will appear here</small>
-                    </div>
-                `;
-                return;
-            }
-
-            displayMovies('trendingMovies', movies);
             checkSubscription();
         }
 
@@ -909,6 +1288,13 @@
         }
 
         function streamMovieById(movieId) {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                alert('🔐 Please register first to watch movies!');
+                showRegistration();
+                return;
+            }
+
             const subscription = localStorage.getItem('tmw_subscription');
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movie = adminData.movies.find(m => m.id == movieId);
@@ -932,11 +1318,15 @@
                         return;
                     }
                     
+                    // Update movies watched count
                     moviesWatched += 1;
                     subData.moviesWatched = moviesWatched;
                     localStorage.setItem('tmw_subscription', JSON.stringify(subData));
                     
-                    // PLAY MOVIE DIRECTLY ON SITE - UPDATED
+                    // ADD TO WATCH HISTORY
+                    addToWatchHistory(movieId, movie.title);
+                    
+                    // PLAY MOVIE DIRECTLY ON SITE
                     playMovie(
                         movie.movieLink, 
                         movie.title, 
@@ -949,6 +1339,25 @@
             } else {
                 alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe to watch movies!');
             }
+        }
+
+        // WATCH HISTORY FUNCTIONS
+        function addToWatchHistory(movieId, movieTitle) {
+            let watchHistory = JSON.parse(localStorage.getItem('tmw_watch_history')) || [];
+            
+            // Add new watch entry
+            watchHistory.push({
+                movieId: movieId,
+                movieTitle: movieTitle,
+                watchedAt: new Date().toISOString()
+            });
+            
+            // Keep only last 50 entries to prevent storage issues
+            if (watchHistory.length > 50) {
+                watchHistory = watchHistory.slice(-50);
+            }
+            
+            localStorage.setItem('tmw_watch_history', JSON.stringify(watchHistory));
         }
 
         function getMoviesLimit(plan) {
@@ -970,9 +1379,9 @@
         }
 
         function openSupport() {
-            const choice = confirm('Choose support option:\n\nOK - WhatsApp\nCancel - Phone Call');
+            const choice = confirm('Choose support option:\n\nOK - WhatsApp Support: 0765206238\nCancel - Call Support: 0765206238');
             if (choice) {
-                window.open('https://wa.me/256704557858', '_blank');
+                window.open('https://wa.me/256765206238', '_blank');
             } else {
                 window.open('tel:0765206238', '_self');
             }
@@ -1008,8 +1417,16 @@
 
         // RUN WHEN PAGE LOADS
         window.addEventListener('load', function() {
+            checkLoginStatus();
             checkSubscription();
-            loadPopularMovies(); // Load popular movies by default
+            loadPopularMovies();
+            
+            // Check if we need to play a specific movie (from dashboard)
+            const playMovieId = localStorage.getItem('play_movie_id');
+            if (playMovieId) {
+                localStorage.removeItem('play_movie_id');
+                streamMovieById(playMovieId);
+            }
         });
     </script>
 </body>
