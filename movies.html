@@ -177,9 +177,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = urlParams.get('movie');
 
-        // Check if movie is free trial
+        // Check if movie is free trial - IMPROVED DETECTION
         function isFreeTrialMovie(movieTitle) {
-            return movieTitle && movieTitle.includes('[FREE TRIAL]');
+            if (!movieTitle) return false;
+            // Check for different free trial formats
+            return movieTitle.includes('[FREE TRIAL]') || 
+                   movieTitle.includes('FREE TRIAL') ||
+                   movieTitle.toLowerCase().includes('free trial');
         }
 
         // Get movie limit for plan
@@ -197,6 +201,8 @@
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movie = adminData.movies.find(m => m.id == movieId);
             
+            console.log('Loading movie:', movie); // Debug log
+            
             if (!movie) {
                 document.getElementById('movieDetails').innerHTML = `
                     <h2>Movie Not Found</h2>
@@ -207,8 +213,10 @@
                 return;
             }
 
-            // 🆓 FREE TRIAL MOVIE CHECK - BYPASSES ALL LIMITS
+            // 🆓 FREE TRIAL MOVIE CHECK - IMPROVED
             if (isFreeTrialMovie(movie.title)) {
+                console.log('Free trial movie detected:', movie.title); // Debug log
+                
                 document.getElementById('subscriptionWarning').style.display = 'none';
                 document.getElementById('freeTrialMessage').style.display = 'block';
                 document.getElementById('limitWarning').style.display = 'none';
@@ -218,7 +226,7 @@
                 document.getElementById('videoPlayer').src = movie.link;
                 
                 // Update movie details
-                const cleanTitle = movie.title.replace('[FREE TRIAL]', '').trim();
+                const cleanTitle = movie.title.replace('[FREE TRIAL]', '').replace('FREE TRIAL', '').trim();
                 document.getElementById('movieDetails').innerHTML = `
                     <div class="free-trial-badge">🎁 FREE TRIAL MOVIE</div>
                     <h2 class="movie-title">${cleanTitle}</h2>
