@@ -3,142 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activate Subscription - TMW</title>
+    <title>Activate Code - TMW</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: Arial, sans-serif; 
-            background: purple; 
-            min-height: 100vh; 
-            padding: 20px; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
-        .container { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 10px; 
-            max-width: 400px; 
-            margin: 0 auto;
+        
+        body {
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
         }
-        .logo { 
-            text-align: center; 
-            font-size: 2rem; 
-            font-weight: bold; 
-            color: purple; 
-            margin-bottom: 15px; 
+
+        .header {
+            background: #e50914;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
-        input, button { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border: 2px solid #ddd; 
-            border-radius: 10px; 
-            font-size: 16px; 
+
+        .activation-container {
+            margin-top: 100px;
+            padding: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        button { 
-            background: purple; 
-            color: white; 
-            border: none; 
-            font-weight: bold; 
-            cursor: pointer; 
+
+        .activation-box {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #e50914;
+            text-align: center;
         }
-        .message { 
-            margin-top: 15px; 
-            padding: 15px; 
-            border-radius: 10px; 
-            display: none; 
+
+        .title {
+            color: #e50914;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        .success { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
+
+        .form-input {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .activate-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .instructions {
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .back-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .success {
+            background: #25D366;
+            color: white;
+        }
+
+        .error {
+            background: #e50914;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">TMW</div>
-        <h2>Activate Subscription</h2>
-        <p>Enter the code Marvin sent you via WhatsApp</p>
-        
-        <input type="text" id="codeInput" placeholder="Enter code (e.g., TMW2580)">
-        <button onclick="activateSubscription()">Activate Now</button>
-        
-        <div id="message" class="message"></div>
+    <div class="header">
+        <h1>ACTIVATE YOUR SUBSCRIPTION</h1>
+    </div>
 
-        <div style="margin-top: 20px; color: #666; font-size: 0.9rem;">
-            <p><strong>No code yet?</strong></p>
-            <p>After payment, WhatsApp <strong>0747329915</strong> to receive your activation code</p>
+    <div class="activation-container">
+        <div class="activation-box">
+            <h2 class="title">ENTER ACTIVATION CODE</h2>
+            
+            <input type="text" 
+                   id="activationCode" 
+                   class="form-input" 
+                   placeholder="Enter your activation code here"
+                   maxlength="20">
+            
+            <button class="activate-btn" onclick="activateSubscription()">
+                ✅ ACTIVATE SUBSCRIPTION
+            </button>
+
+            <div class="instructions">
+                <h3>📝 HOW TO GET CODE:</h3>
+                <p>1. Choose subscription plan</p>
+                <p>2. Complete payment to 0704557858</p>
+                <p>3. Receive activation code via SMS</p>
+                <p>4. Enter code here to activate</p>
+            </div>
+
+            <div id="messageDiv"></div>
+
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                ← BACK TO HOME
+            </button>
         </div>
     </div>
 
     <script>
         function activateSubscription() {
-            const code = document.getElementById('codeInput').value.trim().toUpperCase();
-            const messageDiv = document.getElementById('message');
+            const codeInput = document.getElementById('activationCode');
+            const code = codeInput.value.trim().toUpperCase();
+            const messageDiv = document.getElementById('messageDiv');
+
+            // Clear previous messages
+            messageDiv.innerHTML = '';
 
             if (!code) {
-                showMessage('Please enter activation code', 'error');
+                showMessage('❌ Please enter your activation code', 'error');
                 return;
             }
 
-            showMessage('Checking code...', 'error');
+            if (code.length < 6) {
+                showMessage('❌ Invalid code format', 'error');
+                return;
+            }
+
+            // Check if code exists in admin generated codes
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { codes: [] };
+            const validCode = adminData.codes.find(c => c.code === code);
+
+            if (!validCode) {
+                showMessage('❌ Invalid activation code. Please check and try again.', 'error');
+                return;
+            }
+
+            // CODE IS VALID - ACTIVATE SUBSCRIPTION
+            const plan = validCode.plan;
+            const subscription = {
+                plan: plan,
+                activated: new Date().toLocaleDateString(),
+                expires: getExpiryDate(plan),
+                moviesWatched: 0
+            };
+
+            localStorage.setItem('tmw_subscription', JSON.stringify(subscription));
             
-            // DETECT PLAN FROM CODE AND SET CORRECT LIMITS
-            let planType = 'DAILY';
-            let movieLimit = 5;
-            let daysAccess = 1;
-            let price = 2000;
+            // Remove used code
+            adminData.codes = adminData.codes.filter(c => c.code !== code);
+            localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
 
-            // You can customize this based on codes you send
-            if (code.includes('WEEKLY') || code.includes('WK')) {
-                planType = 'WEEKLY';
-                movieLimit = 15;
-                daysAccess = 7;
-                price = 6000;
-            } else if (code.includes('MONTHLY') || code.includes('MON')) {
-                planType = 'MONTHLY';
-                movieLimit = 999;
-                daysAccess = 30;
-                price = 15000;
-            } else if (code.includes('PREMIUM') || code.includes('PRE')) {
-                planType = 'PREMIUM';
-                movieLimit = 999;
-                daysAccess = 30;
-                price = 25000;
-            }
-            // Default is DAILY (as above)
+            showMessage(`✅ SUBSCRIPTION ACTIVATED!<br><br>Plan: ${plan}<br>Expires: ${subscription.expires}`, 'success');
+            
+            // Clear input
+            codeInput.value = '';
 
-            // SECURE: Any code starting with TMW works
-            if (code.startsWith('TMW') && code.length >= 7) {
-                const subscription = {
-                    plan: planType,
-                    price: price,
-                    movieLimit: movieLimit,
-                    activated: new Date().toISOString(),
-                    expires: new Date(Date.now() + daysAccess * 24 * 60 * 60 * 1000).toISOString(),
-                    moviesWatched: 0,
-                    status: 'active'
-                };
-                
-                localStorage.setItem('tmw_subscription', JSON.stringify(subscription));
-                
-                showMessage(`✅ ${planType} PLAN ACTIVATED! \n\nYou can watch ${movieLimit} movies for ${daysAccess} day(s)\n\nGoing to movies...`, 'success');
-                
-                setTimeout(() => {
-                    // REDIRECT TO HOME PAGE (index.html) NOT movies.html
-                    window.location.href = 'index.html';
-                }, 3000);
-            } else {
-                showMessage('❌ Invalid code. Please check the code Marvin sent you.', 'error');
-            }
+            // Redirect to home after 3 seconds
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
         }
 
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = 'message ' + type;
-            messageDiv.style.display = 'block';
+        function getExpiryDate(plan) {
+            const now = new Date();
+            switch(plan) {
+                case 'DAILY':
+                    now.setDate(now.getDate() + 1);
+                    break;
+                case 'WEEKLY':
+                    now.setDate(now.getDate() + 7);
+                    break;
+                case 'MONTHLY':
+                case 'PREMIUM':
+                    now.setDate(now.getDate() + 30);
+                    break;
+                default:
+                    now.setDate(now.getDate() + 1);
+            }
+            return now.toLocaleDateString();
         }
 
-        document.getElementById('codeInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') activateSubscription();
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('messageDiv');
+            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+        }
+
+        // Enter key support
+        document.getElementById('activationCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                activateSubscription();
+            }
         });
     </script>
 </body>
