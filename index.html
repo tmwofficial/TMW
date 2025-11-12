@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,6 +112,51 @@
         .main-content {
             margin-top: 140px;
             padding: 20px 50px;
+        }
+
+        /* CATEGORY TABS - NEW */
+        .category-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            background: #1a1a1a;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+        }
+
+        .category-tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            background: #1a1a1a;
+            border: none;
+            color: #ccc;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-right: 1px solid #333;
+        }
+
+        .category-tab:last-child {
+            border-right: none;
+        }
+
+        .category-tab.active {
+            background: #e50914;
+            color: white;
+        }
+
+        .category-tab:hover {
+            background: #333;
+        }
+
+        .category-content {
+            display: none;
+        }
+
+        .category-content.active {
+            display: block;
         }
 
         .section-title {
@@ -415,6 +459,51 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
+
+        /* VIDEO PLAYER STYLES - NEW */
+        .video-player-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-player-container {
+            width: 90%;
+            max-width: 800px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .close-player {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #e50914;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 2001;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            background: #000;
+        }
     </style>
 </head>
 <body>
@@ -521,15 +610,41 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Popular Movies -->
-        <section>
-            <h2 class="section-title">POPULAR MOVIES</h2>
+        <!-- CATEGORY TABS - NEW -->
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="switchCategory('popular')">POPULAR MOVIES</button>
+            <button class="category-tab" onclick="switchCategory('series')">SERIES</button>
+            <button class="category-tab" onclick="switchCategory('trending')">TRENDING MOVIES</button>
+        </div>
+
+        <!-- Popular Movies (Default) -->
+        <div class="category-content active" id="popular-content">
             <div class="movies-grid" id="popularMovies">
                 <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
-                    Loading movies from TMW...
+                    Loading popular movies from TMW...
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- Series -->
+        <div class="category-content" id="series-content">
+            <div class="movies-grid" id="seriesMovies">
+                <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
+                    🎬 Series coming soon!<br>
+                    <small>We're adding amazing series content</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Movies -->
+        <div class="category-content" id="trending-content">
+            <div class="movies-grid" id="trendingMovies">
+                <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
+                    🔥 Trending movies loading...<br>
+                    <small>Most watched movies will appear here</small>
+                </div>
+            </div>
+        </div>
 
         <!-- Payment Methods Section -->
         <section class="payment-methods">
@@ -569,6 +684,20 @@
                 <p><strong>Activate Code:</strong> After payment, use ACTIVATE CODE button above</p>
             </div>
         </section>
+    </div>
+
+    <!-- VIDEO PLAYER OVERLAY - NEW -->
+    <div class="video-player-overlay" id="videoPlayerOverlay">
+        <div class="video-player-container">
+            <button class="close-player" onclick="closeVideoPlayer()">×</button>
+            <video id="moviePlayer" class="video-player" controls>
+                Your browser does not support the video tag.
+            </video>
+            <div style="text-align: center; margin-top: 15px;">
+                <h3 id="playingTitle" style="color: #e50914;"></h3>
+                <p id="playingInfo" style="color: #ccc;"></p>
+            </div>
+        </div>
     </div>
 
     <!-- Support Section -->
@@ -613,6 +742,70 @@
     </footer>
 
     <script>
+        // CATEGORY SWITCHING - NEW
+        function switchCategory(category) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.category-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Add active class to clicked tab and corresponding content
+            document.querySelector(`.category-tab:nth-child(${getTabIndex(category)})`).classList.add('active');
+            document.getElementById(`${category}-content`).classList.add('active');
+
+            // Load content for the category if needed
+            if (category === 'popular') {
+                loadPopularMovies();
+            } else if (category === 'trending') {
+                loadTrendingMovies();
+            }
+        }
+
+        function getTabIndex(category) {
+            switch(category) {
+                case 'popular': return 1;
+                case 'series': return 2;
+                case 'trending': return 3;
+                default: return 1;
+            }
+        }
+
+        // VIDEO PLAYER FUNCTIONS - NEW
+        function playMovie(movieUrl, movieTitle, movieInfo) {
+            const player = document.getElementById('moviePlayer');
+            const overlay = document.getElementById('videoPlayerOverlay');
+            const title = document.getElementById('playingTitle');
+            const info = document.getElementById('playingInfo');
+
+            player.src = movieUrl;
+            title.textContent = movieTitle;
+            info.textContent = movieInfo;
+            overlay.style.display = 'flex';
+            
+            player.play().catch(e => {
+                console.log('Auto-play prevented:', e);
+            });
+        }
+
+        function closeVideoPlayer() {
+            const player = document.getElementById('moviePlayer');
+            const overlay = document.getElementById('videoPlayerOverlay');
+            
+            player.pause();
+            player.src = '';
+            overlay.style.display = 'none';
+        }
+
+        // Close video player when clicking outside
+        document.getElementById('videoPlayerOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoPlayer();
+            }
+        });
+
         // PAYMENT FUNCTIONS
         function autoDialPayment(plan, amount) {
             alert(`📞 ${plan} PLAN - Auto Dial\nAmount: UGX ${amount.toLocaleString()}\n\nINSTRUCTIONS:\n1. Dial *185# on your phone\n2. Select "Send Money"\n3. Enter 0704557858\n4. Enter amount: UGX ${amount.toLocaleString()}\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code`);
@@ -622,7 +815,6 @@
         }
 
         function manualPayment(plan, amount) {
-            // Redirect to activation page with instructions
             const message = `MANUAL PAYMENT: Send UGX ${amount.toLocaleString()} to 0704557858 for ${plan} plan. Include your name as reference. You will receive activation code via SMS.`;
             localStorage.setItem('payment_instructions', message);
             window.location.href = 'activate.html';
@@ -645,8 +837,8 @@
             alert(`💬 SMS PAYMENT\n\n1. Send SMS to: 0704557858\n2. Format: "TMW [Plan] [Your Name]"\n   Example: "TMW DAILY John"\n3. You will receive payment instructions\n4. Complete payment\n5. Receive activation code via SMS\n6. Use ACTIVATE CODE button to enter your code`);
         }
 
-        // KEEP ALL OTHER FUNCTIONS THE SAME
-        function loadMoviesFromAdmin() {
+        // MOVIE FUNCTIONS - UPDATED
+        function loadPopularMovies() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movies = adminData.movies;
             
@@ -664,6 +856,25 @@
             checkSubscription();
         }
 
+        function loadTrendingMovies() {
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
+            const movies = adminData.movies;
+            
+            // For now, show all movies as trending (you can add trending logic later)
+            if (movies.length === 0) {
+                document.getElementById('trendingMovies').innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
+                        🔥 No trending movies yet<br>
+                        <small>Movies with most views will appear here</small>
+                    </div>
+                `;
+                return;
+            }
+
+            displayMovies('trendingMovies', movies);
+            checkSubscription();
+        }
+
         function displayMovies(sectionId, movies) {
             const section = document.getElementById(sectionId);
             let html = '';
@@ -677,7 +888,7 @@
                 html += `<div>`;
                 columns[i].forEach(movie => {
                     html += `
-                        <div class="movie-card" onclick="streamMovieById(${movie.id})">
+                        <div class="movie-card">
                             <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" 
                                  onerror="this.src='https://via.placeholder.com/300x250/333/fff?text=TMW+Movie'">
                             <div class="movie-info">
@@ -686,7 +897,7 @@
                                     <span class="movie-genre">${movie.genre || 'ACTION'}</span>
                                     <span class="movie-views">${movie.views.toLocaleString()} views</span>
                                 </div>
-                                <button class="stream-btn">STREAM NOW</button>
+                                <button class="stream-btn" onclick="streamMovieById(${movie.id})">STREAM NOW</button>
                             </div>
                         </div>
                     `;
@@ -725,7 +936,12 @@
                     subData.moviesWatched = moviesWatched;
                     localStorage.setItem('tmw_subscription', JSON.stringify(subData));
                     
-                    window.location.href = `movies.html?movie=${movieId}`;
+                    // PLAY MOVIE DIRECTLY ON SITE - UPDATED
+                    playMovie(
+                        movie.movieLink, 
+                        movie.title, 
+                        `${movie.genre || 'ACTION'} • ${movie.views.toLocaleString()} views`
+                    );
                     
                 } else {
                     alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again!');
@@ -746,11 +962,11 @@
         }
 
         function showSeries() {
-            alert('Series section coming soon!');
+            switchCategory('series');
         }
 
         function showMovies() {
-            // Already on movies page
+            switchCategory('popular');
         }
 
         function openSupport() {
@@ -793,7 +1009,7 @@
         // RUN WHEN PAGE LOADS
         window.addEventListener('load', function() {
             checkSubscription();
-            loadMoviesFromAdmin();
+            loadPopularMovies(); // Load popular movies by default
         });
     </script>
 </body>
