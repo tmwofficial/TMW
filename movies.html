@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,6 +113,15 @@
             border-radius: 5px;
             font-size: 14px;
         }
+
+        .limit-warning {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -146,6 +154,12 @@
             <button class="btn btn-success" onclick="window.location.href='index.html'">💳 SUBSCRIBE NOW</button>
         </div>
 
+        <div id="limitWarning" class="limit-warning" style="display: none;">
+            <h3>🚫 MOVIE LIMIT REACHED</h3>
+            <p>You have reached your movie limit for this subscription period.</p>
+            <button class="btn" onclick="window.location.href='index.html'">🔄 RENEW SUBSCRIPTION</button>
+        </div>
+
         <div class="btn-container">
             <button class="btn" onclick="window.history.back()">⬅️ BACK TO MOVIES</button>
             <button class="btn" onclick="window.location.href='index.html'">🏠 HOME</button>
@@ -168,6 +182,17 @@
             return movieTitle && movieTitle.includes('[FREE TRIAL]');
         }
 
+        // Get movie limit for plan
+        function getMoviesLimit(plan) {
+            switch(plan) {
+                case 'DAILY': return 5;
+                case 'WEEKLY': return 15;
+                case 'MONTHLY': return 999;
+                case 'PREMIUM': return 999;
+                default: return 5;
+            }
+        }
+
         function loadMovie() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movie = adminData.movies.find(m => m.id == movieId);
@@ -182,10 +207,11 @@
                 return;
             }
 
-            // 🆓 FREE TRIAL MOVIE CHECK
+            // 🆓 FREE TRIAL MOVIE CHECK - BYPASSES ALL LIMITS
             if (isFreeTrialMovie(movie.title)) {
                 document.getElementById('subscriptionWarning').style.display = 'none';
                 document.getElementById('freeTrialMessage').style.display = 'block';
+                document.getElementById('limitWarning').style.display = 'none';
                 document.getElementById('videoContainer').style.display = 'block';
                 
                 // Load movie
@@ -204,7 +230,7 @@
                     <p><strong>Quality:</strong> HD Streaming • <strong>Access:</strong> Instant Play</p>
                 `;
 
-                // Update views count
+                // Update views count (but NOT moviesWatched for free trial)
                 movie.views += 1;
                 localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
                 return;
@@ -217,6 +243,7 @@
                 document.getElementById('subscriptionWarning').style.display = 'block';
                 document.getElementById('videoContainer').style.display = 'none';
                 document.getElementById('freeTrialMessage').style.display = 'none';
+                document.getElementById('limitWarning').style.display = 'none';
                 document.getElementById('movieDetails').innerHTML = `
                     <h2 class="movie-title">${movie.title}</h2>
                     <div class="movie-stats">
@@ -237,6 +264,7 @@
                 document.getElementById('subscriptionWarning').style.display = 'block';
                 document.getElementById('videoContainer').style.display = 'none';
                 document.getElementById('freeTrialMessage').style.display = 'none';
+                document.getElementById('limitWarning').style.display = 'none';
                 document.getElementById('movieDetails').innerHTML = `
                     <h2 class="movie-title">${movie.title}</h2>
                     <div class="movie-stats">
@@ -248,9 +276,30 @@
                 return;
             }
 
+            // Check movie limits for PAID subscription
+            const moviesWatched = subData.moviesWatched || 0;
+            const moviesLimit = getMoviesLimit(subData.plan);
+            
+            if (moviesWatched >= moviesLimit) {
+                document.getElementById('limitWarning').style.display = 'block';
+                document.getElementById('videoContainer').style.display = 'none';
+                document.getElementById('subscriptionWarning').style.display = 'none';
+                document.getElementById('freeTrialMessage').style.display = 'none';
+                document.getElementById('movieDetails').innerHTML = `
+                    <h2 class="movie-title">${movie.title}</h2>
+                    <div class="movie-stats">
+                        <div class="stat-item">👁️ ${movie.views.toLocaleString()} views</div>
+                        <div class="stat-item">🚫 LIMIT REACHED</div>
+                    </div>
+                    <p>You've watched ${moviesWatched}/${moviesLimit} movies on your ${subData.plan} plan.</p>
+                `;
+                return;
+            }
+
             // ✅ SUBSCRIPTION VALID - PLAY MOVIE
             document.getElementById('subscriptionWarning').style.display = 'none';
             document.getElementById('freeTrialMessage').style.display = 'none';
+            document.getElementById('limitWarning').style.display = 'none';
             document.getElementById('videoContainer').style.display = 'block';
             
             // Load movie
@@ -263,9 +312,10 @@
                     <div class="stat-item">👁️ ${(movie.views + 1).toLocaleString()} views</div>
                     <div class="stat-item">✅ ACTIVE SUBSCRIPTION</div>
                     <div class="stat-item">📅 Expires: ${subData.expires}</div>
+                    <div class="stat-item">🎬 ${moviesWatched + 1}/${moviesLimit} movies</div>
                 </div>
                 <p>🎬 Now streaming in HD quality</p>
-                <p><strong>Plan:</strong> ${subData.plan} • <strong>Movies Watched:</strong> ${subData.moviesWatched || 0}</p>
+                <p><strong>Plan:</strong> ${subData.plan}</p>
             `;
 
             // Update views count and movies watched
@@ -277,16 +327,6 @@
 
         // Load movie when page opens
         window.addEventListener('load', loadMovie);
-
-        // Handle page visibility changes (pause when tab not active)
-        document.addEventListener('visibilitychange', function() {
-            const videoPlayer = document.getElementById('videoPlayer');
-            if (videoPlayer && videoPlayer.contentWindow) {
-                if (document.hidden) {
-                    // Tab not visible - could pause video here if needed
-                }
-            }
-        });
     </script>
 </body>
 </html>
