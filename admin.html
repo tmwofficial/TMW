@@ -390,6 +390,124 @@
                 height: 70vh;
             }
         }
+
+        /* NEW STYLES FOR ADDED FEATURES */
+        .analytics-chart {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin-top: 15px;
+        }
+
+        .series-form, .update-form {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .episode-list {
+            margin-top: 15px;
+        }
+
+        .episode-item {
+            background: #2a2a2a;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .update-item {
+            background: #2a2a2a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #25D366;
+        }
+
+        .update-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .update-video {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .customer-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .customer-card {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e50914;
+        }
+
+        .code-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .used { background: #dc3545; color: white; }
+        .unused { background: #28a745; color: white; }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #e50914;
+            font-weight: bold;
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .type-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .type-btn {
+            flex: 1;
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .type-btn.active {
+            background: #e50914;
+        }
     </style>
 </head>
 <body>
@@ -448,13 +566,42 @@
                         <div class="stat-label">Total Movies</div>
                     </div>
                 </div>
+
+                <!-- ANALYTICS GRAPH -->
+                <div class="analytics-chart">
+                    <h3 class="section-title">📈 WEBSITE ANALYTICS & GROWTH</h3>
+                    <div class="chart-container">
+                        <canvas id="analyticsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- CUSTOMER SUBSCRIPTION BREAKDOWN -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="dailyCustomers">0</div>
+                        <div class="stat-label">Daily Subscriptions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="weeklyCustomers">0</div>
+                        <div class="stat-label">Weekly Subscriptions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="monthlyCustomers">0</div>
+                        <div class="stat-label">Monthly Subscriptions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="premiumCustomers">0</div>
+                        <div class="stat-label">Premium Subscriptions</div>
+                    </div>
+                </div>
             </div>
 
             <!-- CUSTOMERS TAB -->
             <div id="customers" class="tab-content">
-                <h2 class="section-title">👥 CUSTOMERS</h2>
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; text-align: center; color: #666;">
-                    Customer management system ready
+                <h2 class="section-title">👥 CUSTOMER MANAGEMENT</h2>
+                
+                <div class="customer-cards" id="customersList">
+                    <!-- Customer cards will be loaded here -->
                 </div>
             </div>
 
@@ -500,7 +647,7 @@
 
             <!-- CODES TAB -->
             <div id="codes" class="tab-content">
-                <h2 class="section-title">🔑 GENERATE CODES</h2>
+                <h2 class="section-title">🔑 CODE MANAGEMENT</h2>
                 
                 <div class="code-management">
                     <div class="code-form">
@@ -523,17 +670,81 @@
 
             <!-- SERIES TAB -->
             <div id="series" class="tab-content">
-                <h2 class="section-title">📺 SERIES</h2>
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; text-align: center; color: #666;">
-                    Series management ready
+                <h2 class="section-title">📺 SERIES MANAGEMENT</h2>
+                
+                <div class="series-form">
+                    <div class="form-group">
+                        <label class="form-label">Series Title</label>
+                        <input type="text" class="form-input" id="seriesTitle" placeholder="Enter series title (e.g., Ever Night)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Add Episode</label>
+                        <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px;">
+                            <input type="text" class="form-input" id="episodeTitle" placeholder="Episode title (e.g., Episode 1)">
+                            <input type="text" class="form-input" id="episodeLink" placeholder="Video link">
+                            <button class="add-btn" onclick="addEpisode()" style="grid-column: 1 / -1;">Add Episode</button>
+                        </div>
+                    </div>
+
+                    <div class="episode-list" id="currentEpisodes">
+                        <div style="text-align: center; color: #666; padding: 20px;">
+                            No episodes added yet
+                        </div>
+                    </div>
+
+                    <button class="add-btn" onclick="saveSeries()" style="width: 100%; margin-top: 15px;">
+                        💾 Save Series
+                    </button>
+                </div>
+
+                <div id="seriesList">
+                    <!-- Existing series will be listed here -->
                 </div>
             </div>
 
             <!-- UPDATES TAB -->
             <div id="updates" class="tab-content">
-                <h2 class="section-title">📢 UPDATES</h2>
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; text-align: center; color: #666;">
-                    Updates system ready
+                <h2 class="section-title">📢 MOVIE UPDATES</h2>
+                
+                <div class="update-form">
+                    <div class="type-buttons">
+                        <button class="type-btn active" onclick="setUpdateType('text')">📝 Text Update</button>
+                        <button class="type-btn" onclick="setUpdateType('image')">🖼️ Image Update</button>
+                        <button class="type-btn" onclick="setUpdateType('video')">🎬 Video Update</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Update Title</label>
+                        <input type="text" class="form-input" id="updateTitle" placeholder="Enter update title">
+                    </div>
+
+                    <div class="form-group" id="textContent" style="display: block;">
+                        <label class="form-label">Update Content</label>
+                        <textarea class="form-input" id="updateText" placeholder="Write your update content..."></textarea>
+                    </div>
+
+                    <div class="form-group" id="imageContent" style="display: none;">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" class="form-input" id="updateImage" placeholder="Paste image URL">
+                        <label class="form-label" style="margin-top: 10px;">Image Description</label>
+                        <textarea class="form-input" id="imageDescription" placeholder="Describe the image..."></textarea>
+                    </div>
+
+                    <div class="form-group" id="videoContent" style="display: none;">
+                        <label class="form-label">Video URL</label>
+                        <input type="text" class="form-input" id="updateVideo" placeholder="Paste video URL">
+                        <label class="form-label" style="margin-top: 10px;">Video Description</label>
+                        <textarea class="form-input" id="videoDescription" placeholder="Describe the video..."></textarea>
+                    </div>
+
+                    <button class="add-btn" onclick="addUpdate()" style="width: 100%;">
+                        📢 Post Update
+                    </button>
+                </div>
+
+                <div id="updatesList" style="margin-top: 20px;">
+                    <!-- Updates will be displayed here -->
                 </div>
             </div>
         </main>
@@ -564,8 +775,16 @@
             customers: [],
             series: [],
             updates: [],
-            revenue: 0
+            revenue: 0,
+            analytics: {
+                visits: [],
+                growth: []
+            }
         };
+
+        let currentUpdateType = 'text';
+        let currentEpisodes = [];
+        let analyticsChart = null;
 
         function login() {
             const username = document.getElementById('username').value;
@@ -604,6 +823,11 @@
                 tab.classList.remove('active');
             });
             document.getElementById(tabName).classList.add('active');
+            
+            // Load specific data when tab changes
+            if (tabName === 'customers') loadCustomers();
+            if (tabName === 'series') loadSeries();
+            if (tabName === 'updates') loadUpdates();
         }
 
         function setPoster(posterUrl) {
@@ -668,7 +892,10 @@
                 newCodes.push({
                     code: code,
                     plan: plan,
-                    generated: new Date().toLocaleDateString()
+                    generated: new Date().toLocaleDateString(),
+                    used: false,
+                    usedBy: '',
+                    usedDate: ''
                 });
             }
 
@@ -686,8 +913,16 @@
             document.getElementById('activeSubscriptions').textContent = (adminData.customers || []).filter(c => c.status === 'active').length;
             document.getElementById('totalMovies').textContent = (adminData.movies || []).length;
             
+            // Update customer breakdown
+            const customers = adminData.customers || [];
+            document.getElementById('dailyCustomers').textContent = customers.filter(c => c.plan === 'DAILY').length;
+            document.getElementById('weeklyCustomers').textContent = customers.filter(c => c.plan === 'WEEKLY').length;
+            document.getElementById('monthlyCustomers').textContent = customers.filter(c => c.plan === 'MONTHLY').length;
+            document.getElementById('premiumCustomers').textContent = customers.filter(c => c.plan === 'PREMIUM').length;
+            
             updateMoviesList();
             updateCodesList();
+            initAnalyticsChart();
         }
 
         function updateMoviesList() {
@@ -724,7 +959,13 @@
             container.innerHTML = codes.map(code => `
                 <div class="code-item">
                     <strong>${code.code}</strong>
-                    <div style="font-size: 0.7rem; color: #ccc;">${code.plan} • ${code.generated}</div>
+                    <span class="code-status ${code.used ? 'used' : 'unused'}">
+                        ${code.used ? 'USED' : 'UNUSED'}
+                    </span>
+                    <div style="font-size: 0.7rem; color: #ccc;">
+                        ${code.plan} • ${code.generated}
+                        ${code.used ? `<br>Used by: ${code.usedBy}` : ''}
+                    </div>
                 </div>
             `).join('');
         }
@@ -733,6 +974,325 @@
             if (confirm('Are you sure you want to delete this movie?')) {
                 adminData.movies = (adminData.movies || []).filter(movie => movie.id !== movieId);
                 saveAdminData();
+            }
+        }
+
+        // NEW FUNCTIONS FOR ADDED FEATURES
+
+        function initAnalyticsChart() {
+            const ctx = document.getElementById('analyticsChart').getContext('2d');
+            
+            // Generate sample analytics data
+            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+            const visits = [150, 300, 450, 600, 800, 1200];
+            const customers = [50, 120, 200, 280, 350, 500];
+            const revenue = [100000, 240000, 360000, 480000, 600000, 900000];
+
+            if (analyticsChart) {
+                analyticsChart.destroy();
+            }
+
+            analyticsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Website Visits',
+                            data: visits,
+                            borderColor: '#e50914',
+                            backgroundColor: 'rgba(229, 9, 20, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'New Customers',
+                            data: customers,
+                            borderColor: '#25D366',
+                            backgroundColor: 'rgba(37, 211, 102, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Revenue (UGX)',
+                            data: revenue,
+                            borderColor: '#ffcc00',
+                            backgroundColor: 'rgba(255, 204, 0, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Visits & Customers'
+                            }
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Revenue (UGX)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadCustomers() {
+            const container = document.getElementById('customersList');
+            const customers = adminData.customers || [];
+            
+            if (customers.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px; width: 100%;">No customers yet</div>';
+                return;
+            }
+
+            container.innerHTML = customers.map(customer => `
+                <div class="customer-card">
+                    <div style="font-weight: bold; color: #e50914; margin-bottom: 8px;">${customer.name}</div>
+                    <div style="font-size: 0.8rem; margin-bottom: 5px;">
+                        Plan: <span style="color: #25D366;">${customer.plan}</span>
+                    </div>
+                    <div style="font-size: 0.7rem; color: #ccc; margin-bottom: 5px;">
+                        Joined: ${customer.joinedDate}
+                    </div>
+                    <div style="font-size: 0.7rem; color: #ccc;">
+                        Status: <span style="color: ${customer.status === 'active' ? '#25D366' : '#dc3545'}">${customer.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setUpdateType(type) {
+            currentUpdateType = type;
+            
+            // Update button states
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide appropriate content
+            document.getElementById('textContent').style.display = type === 'text' ? 'block' : 'none';
+            document.getElementById('imageContent').style.display = type === 'image' ? 'block' : 'none';
+            document.getElementById('videoContent').style.display = type === 'video' ? 'block' : 'none';
+        }
+
+        function addEpisode() {
+            const title = document.getElementById('episodeTitle').value;
+            const link = document.getElementById('episodeLink').value;
+
+            if (title && link) {
+                currentEpisodes.push({
+                    title: title,
+                    link: link
+                });
+
+                updateEpisodeList();
+                
+                document.getElementById('episodeTitle').value = '';
+                document.getElementById('episodeLink').value = '';
+            } else {
+                alert('Please fill both episode title and link!');
+            }
+        }
+
+        function updateEpisodeList() {
+            const container = document.getElementById('currentEpisodes');
+            
+            if (currentEpisodes.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No episodes added yet</div>';
+                return;
+            }
+
+            container.innerHTML = currentEpisodes.map((episode, index) => `
+                <div class="episode-item">
+                    <div>
+                        <strong>${episode.title}</strong>
+                        <div style="font-size: 0.7rem; color: #ccc;">${episode.link.substring(0, 50)}...</div>
+                    </div>
+                    <button class="delete-btn" onclick="removeEpisode(${index})" style="width: auto; margin: 0;">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function removeEpisode(index) {
+            currentEpisodes.splice(index, 1);
+            updateEpisodeList();
+        }
+
+        function saveSeries() {
+            const title = document.getElementById('seriesTitle').value;
+
+            if (!title || currentEpisodes.length === 0) {
+                alert('Please add series title and at least one episode!');
+                return;
+            }
+
+            const series = {
+                id: Date.now(),
+                title: title,
+                episodes: [...currentEpisodes],
+                created: new Date().toLocaleDateString()
+            };
+
+            if (!adminData.series) adminData.series = [];
+            adminData.series.push(series);
+            saveAdminData();
+
+            // Reset form
+            document.getElementById('seriesTitle').value = '';
+            currentEpisodes = [];
+            updateEpisodeList();
+            
+            alert('✅ Series saved successfully!');
+            loadSeries();
+        }
+
+        function loadSeries() {
+            const container = document.getElementById('seriesList');
+            const series = adminData.series || [];
+
+            if (series.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px; background: #1a1a1a; border-radius: 10px;">No series added yet</div>';
+                return;
+            }
+
+            container.innerHTML = series.map(s => `
+                <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <h4 style="color: #e50914; margin-bottom: 10px;">${s.title}</h4>
+                    <div style="font-size: 0.8rem; color: #ccc; margin-bottom: 10px;">Created: ${s.created}</div>
+                    <div style="font-size: 0.8rem; color: #25D366; margin-bottom: 10px;">Episodes: ${s.episodes.length}</div>
+                    ${s.episodes.map(episode => `
+                        <div style="background: #2a2a2a; padding: 8px; margin: 5px 0; border-radius: 5px; font-size: 0.8rem;">
+                            ${episode.title}
+                        </div>
+                    `).join('')}
+                    <button class="delete-btn" onclick="deleteSeries(${s.id})" style="margin-top: 10px;">Delete Series</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteSeries(seriesId) {
+            if (confirm('Are you sure you want to delete this series?')) {
+                adminData.series = (adminData.series || []).filter(s => s.id !== seriesId);
+                saveAdminData();
+                loadSeries();
+            }
+        }
+
+        function addUpdate() {
+            const title = document.getElementById('updateTitle').value;
+
+            if (!title) {
+                alert('Please add an update title!');
+                return;
+            }
+
+            let content = {};
+            
+            if (currentUpdateType === 'text') {
+                const text = document.getElementById('updateText').value;
+                if (!text) {
+                    alert('Please add update content!');
+                    return;
+                }
+                content = { text: text };
+            }
+            else if (currentUpdateType === 'image') {
+                const imageUrl = document.getElementById('updateImage').value;
+                const description = document.getElementById('imageDescription').value;
+                if (!imageUrl) {
+                    alert('Please add image URL!');
+                    return;
+                }
+                content = { imageUrl: imageUrl, description: description };
+            }
+            else if (currentUpdateType === 'video') {
+                const videoUrl = document.getElementById('updateVideo').value;
+                const description = document.getElementById('videoDescription').value;
+                if (!videoUrl) {
+                    alert('Please add video URL!');
+                    return;
+                }
+                content = { videoUrl: videoUrl, description: description };
+            }
+
+            const update = {
+                id: Date.now(),
+                type: currentUpdateType,
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+            };
+
+            if (!adminData.updates) adminData.updates = [];
+            adminData.updates.unshift(update); // Add to beginning
+            saveAdminData();
+
+            // Reset form
+            document.getElementById('updateTitle').value = '';
+            document.getElementById('updateText').value = '';
+            document.getElementById('updateImage').value = '';
+            document.getElementById('imageDescription').value = '';
+            document.getElementById('updateVideo').value = '';
+            document.getElementById('videoDescription').value = '';
+            
+            alert('✅ Update posted successfully!');
+            loadUpdates();
+        }
+
+        function loadUpdates() {
+            const container = document.getElementById('updatesList');
+            const updates = adminData.updates || [];
+
+            if (updates.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px; background: #1a1a1a; border-radius: 10px;">No updates posted yet</div>';
+                return;
+            }
+
+            container.innerHTML = updates.map(update => `
+                <div class="update-item">
+                    <h4 style="color: #e50914; margin-bottom: 10px;">${update.title}</h4>
+                    <div style="font-size: 0.8rem; color: #ccc; margin-bottom: 10px;">
+                        ${update.date} • ${update.type.toUpperCase()} UPDATE
+                    </div>
+                    
+                    ${update.type === 'text' ? `
+                        <div style="color: white; line-height: 1.5;">${update.content.text}</div>
+                    ` : ''}
+                    
+                    ${update.type === 'image' ? `
+                        <img src="${update.content.imageUrl}" alt="${update.content.description}" class="update-image" 
+                             onerror="this.style.display='none'">
+                        <div style="color: white; line-height: 1.5; margin-top: 10px;">${update.content.description}</div>
+                    ` : ''}
+                    
+                    ${update.type === 'video' ? `
+                        <iframe src="${update.content.videoUrl}" class="update-video" frameborder="0" allowfullscreen></iframe>
+                        <div style="color: white; line-height: 1.5; margin-top: 10px;">${update.content.description}</div>
+                    ` : ''}
+                    
+                    <button class="delete-btn" onclick="deleteUpdate(${update.id})" style="margin-top: 10px;">Delete Update</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteUpdate(updateId) {
+            if (confirm('Are you sure you want to delete this update?')) {
+                adminData.updates = (adminData.updates || []).filter(u => u.id !== updateId);
+                saveAdminData();
+                loadUpdates();
             }
         }
 
@@ -745,6 +1305,27 @@
         document.getElementById('password').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') login();
         });
+
+        // Initialize sample data if empty
+        function initializeSampleData() {
+            if (!adminData.customers || adminData.customers.length === 0) {
+                adminData.customers = [
+                    { name: "John Doe", plan: "DAILY", joinedDate: "2024-01-15", status: "active" },
+                    { name: "Jane Smith", plan: "WEEKLY", joinedDate: "2024-01-14", status: "active" },
+                    { name: "Mike Johnson", plan: "MONTHLY", joinedDate: "2024-01-10", status: "active" },
+                    { name: "Sarah Wilson", plan: "PREMIUM", joinedDate: "2024-01-08", status: "active" }
+                ];
+            }
+            
+            if (!adminData.revenue) {
+                adminData.revenue = 480000;
+            }
+            
+            saveAdminData();
+        }
+
+        // Initialize sample data on first load
+        initializeSampleData();
     </script>
 </body>
 </html>
