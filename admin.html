@@ -526,7 +526,7 @@
             border: 1px solid #444;
         }
 
-        /* VIDEO PLAYER STYLES */
+        /* VIDEO PLAYER STYLES - FIXED FULLSCREEN */
         .video-player-container {
             position: fixed;
             top: 0;
@@ -577,6 +577,31 @@
             height: 70vh;
             background: #000;
             border: none;
+        }
+
+        /* FIXED FULLSCREEN STYLES */
+        .video-element:-webkit-full-screen {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+        }
+
+        .video-element:-moz-full-screen {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+        }
+
+        .video-element:-ms-fullscreen {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+        }
+
+        .video-element:fullscreen {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
         }
     </style>
 </head>
@@ -867,8 +892,11 @@
                 <button class="close-btn" onclick="closeVideo()">✕ Close</button>
             </div>
             <iframe class="video-element" id="videoFrame" 
-                    frameborder="0" allowfullscreen 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                    frameborder="0" 
+                    allowfullscreen 
+                    webkitallowfullscreen 
+                    mozallowfullscreen
+                    allow="autoplay; encrypted-media; fullscreen">
             </iframe>
         </div>
     </div>
@@ -1162,7 +1190,8 @@
 
             container.innerHTML = adminData.movies.map(movie => `
                 <div class="movie-admin-card" onclick="playMovie('${movie.movieLink}', '${movie.title}')">
-                    <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" onerror="this.src='https://via.placeholder.com/300x400/333/fff?text=No+Poster'">
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" 
+                         onerror="this.src='https://images.unsplash.com/photo-1489599809505-7c8e1c75ce13?w=500'">
                     <div class="movie-link-type">🎬 STREAM</div>
                     <div class="movie-admin-info">
                         <div class="movie-admin-title">${movie.title}</div>
