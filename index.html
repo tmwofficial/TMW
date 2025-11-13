@@ -982,9 +982,11 @@
     <div class="video-player-overlay" id="videoPlayerOverlay">
         <div class="video-player-container">
             <button class="close-player" onclick="closeVideoPlayer()">×</button>
-            <video id="moviePlayer" class="video-player" controls controlsList="nodownload">
-                Your browser does not support the video tag.
-            </video>
+            <iframe id="moviePlayer" class="video-player" 
+                    frameborder="0" 
+                    allowfullscreen
+                    allow="autoplay; encrypted-media">
+            </iframe>
             <div style="text-align: center; margin-top: 15px;">
                 <h3 id="playingTitle" style="color: #e50914;"></h3>
                 <p id="playingInfo" style="color: #ccc;"></p>
@@ -1121,70 +1123,33 @@
             }
         }
 
-        // VIDEO PLAYER FUNCTIONS - FULLSCREEN ENABLED
+        // FIXED VIDEO PLAYER FUNCTIONS - NOW USING IFRAME FOR GOOGLE DRIVE
         function playMovie(movieUrl, movieTitle, movieInfo) {
             const player = document.getElementById('moviePlayer');
             const overlay = document.getElementById('videoPlayerOverlay');
             const title = document.getElementById('playingTitle');
             const info = document.getElementById('playingInfo');
 
-            player.src = movieUrl;
+            // FIX: Convert Google Drive links to embed format
+            let finalUrl = movieUrl;
+            
+            if (movieUrl.includes('drive.google.com')) {
+                if (movieUrl.includes('/file/d/')) {
+                    const fileId = movieUrl.match(/\/file\/d\/([^\/]+)/)[1];
+                    finalUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+            }
+            
+            player.src = finalUrl;
             title.textContent = movieTitle;
             info.textContent = movieInfo;
             overlay.style.display = 'flex';
-            
-            // ENABLE FULLSCREEN FUNCTIONALITY
-            enableFullscreenSupport(player);
-            
-            player.play().catch(e => {
-                console.log('Auto-play prevented:', e);
-            });
-        }
-
-        function enableFullscreenSupport(videoElement) {
-            // Double-click to toggle fullscreen
-            videoElement.addEventListener('dblclick', function() {
-                toggleFullscreen(videoElement);
-            });
-
-            // Keyboard support for fullscreen
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'f' || e.key === 'F') {
-                    toggleFullscreen(videoElement);
-                }
-            });
-        }
-
-        function toggleFullscreen(element) {
-            if (!document.fullscreenElement) {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if (element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
         }
 
         function closeVideoPlayer() {
             const player = document.getElementById('moviePlayer');
             const overlay = document.getElementById('videoPlayerOverlay');
             
-            // Exit fullscreen if active
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
-            
-            player.pause();
             player.src = '';
             overlay.style.display = 'none';
         }
@@ -1193,15 +1158,6 @@
         document.getElementById('videoPlayerOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeVideoPlayer();
-            }
-        });
-
-        // Close video player when ESC is pressed
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (document.getElementById('videoPlayerOverlay').style.display === 'flex') {
-                    closeVideoPlayer();
-                }
             }
         });
 
@@ -1326,7 +1282,7 @@
                     // ADD TO WATCH HISTORY
                     addToWatchHistory(movieId, movie.title);
                     
-                    // PLAY MOVIE DIRECTLY ON SITE
+                    // FIXED: Play movie with proper Google Drive handling
                     playMovie(
                         movie.movieLink, 
                         movie.title, 
