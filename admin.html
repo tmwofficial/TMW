@@ -105,6 +105,7 @@
         .admin-nav {
             display: flex;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
@@ -115,6 +116,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .logout-btn {
@@ -124,6 +126,7 @@
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .admin-main {
@@ -361,6 +364,7 @@
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 30px;
+            border: 2px solid #e50914;
         }
 
         .code-form {
@@ -603,6 +607,30 @@
             height: 100vh;
             border-radius: 0;
         }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .admin-nav {
+                gap: 10px;
+            }
+            
+            .nav-btn, .logout-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .streaming-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-main {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
@@ -792,12 +820,12 @@
                     <div>
                         <h4 style="color: #e50914; margin-bottom: 10px;">🎭 QUICK POSTER SELECTION:</h4>
                         <div class="poster-buttons">
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1489599809505-7c8e1c75ce13?w=500')">Action Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1543536448-d209d2d13a1c?w=500')">Drama Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500')">Adventure Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500')">Sci-Fi Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=500')">Romance Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500')">Thriller Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://m.media-amazon.com/images/M/MV5BMDdmMTBiNTYtMDIzNi00NGVlLWIzMDYtZTk3MTQ3NGQxZGEwXkEyXkFqcGdeQXVyMzMwOTU5MDk@._V1_FMjpg_UX1000_.jpg')">Action Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg')">Drama Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://m.media-amazon.com/images/M/MV5BMTk2NTI1MTU4N15BMl5BanBnXkFtZTcwODg0OTY0Nw@@._V1_FMjpg_UX1000_.jpg')">Adventure Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg')">Sci-Fi Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://m.media-amazon.com/images/M/MV5BNDk3NTEwNjc0MV5BMl5BanBnXkFtZTcwNzQxNTU0OQ@@._V1_FMjpg_UX1000_.jpg')">Romance Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://m.media-amazon.com/images/M/MV5BMTk5MDc1NTkzMV5BMl5BanBnXkFtZTgwNzM2OTU0NjE@._V1_FMjpg_UX1000_.jpg')">Thriller Poster</button>
                         </div>
                     </div>
 
@@ -859,7 +887,7 @@
                 </div>
             </div>
 
-            <!-- CODES TAB -->
+            <!-- CODES TAB - FIXED VISIBILITY -->
             <div id="codes" class="tab-content">
                 <h2 class="section-title">🔑 MANAGE CODES</h2>
                 
@@ -884,7 +912,7 @@
         </main>
     </div>
 
-    <!-- VIDEO PLAYER -->
+    <!-- VIDEO PLAYER - FIXED FULLSCREEN -->
     <div class="video-player-container" id="videoPlayer">
         <div class="video-player">
             <div class="video-header">
@@ -896,7 +924,7 @@
                     allowfullscreen 
                     webkitallowfullscreen 
                     mozallowfullscreen
-                    allow="autoplay; encrypted-media; fullscreen">
+                    allow="autoplay; encrypted-media; fullscreen *">
             </iframe>
         </div>
     </div>
@@ -1001,8 +1029,8 @@
                     id: Date.now(),
                     title: title,
                     poster: poster,
-                    movieLink: finalLink, // FIXED: Changed from videoLink to movieLink
-                    genre: 'ACTION', // FIXED: Added genre
+                    movieLink: finalLink,
+                    genre: 'ACTION',
                     views: Math.floor(Math.random() * 1000) + 100,
                     addedDate: new Date().toLocaleDateString(),
                     type: 'movie'
@@ -1143,7 +1171,8 @@
                 newCodes.push({
                     code: code,
                     plan: plan,
-                    generated: new Date().toLocaleDateString()
+                    generated: new Date().toLocaleDateString(),
+                    used: false
                 });
             }
 
@@ -1191,7 +1220,7 @@
             container.innerHTML = adminData.movies.map(movie => `
                 <div class="movie-admin-card" onclick="playMovie('${movie.movieLink}', '${movie.title}')">
                     <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" 
-                         onerror="this.src='https://images.unsplash.com/photo-1489599809505-7c8e1c75ce13?w=500'">
+                         onerror="this.src='https://m.media-amazon.com/images/M/MV5BMDdmMTBiNTYtMDIzNi00NGVlLWIzMDYtZTk3MTQ3NGQxZGEwXkEyXkFqcGdeQXVyMzMwOTU5MDk@._V1_FMjpg_UX1000_.jpg'">
                     <div class="movie-link-type">🎬 STREAM</div>
                     <div class="movie-admin-info">
                         <div class="movie-admin-title">${movie.title}</div>
@@ -1279,7 +1308,9 @@
             container.innerHTML = adminData.codes.map(code => `
                 <div class="code-item">
                     <strong>${code.code}</strong>
-                    <div style="font-size: 0.8rem; color: #ccc;">${code.plan} • ${code.generated}</div>
+                    <div style="font-size: 0.8rem; color: ${code.used ? '#ff6b6b' : '#25D366'};">
+                        ${code.plan} • ${code.generated} • ${code.used ? 'USED' : 'AVAILABLE'}
+                    </div>
                 </div>
             `).join('');
         }
