@@ -252,28 +252,7 @@
             margin-bottom: 30px;
         }
 
-        .link-type-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .link-type-btn {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .link-type-btn.active {
-            background: #e50914;
-            font-weight: bold;
-        }
-
-        .movie-form {
+        .streaming-form {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr auto;
             gap: 15px;
@@ -309,16 +288,17 @@
 
         .link-info {
             background: #2a2a2a;
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             margin: 10px 0;
             font-size: 0.9rem;
             color: #ccc;
+            border-left: 4px solid #25D366;
         }
 
         .movies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
@@ -328,11 +308,17 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-admin-card:hover {
+            transform: translateY(-5px);
         }
 
         .movie-admin-poster {
             width: 100%;
-            height: 150px;
+            height: 300px;
             object-fit: cover;
         }
 
@@ -343,6 +329,7 @@
         .movie-admin-title {
             font-weight: bold;
             margin-bottom: 5px;
+            font-size: 1.1rem;
         }
 
         .movie-link-type {
@@ -538,6 +525,59 @@
             padding: 20px;
             border: 1px solid #444;
         }
+
+        /* VIDEO PLAYER STYLES */
+        .video-player-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-player {
+            width: 90%;
+            max-width: 1200px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-header {
+            background: #141414;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .close-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .video-element {
+            width: 100%;
+            height: 70vh;
+            background: #000;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -706,45 +746,33 @@
                 <h2 class="section-title">🎬 MANAGE MOVIES</h2>
                 
                 <div class="movie-management">
-                    <!-- LINK TYPE SELECTOR -->
-                    <div class="link-type-selector">
-                        <button class="link-type-btn active" onclick="setLinkType('google_drive')">📁 Google Drive</button>
-                        <button class="link-type-btn" onclick="setLinkType('external')">🌐 External Link</button>
+                    <!-- STREAMING INSTRUCTIONS -->
+                    <div class="link-info">
+                        🎯 <strong>STREAMING SETUP:</strong><br>
+                        1. Upload video to Google Drive<br>
+                        2. Get shareable link with "Anyone with the link can view"<br>
+                        3. Paste Google Drive link below<br>
+                        4. Movies will play INSIDE your website with built-in player
                     </div>
 
-                    <div class="link-info" id="googleDriveInfo">
-                        📌 <strong>Google Drive Instructions:</strong><br>
-                        1. Upload your movie to Google Drive<br>
-                        2. Right-click → "Get shareable link"<br>
-                        3. Make sure link sharing is turned ON<br>
-                        4. Paste the link here
-                    </div>
-
-                    <div class="link-info" id="externalLinkInfo" style="display: none;">
-                        📌 <strong>External Link Instructions:</strong><br>
-                        1. Find any movie streaming link online<br>
-                        2. Copy the direct video URL<br>
-                        3. Paste it here (MP4, MKV, etc.)<br>
-                        4. Ensure the link is accessible publicly
-                    </div>
-
-                    <div class="movie-form">
+                    <!-- MOVIE FORM -->
+                    <div class="streaming-form">
                         <input type="text" class="form-input" id="movieTitle" placeholder="Movie Title">
                         <input type="text" class="form-input" id="moviePoster" placeholder="Poster Image URL">
-                        <input type="text" class="form-input" id="movieLink" placeholder="Paste movie link here">
+                        <input type="text" class="form-input" id="movieLink" placeholder="Paste Google Drive link here">
                         <button class="add-btn" onclick="addMovie()">Add Movie</button>
                     </div>
 
-                    <!-- POSTER BUTTONS -->
+                    <!-- QUICK POSTER SELECTION -->
                     <div>
                         <h4 style="color: #e50914; margin-bottom: 10px;">🎭 QUICK POSTER SELECTION:</h4>
                         <div class="poster-buttons">
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop')">Poster 1</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop')">Poster 2</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&h=450&fit=crop')">Poster 3</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1489599809505-fb8275b41d7c?w=300&h=450&fit=crop')">Poster 4</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=300&h=450&fit=crop')">Poster 5</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=300&h=450&fit=crop')">Poster 6</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop')">Action Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop')">Drama Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&h=450&fit=crop')">Adventure Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1489599809505-fb8275b41d7c?w=300&h=450&fit=crop')">Sci-Fi Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=300&h=450&fit=crop')">Romance Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=300&h=450&fit=crop')">Thriller Poster</button>
                         </div>
                     </div>
 
@@ -831,12 +859,25 @@
         </main>
     </div>
 
+    <!-- VIDEO PLAYER -->
+    <div class="video-player-container" id="videoPlayer">
+        <div class="video-player">
+            <div class="video-header">
+                <div class="video-title" id="videoTitle">Movie Title</div>
+                <button class="close-btn" onclick="closeVideo()">✕ Close</button>
+            </div>
+            <iframe class="video-element" id="videoFrame" 
+                    frameborder="0" allowfullscreen 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+            </iframe>
+        </div>
+    </div>
+
     <script>
-        // SECRET CREDENTIALS - HIDDEN IN CODE
+        // SECRET CREDENTIALS
         const ADMIN_USERNAME = "TMWAdmin";
         const ADMIN_PASSWORD = "Movie2024!";
 
-        let currentLinkType = 'google_drive';
         let adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || {
             movies: [],
             codes: [],
@@ -862,25 +903,6 @@
 
         // Chart instances
         let customersChart, revenueChart, visitsChart, subscriptionsChart;
-
-        function setLinkType(type) {
-            currentLinkType = type;
-            
-            document.querySelectorAll('.link-type-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            if (type === 'google_drive') {
-                document.getElementById('googleDriveInfo').style.display = 'block';
-                document.getElementById('externalLinkInfo').style.display = 'none';
-                document.getElementById('movieLink').placeholder = 'Paste Google Drive link here';
-            } else {
-                document.getElementById('googleDriveInfo').style.display = 'none';
-                document.getElementById('externalLinkInfo').style.display = 'block';
-                document.getElementById('movieLink').placeholder = 'Paste external streaming link here';
-            }
-        }
 
         function login() {
             const username = document.getElementById('username').value;
@@ -941,8 +963,7 @@
                     id: Date.now(),
                     title: title,
                     poster: poster,
-                    movieLink: link,
-                    linkType: currentLinkType,
+                    videoLink: link,
                     views: Math.floor(Math.random() * 1000) + 100,
                     addedDate: new Date().toLocaleDateString(),
                     type: 'movie'
@@ -955,10 +976,31 @@
                 document.getElementById('moviePoster').value = '';
                 document.getElementById('movieLink').value = '';
                 
-                alert('✅ Movie added successfully!');
+                alert('✅ Movie added successfully! Customers can now stream it inside your website!');
             } else {
                 alert('❌ Please fill all fields!');
             }
+        }
+
+        function playMovie(videoLink, title) {
+            // Convert Google Drive link to embedded format
+            let embedLink = videoLink;
+            
+            if (videoLink.includes('drive.google.com')) {
+                if (videoLink.includes('/file/d/')) {
+                    const fileId = videoLink.split('/file/d/')[1].split('/')[0];
+                    embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+            }
+            
+            document.getElementById('videoFrame').src = embedLink;
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('videoPlayer').style.display = 'flex';
+        }
+
+        function closeVideo() {
+            document.getElementById('videoPlayer').style.display = 'none';
+            document.getElementById('videoFrame').src = '';
         }
 
         function addSeries() {
@@ -1108,13 +1150,13 @@
             }
 
             container.innerHTML = adminData.movies.map(movie => `
-                <div class="movie-admin-card">
-                    <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" onerror="this.src='https://via.placeholder.com/200x150/333/fff?text=No+Image'">
-                    <div class="movie-link-type">${movie.linkType === 'google_drive' ? '📁 Drive' : '🌐 External'}</div>
+                <div class="movie-admin-card" onclick="playMovie('${movie.videoLink}', '${movie.title}')">
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" onerror="this.src='https://via.placeholder.com/300x400/333/fff?text=No+Poster'">
+                    <div class="movie-link-type">🎬 STREAM</div>
                     <div class="movie-admin-info">
                         <div class="movie-admin-title">${movie.title}</div>
                         <div style="font-size: 0.8rem; color: #ccc;">${movie.views} views • ${movie.addedDate}</div>
-                        <button class="delete-btn" onclick="deleteMovie(${movie.id})">Delete</button>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteMovie(${movie.id})">Delete</button>
                     </div>
                 </div>
             `).join('');
@@ -1364,6 +1406,9 @@
         document.getElementById('password').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') login();
         });
+
+        // Auto-fill your Google Drive link for testing
+        document.getElementById('movieLink').value = "https://drive.google.com/file/d/1iPTj_sN-H8ew7tC2CG3ckODgyueGO4Nq/view?usp=drivesdk";
     </script>
 </body>
 </html>
