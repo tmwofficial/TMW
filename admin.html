@@ -767,12 +767,12 @@
                     <div>
                         <h4 style="color: #e50914; margin-bottom: 10px;">🎭 QUICK POSTER SELECTION:</h4>
                         <div class="poster-buttons">
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop')">Action Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop')">Drama Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&h=450&fit=crop')">Adventure Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1489599809505-fb8275b41d7c?w=300&h=450&fit=crop')">Sci-Fi Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=300&h=450&fit=crop')">Romance Poster</button>
-                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=300&h=450&fit=crop')">Thriller Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1489599809505-7c8e1c75ce13?w=500')">Action Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1543536448-d209d2d13a1c?w=500')">Drama Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500')">Adventure Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500')">Sci-Fi Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=500')">Romance Poster</button>
+                            <button class="poster-btn" onclick="setPoster('https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500')">Thriller Poster</button>
                         </div>
                     </div>
 
@@ -943,6 +943,9 @@
             });
             document.getElementById(tabName).classList.add('active');
             
+            if (tabName === 'movies') {
+                updateMoviesList();
+            }
             if (tabName === 'series') {
                 updateSeriesSelect();
             }
@@ -959,11 +962,19 @@
             const link = document.getElementById('movieLink').value;
 
             if (title && poster && link) {
+                // FIX: Convert Google Drive link to proper format
+                let finalLink = link;
+                if (link.includes('drive.google.com') && link.includes('/file/d/')) {
+                    const fileId = link.match(/\/file\/d\/([^\/]+)/)[1];
+                    finalLink = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+
                 const movie = {
                     id: Date.now(),
                     title: title,
                     poster: poster,
-                    videoLink: link,
+                    movieLink: finalLink, // FIXED: Changed from videoLink to movieLink
+                    genre: 'ACTION', // FIXED: Added genre
                     views: Math.floor(Math.random() * 1000) + 100,
                     addedDate: new Date().toLocaleDateString(),
                     type: 'movie'
@@ -1150,7 +1161,7 @@
             }
 
             container.innerHTML = adminData.movies.map(movie => `
-                <div class="movie-admin-card" onclick="playMovie('${movie.videoLink}', '${movie.title}')">
+                <div class="movie-admin-card" onclick="playMovie('${movie.movieLink}', '${movie.title}')">
                     <img src="${movie.poster}" alt="${movie.title}" class="movie-admin-poster" onerror="this.src='https://via.placeholder.com/300x400/333/fff?text=No+Poster'">
                     <div class="movie-link-type">🎬 STREAM</div>
                     <div class="movie-admin-info">
@@ -1408,7 +1419,9 @@
         });
 
         // Auto-fill your Google Drive link for testing
-        document.getElementById('movieLink').value = "https://drive.google.com/file/d/1iPTj_sN-H8ew7tC2CG3ckODgyueGO4Nq/view?usp=drivesdk";
+        window.addEventListener('load', function() {
+            document.getElementById('movieLink').value = "https://drive.google.com/file/d/1iPTj_sN-H8ew7tC2CG3ckODgyueGO4Nq/view?usp=drivesdk";
+        });
     </script>
 </body>
 </html>
