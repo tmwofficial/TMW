@@ -588,6 +588,30 @@
             max-height: 100%;
         }
 
+        .video-player:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
         .registration-overlay {
             display: none;
             position: fixed;
@@ -662,10 +686,122 @@
             margin-top: 10px;
         }
 
+        .register-btn:hover {
+            background: #ff0000;
+        }
+
         .login-link {
             color: #25D366;
             margin-top: 20px;
             cursor: pointer;
+        }
+
+        /* NEW STYLES FOR SERIES AND UPDATES */
+        .series-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .series-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: transform 0.3s ease;
+        }
+
+        .series-card:hover {
+            transform: translateY(-5px);
+            border-color: #e50914;
+        }
+
+        .series-poster {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .series-info {
+            padding: 15px;
+        }
+
+        .series-title {
+            color: #e50914;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .episode-count {
+            color: #25D366;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .episode-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .episode-item {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+
+        .episode-item:hover {
+            background: #333;
+        }
+
+        .updates-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .update-item {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+
+        .update-title {
+            color: #e50914;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .update-date {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .update-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .update-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .update-video {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            margin: 10px 0;
         }
 
         @media (max-width: 768px) {
@@ -678,6 +814,14 @@
             }
             
             .instructions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .series-container {
                 grid-template-columns: 1fr;
             }
         }
@@ -734,7 +878,10 @@
         </div>
         
         <div class="nav-buttons">
+            <!-- ACTIVATE CODE BUTTON -->
             <button class="nav-btn" onclick="window.location.href='activate.html'">ACTIVATE CODE</button>
+            
+            <!-- MY ACCOUNT BUTTON -->
             <a href="dashboard.html" class="nav-btn">👤 MY ACCOUNT</a>
             
             <div class="subscription-dropdown">
@@ -742,43 +889,63 @@
                 <div class="dropdown-content">
                     <h4 style="color: #e50914; margin-bottom: 20px; text-align: center;">CHOOSE YOUR PLAN</h4>
                     
+                    <!-- DAILY PLAN -->
                     <div class="plan-option">
                         <div class="plan-title">DAILY PLAN</div>
                         <div class="plan-price">UGX 2,000</div>
                         <div class="plan-description">5 Movies • 24 Hours Access</div>
                         <div class="payment-buttons">
-                            <button class="auto-dial-btn" onclick="autoDialPayment('DAILY', 2000)">📞 AUTO DIAL</button>
-                            <button class="manual-pay-btn" onclick="manualPayment('DAILY', 2000)">💰 MANUAL PAY</button>
+                            <button class="auto-dial-btn" onclick="autoDialPayment('DAILY', 2000)">
+                                📞 AUTO DIAL
+                            </button>
+                            <button class="manual-pay-btn" onclick="manualPayment('DAILY', 2000)">
+                                💰 MANUAL PAY
+                            </button>
                         </div>
                     </div>
                     
+                    <!-- WEEKLY PLAN -->
                     <div class="plan-option">
                         <div class="plan-title">WEEKLY PLAN</div>
                         <div class="plan-price">UGX 6,000</div>
                         <div class="plan-description">15 Movies • 7 Days Access</div>
                         <div class="payment-buttons">
-                            <button class="auto-dial-btn" onclick="autoDialPayment('WEEKLY', 6000)">📞 AUTO DIAL</button>
-                            <button class="manual-pay-btn" onclick="manualPayment('WEEKLY', 6000)">💰 MANUAL PAY</button>
+                            <button class="auto-dial-btn" onclick="autoDialPayment('WEEKLY', 6000)">
+                                📞 AUTO DIAL
+                            </button>
+                            <button class="manual-pay-btn" onclick="manualPayment('WEEKLY', 6000)">
+                                💰 MANUAL PAY
+                            </button>
                         </div>
                     </div>
                     
+                    <!-- MONTHLY PLAN -->
                     <div class="plan-option">
                         <div class="plan-title">MONTHLY PLAN</div>
                         <div class="plan-price">UGX 15,000</div>
                         <div class="plan-description">All Movies • 30 Days Access</div>
                         <div class="payment-buttons">
-                            <button class="auto-dial-btn" onclick="autoDialPayment('MONTHLY', 15000)">📞 AUTO DIAL</button>
-                            <button class="manual-pay-btn" onclick="manualPayment('MONTHLY', 15000)">💰 MANUAL PAY</button>
+                            <button class="auto-dial-btn" onclick="autoDialPayment('MONTHLY', 15000)">
+                                📞 AUTO DIAL
+                            </button>
+                            <button class="manual-pay-btn" onclick="manualPayment('MONTHLY', 15000)">
+                                💰 MANUAL PAY
+                            </button>
                         </div>
                     </div>
                     
+                    <!-- PREMIUM PLAN -->
                     <div class="plan-option">
                         <div class="plan-title">PREMIUM PLAN</div>
                         <div class="plan-price">UGX 25,000</div>
                         <div class="plan-description">All Content • 30 Days Access</div>
                         <div class="payment-buttons">
-                            <button class="auto-dial-btn" onclick="autoDialPayment('PREMIUM', 25000)">📞 AUTO DIAL</button>
-                            <button class="manual-pay-btn" onclick="manualPayment('PREMIUM', 25000)">💰 MANUAL PAY</button>
+                            <button class="auto-dial-btn" onclick="autoDialPayment('PREMIUM', 25000)">
+                                📞 AUTO DIAL
+                            </button>
+                            <button class="manual-pay-btn" onclick="manualPayment('PREMIUM', 25000)">
+                                💰 MANUAL PAY
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -798,13 +965,14 @@
 
     <!-- Main Content -->
     <div class="main-content">
+        <!-- CATEGORY TABS - 3 CATEGORIES -->
         <div class="category-tabs">
             <button class="category-tab active" onclick="switchCategory('popular')">POPULAR MOVIES</button>
             <button class="category-tab" onclick="switchCategory('series')">SERIES</button>
             <button class="category-tab" onclick="switchCategory('updates')">MOVIE UPDATES</button>
         </div>
 
-        <!-- Popular Movies -->
+        <!-- Popular Movies (Default) -->
         <div class="category-content active" id="popular-content">
             <div class="movies-grid" id="popularMovies">
                 <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
@@ -815,31 +983,40 @@
 
         <!-- Series -->
         <div class="category-content" id="series-content">
-            <div style="text-align: center; color: #666; padding: 40px;">
-                🎬 Series coming soon!<br>
-                <small>We're adding amazing series content</small>
+            <div class="series-container" id="seriesContainer">
+                <div style="text-align: center; color: #666; padding: 40px; width: 100%;">
+                    📺 No series added yet<br>
+                    <small>Add series in Admin Panel</small>
+                </div>
             </div>
         </div>
 
         <!-- Movie Updates -->
         <div class="category-content" id="updates-content">
-            <div style="text-align: center; color: #666; padding: 40px;">
-                📢 Latest movie updates<br>
-                <small>Stay tuned for new releases</small>
+            <div class="updates-container" id="updatesContainer">
+                <div style="text-align: center; color: #666; padding: 40px;">
+                    📢 No updates posted yet<br>
+                    <small>Post updates in Admin Panel</small>
+                </div>
             </div>
         </div>
 
-        <!-- Payment Methods -->
+        <!-- ENHANCED PAYMENT METHODS SECTION -->
         <section class="payment-methods">
             <div style="text-align: center; margin-bottom: 30px;">
-                <div class="verification-banner">✅ VERIFIED MOBILE MONEY MERCHANT</div>
+                <div class="verification-banner">
+                    ✅ VERIFIED MOBILE MONEY MERCHANT
+                </div>
                 <h2 style="color: #e50914; margin-bottom: 10px; font-size: 1.8rem;">💰 MULTIPLE PAYMENT OPTIONS</h2>
                 <p style="color: #ccc;">Choose your preferred payment method - All secured by TMW</p>
             </div>
             
             <div class="methods-grid">
                 <div class="method-card mtn" onclick="showMTNPayment()">
-                    <h3>📱 MTN MOBILE MONEY</h3>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <h3>📱 MTN MOBILE MONEY</h3>
+                        <span style="background: #25D366; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">POPULAR</span>
+                    </div>
                     <p>Pay via MTN Mobile Money</p>
                     <small>✅ Instant Activation</small>
                 </div>
@@ -849,25 +1026,84 @@
                     <p>Pay via Airtel Money</p>
                     <small>✅ Fast & Secure</small>
                 </div>
+                
+                <div class="method-card bank" onclick="showBankPayment()">
+                    <h3>🏦 BANK TRANSFER</h3>
+                    <p>Direct Bank Payment</p>
+                    <small>🔒 Secure Transfer</small>
+                </div>
+                
+                <div class="method-card sms" onclick="showSMSPayment()">
+                    <h3>💬 SMS PAYMENT</h3>
+                    <p>Pay via SMS</p>
+                    <small>📝 Simple & Direct</small>
+                </div>
+            </div>
+            
+            <!-- Trust Badges -->
+            <div class="trust-badges">
+                <div class="badge">
+                    <div class="badge-icon">🔒</div>
+                    <div class="badge-text">Secure Payments</div>
+                </div>
+                <div class="badge">
+                    <div class="badge-icon">⚡</div>
+                    <div class="badge-text">Instant Activation</div>
+                </div>
+                <div class="badge">
+                    <div class="badge-icon">📞</div>
+                    <div class="badge-text">24/7 Support</div>
+                </div>
+            </div>
+            
+            <!-- Payment Instructions -->
+            <div class="instructions-box">
+                <h4 style="color: #25D366; text-align: center; margin-bottom: 15px;">🎯 HOW TO PAY & GET INSTANT ACCESS</h4>
+                
+                <div class="instructions-grid">
+                    <div class="instruction-box">
+                        <h5>📞 For Auto Dial</h5>
+                        <p>1. Dial *185#</p>
+                        <p>2. Send to 0704557858</p>
+                        <p>3. Get code instantly</p>
+                    </div>
+                    <div class="instruction-box">
+                        <h5>💰 For Manual Payment</h5>
+                        <p>1. Send to 0704557858</p>
+                        <p>2. Include your name</p>
+                        <p>3. Receive code via SMS</p>
+                    </div>
+                </div>
+                
+                <div class="guarantee">
+                    💫 INSTANT ACTIVATION GUARANTEE: Codes delivered within 2 minutes of payment!
+                </div>
             </div>
         </section>
     </div>
 
-    <!-- VIDEO PLAYER -->
+    <!-- VIDEO PLAYER OVERLAY -->
     <div class="video-player-overlay" id="videoPlayerOverlay">
         <div class="video-player-container">
             <button class="close-player" onclick="closeVideoPlayer()">×</button>
-            <iframe id="moviePlayer" class="video-player" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            <iframe id="moviePlayer" class="video-player" 
+                    frameborder="0" 
+                    allowfullscreen
+                    allow="autoplay; encrypted-media">
+            </iframe>
             <div style="text-align: center; margin-top: 15px;">
                 <h3 id="playingTitle" style="color: #e50914;"></h3>
                 <p id="playingInfo" style="color: #ccc;"></p>
+                <p style="color: #666; font-size: 12px; margin-top: 10px;">
+                    💡 Tip: Click the fullscreen button ↗️ or double-click video for fullscreen
+                </p>
             </div>
         </div>
     </div>
 
     <!-- Support Section -->
     <section class="support-section">
-        <h2 style="color: #e50914; margin-bottom: 20px;">NEED HELP WITH PAYMENT?</h2>
+        <h2 class="support-title">NEED HELP WITH PAYMENT?</h2>
         <p>Contact our support team for instant help</p>
         
         <div class="contact-buttons">
@@ -878,19 +1114,29 @@
                 📞 Call Support: 0765206238
             </a>
         </div>
+        
+        <p>We help with all payment methods and activation codes</p>
+        <p>Fast response guaranteed! 🚀</p>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="trust-footer">WITH YOUR TRUST WE CARE</div>
+        <!-- Trust Slogan - BOTTOM -->
+        <div class="trust-footer">
+            WITH YOUR TRUST WE CARE
+        </div>
+
         <div class="footer-logo">TRANSLATED MOVIE WORLD</div>
         <div>(TMW)</div>
         <p>Your ultimate destination for super translated movies</p>
+        <p>Stream directly on our website • No external links</p>
         
         <div style="background: #1a1a1a; padding: 20px; margin: 20px 0; border-radius: 10px; border: 2px solid #25D366;">
             <h3 style="color: #25D366;">💳 PAYMENT INFORMATION</h3>
             <p><strong>Auto Dial:</strong> *185# → Send to 0704557858</p>
             <p><strong>Manual Payment:</strong> Send to 0704557858</p>
+            <p><strong>Get Code:</strong> After payment, receive code via SMS</p>
+            <p><strong>Activate:</strong> Use ACTIVATE CODE button above</p>
             <p><strong>Support:</strong> Call/WhatsApp: 0765206238</p>
         </div>
         
@@ -898,6 +1144,211 @@
     </footer>
 
     <script>
+        // REGISTRATION SYSTEM
+        function showRegistration() {
+            document.getElementById('registrationOverlay').style.display = 'flex';
+        }
+
+        function closeRegistration() {
+            document.getElementById('registrationOverlay').style.display = 'none';
+        }
+
+        function registerUser() {
+            const name = document.getElementById('userName').value;
+            const password = document.getElementById('userPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!name || !password) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            if (password.length < 4) {
+                alert('Password must be at least 4 characters long!');
+                return;
+            }
+
+            const userData = {
+                name: name,
+                password: password,
+                registeredAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('tmw_user_data', JSON.stringify(userData));
+            localStorage.setItem('tmw_logged_in', 'true');
+
+            alert('🎉 Account created successfully! Welcome to TMW!');
+            closeRegistration();
+            window.location.href = 'index.html';
+        }
+
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                showRegistration();
+            }
+        }
+
+        // CATEGORY SWITCHING
+        function switchCategory(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.category-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const tabIndex = getTabIndex(category);
+            document.querySelector(`.category-tab:nth-child(${tabIndex})`).classList.add('active');
+            document.getElementById(`${category}-content`).classList.add('active');
+
+            // LOAD CONTENT FOR EACH CATEGORY
+            if (category === 'popular') {
+                loadPopularMovies();
+            } else if (category === 'series') {
+                loadSeries();
+            } else if (category === 'updates') {
+                loadUpdates();
+            }
+        }
+
+        function getTabIndex(category) {
+            switch(category) {
+                case 'popular': return 1;
+                case 'series': return 2;
+                case 'updates': return 3;
+                default: return 1;
+            }
+        }
+
+        // FIXED STREAMING FUNCTION
+        function streamMovieById(movieId) {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                alert('🔐 Please register first to watch movies!');
+                showRegistration();
+                return;
+            }
+
+            const subscription = localStorage.getItem('tmw_subscription');
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
+            const movie = adminData.movies.find(m => m.id == movieId);
+            
+            if (!movie) {
+                alert('Movie not found!');
+                return;
+            }
+            
+            if (subscription) {
+                const subData = JSON.parse(subscription);
+                const expires = new Date(subData.expires);
+                const now = new Date();
+
+                if (expires > now) {
+                    // FIXED: Check both videoLink and movieLink properties
+                    const videoLink = movie.videoLink || movie.movieLink;
+                    
+                    if (!videoLink) {
+                        alert('❌ Video link not found for this movie! Please check admin panel.');
+                        return;
+                    }
+
+                    let moviesWatched = subData.moviesWatched || 0;
+                    let moviesLimit = getMoviesLimit(subData.plan);
+                    
+                    if (moviesWatched >= moviesLimit) {
+                        alert(`🚫 MOVIE LIMIT REACHED!\n\nPlan: ${subData.plan}\nWatched: ${moviesWatched}/${moviesLimit} movies\n\nPlease subscribe again!`);
+                        return;
+                    }
+                    
+                    moviesWatched += 1;
+                    subData.moviesWatched = moviesWatched;
+                    localStorage.setItem('tmw_subscription', JSON.stringify(subData));
+                    
+                    addToWatchHistory(movieId, movie.title);
+                    
+                    // FIXED: Play movie with proper Google Drive handling
+                    playMovie(videoLink, movie.title, `${movie.genre || 'ACTION'} • ${movie.views.toLocaleString()} views`);
+                    
+                } else {
+                    alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again!');
+                }
+            } else {
+                alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe to watch movies!');
+            }
+        }
+
+        // FIXED VIDEO PLAYER FUNCTION
+        function playMovie(movieUrl, movieTitle, movieInfo) {
+            const player = document.getElementById('moviePlayer');
+            const overlay = document.getElementById('videoPlayerOverlay');
+            const title = document.getElementById('playingTitle');
+            const info = document.getElementById('playingInfo');
+
+            let finalUrl = movieUrl;
+            
+            // Convert Google Drive links to embed format
+            if (movieUrl.includes('drive.google.com')) {
+                if (movieUrl.includes('/file/d/')) {
+                    const fileId = movieUrl.split('/file/d/')[1].split('/')[0];
+                    finalUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+            }
+            
+            player.src = finalUrl;
+            title.textContent = movieTitle;
+            info.textContent = movieInfo;
+            overlay.style.display = 'flex';
+        }
+
+        function closeVideoPlayer() {
+            const player = document.getElementById('moviePlayer');
+            const overlay = document.getElementById('videoPlayerOverlay');
+            
+            player.src = '';
+            overlay.style.display = 'none';
+        }
+
+        document.getElementById('videoPlayerOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoPlayer();
+            }
+        });
+
+        // PAYMENT FUNCTIONS
+        function autoDialPayment(plan, amount) {
+            alert(`📞 ${plan} PLAN - Auto Dial\nAmount: UGX ${amount.toLocaleString()}\n\nINSTRUCTIONS:\n1. Dial *185# on your phone\n2. Select "Send Money"\n3. Enter 0704557858\n4. Enter amount: UGX ${amount.toLocaleString()}\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code\n\nNeed help? Support: 0765206238`);
+            
+            window.location.href = "tel:*185%23";
+        }
+
+        function manualPayment(plan, amount) {
+            const message = `MANUAL PAYMENT: Send UGX ${amount.toLocaleString()} to 0704557858 for ${plan} plan. Include your name as reference. You will receive activation code via SMS. Need help? Support: 0765206238`;
+            localStorage.setItem('payment_instructions', message);
+            window.location.href = 'activate.html';
+        }
+
+        function showMTNPayment() {
+            alert(`📱 MTN MOBILE MONEY\n\n🌟 FEATURES:\n• Secure MTN transactions\n• Instant code delivery\n• UGX protected payments\n• 24/7 support available\n\n💳 PAYMENT STEPS:\n1. Go to MTN Mobile Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your plan\n5. Complete payment\n6. Receive code via SMS within 2 minutes\n7. Activate and start streaming!\n\n🔒 SECURITY: All transactions protected by MTN`);
+        }
+
+        function showAirtelPayment() {
+            alert(`📱 AIRTEL MONEY\n\n🌟 FEATURES:\n• Quick Airtel payments\n• Fast activation\n• Secure transactions\n• Mobile optimized\n\n💳 PAYMENT STEPS:\n1. Go to Airtel Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your plan\n5. Complete payment\n6. Receive code via SMS within 2 minutes\n7. Activate and enjoy movies!\n\n⚡ SPEED: Typically activated in 1-2 minutes`);
+        }
+
+        function showBankPayment() {
+            alert(`🏦 BANK TRANSFER\n\n🌟 FEATURES:\n• Direct bank payments\n• Secure transfers\n• Personal assistance\n• Flexible options\n\n💳 PAYMENT STEPS:\n1. Send bank transfer to:\n   Account: Marvin\n   Number: 0704557858\n2. Include your name as reference\n3. Send screenshot to WhatsApp Support: 0765206238\n4. Receive activation code instantly\n5. Use ACTIVATE CODE button\n\n📞 SUPPORT: We guide you through every step!`);
+        }
+
+        function showSMSPayment() {
+            alert(`💬 SMS PAYMENT\n\n🌟 FEATURES:\n• Simple text-based payment\n• Direct communication\n• Personal assistance\n• Flexible payment options\n\n💳 PAYMENT STEPS:\n1. Send SMS to: 0704557858\n2. Format: "TMW [Plan] [Your Name]"\n   Example: "TMW DAILY John"\n3. You'll receive payment instructions\n4. Complete payment as directed\n5. Receive activation code via SMS\n6. Activate your subscription\n\n📞 SUPPORT: We guide you through every step!`);
+        }
+
         // FIXED: MOVIE DISPLAY WITH WORKING POSTER IMAGES
         function loadPopularMovies() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
@@ -907,7 +1358,7 @@
                 document.getElementById('popularMovies').innerHTML = `
                     <div style="text-align: center; color: #666; padding: 40px; grid-column: 1 / -1;">
                         🎬 No movies added yet. Check back soon!<br>
-                        <small>Use Admin Panel to add movies with poster images</small>
+                        <small>Admin can add movies via Admin Panel</small>
                     </div>
                 `;
                 return;
@@ -917,7 +1368,6 @@
             checkSubscription();
         }
 
-        // FIXED: DISPLAY MOVIES WITH PROPER POSTER IMAGES
         function displayMovies(sectionId, movies) {
             const section = document.getElementById(sectionId);
             let html = '';
@@ -949,159 +1399,123 @@
             section.innerHTML = html;
         }
 
-        // FIXED STREAMING FUNCTION
-        function streamMovieById(movieId) {
+        // FIXED: LOAD SERIES FROM ADMIN PANEL
+        function loadSeries() {
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { series: [] };
+            const series = adminData.series;
+            
+            if (series.length === 0) {
+                document.getElementById('seriesContainer').innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px; width: 100%;">
+                        📺 No series added yet<br>
+                        <small>Add series in Admin Panel</small>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="series-container">';
+            
+            series.forEach(seriesItem => {
+                // FIXED: Use series poster or default image
+                const seriesPoster = seriesItem.poster || 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop';
+                const episodeCount = seriesItem.episodes ? seriesItem.episodes.length : 0;
+                
+                html += `
+                    <div class="series-card">
+                        <img src="${seriesPoster}" alt="${seriesItem.title}" class="series-poster"
+                             onerror="this.src='https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop'">
+                        <div class="series-info">
+                            <h3 class="series-title">${seriesItem.title}</h3>
+                            <div class="episode-count">${episodeCount} Episodes</div>
+                            <div class="episode-list">
+                                ${seriesItem.episodes.map((episode, index) => `
+                                    <div class="episode-item" onclick="playEpisode('${episode.link}', '${seriesItem.title} - ${episode.title}')">
+                                        ${episode.title}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            document.getElementById('seriesContainer').innerHTML = html;
+        }
+
+        // FIXED: LOAD UPDATES FROM ADMIN PANEL
+        function loadUpdates() {
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { updates: [] };
+            const updates = adminData.updates;
+            
+            if (updates.length === 0) {
+                document.getElementById('updatesContainer').innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        📢 No updates posted yet<br>
+                        <small>Post updates in Admin Panel</small>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="updates-container">';
+            
+            updates.forEach(update => {
+                html += `
+                    <div class="update-item">
+                        <h3 class="update-title">${update.title}</h3>
+                        <div class="update-date">${update.date}</div>
+                        <div class="update-content">
+                            ${update.type === 'text' ? `
+                                <p>${update.content.text}</p>
+                            ` : ''}
+                            ${update.type === 'image' ? `
+                                <img src="${update.content.imageUrl}" alt="${update.content.description}" class="update-image" 
+                                     onerror="this.style.display='none'">
+                                <p>${update.content.description}</p>
+                            ` : ''}
+                            ${update.type === 'video' ? `
+                                <iframe src="${update.content.videoUrl}" class="update-video" frameborder="0" allowfullscreen></iframe>
+                                <p>${update.content.description}</p>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            document.getElementById('updatesContainer').innerHTML = html;
+        }
+
+        // FIXED: PLAY EPISODE FUNCTION
+        function playEpisode(episodeUrl, episodeTitle) {
             const isLoggedIn = localStorage.getItem('tmw_logged_in');
             if (!isLoggedIn) {
-                alert('🔐 Please register first to watch movies!');
+                alert('🔐 Please register first to watch episodes!');
                 showRegistration();
                 return;
             }
 
             const subscription = localStorage.getItem('tmw_subscription');
-            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
-            const movie = adminData.movies.find(m => m.id == movieId);
-            
-            if (!movie) {
-                alert('Movie not found!');
-                return;
-            }
-            
-            if (subscription) {
-                const subData = JSON.parse(subscription);
-                const expires = new Date(subData.expires);
-                const now = new Date();
-
-                if (expires > now) {
-                    const videoLink = movie.videoLink || movie.movieLink;
-                    
-                    if (!videoLink) {
-                        alert('❌ Video link not found for this movie!');
-                        return;
-                    }
-
-                    let moviesWatched = subData.moviesWatched || 0;
-                    let moviesLimit = getMoviesLimit(subData.plan);
-                    
-                    if (moviesWatched >= moviesLimit) {
-                        alert(`🚫 MOVIE LIMIT REACHED!\n\nPlan: ${subData.plan}\nWatched: ${moviesWatched}/${moviesLimit} movies\n\nPlease subscribe again!`);
-                        return;
-                    }
-                    
-                    moviesWatched += 1;
-                    subData.moviesWatched = moviesWatched;
-                    localStorage.setItem('tmw_subscription', JSON.stringify(subData));
-                    
-                    addToWatchHistory(movieId, movie.title);
-                    
-                    playMovie(videoLink, movie.title, `${movie.genre || 'ACTION'} • ${movie.views.toLocaleString()} views`);
-                    
-                } else {
-                    alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again!');
-                }
-            } else {
-                alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe to watch movies!');
-            }
-        }
-
-        function playMovie(movieUrl, movieTitle, movieInfo) {
-            const player = document.getElementById('moviePlayer');
-            const overlay = document.getElementById('videoPlayerOverlay');
-            const title = document.getElementById('playingTitle');
-            const info = document.getElementById('playingInfo');
-
-            let finalUrl = movieUrl;
-            
-            if (movieUrl.includes('drive.google.com')) {
-                if (movieUrl.includes('/file/d/')) {
-                    const fileId = movieUrl.split('/file/d/')[1].split('/')[0];
-                    finalUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-                }
-            }
-            
-            player.src = finalUrl;
-            title.textContent = movieTitle;
-            info.textContent = movieInfo;
-            overlay.style.display = 'flex';
-        }
-
-        function closeVideoPlayer() {
-            const player = document.getElementById('moviePlayer');
-            const overlay = document.getElementById('videoPlayerOverlay');
-            player.src = '';
-            overlay.style.display = 'none';
-        }
-
-        // OTHER FUNCTIONS (same as before)
-        function showRegistration() {
-            document.getElementById('registrationOverlay').style.display = 'flex';
-        }
-
-        function closeRegistration() {
-            document.getElementById('registrationOverlay').style.display = 'none';
-        }
-
-        function registerUser() {
-            const name = document.getElementById('userName').value;
-            const password = document.getElementById('userPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (!name || !password) {
-                alert('Please fill in all fields!');
+            if (!subscription) {
+                alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe to watch series!');
                 return;
             }
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-
-            const userData = { name: name, password: password, registeredAt: new Date().toISOString() };
-            localStorage.setItem('tmw_user_data', JSON.stringify(userData));
-            localStorage.setItem('tmw_logged_in', 'true');
-
-            alert('🎉 Account created successfully! Welcome to TMW!');
-            closeRegistration();
-        }
-
-        function checkLoginStatus() {
-            const isLoggedIn = localStorage.getItem('tmw_logged_in');
-            if (!isLoggedIn) {
-                showRegistration();
-            }
-        }
-
-        function switchCategory(category) {
-            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.category-content').forEach(content => content.classList.remove('active'));
-
-            const tabIndex = category === 'popular' ? 1 : category === 'series' ? 2 : 3;
-            document.querySelector(`.category-tab:nth-child(${tabIndex})`).classList.add('active');
-            document.getElementById(`${category}-content`).classList.add('active');
-
-            if (category === 'popular') loadPopularMovies();
-        }
-
-        function autoDialPayment(plan, amount) {
-            alert(`📞 ${plan} PLAN - UGX ${amount.toLocaleString()}\n\nDial *185# and send to:\n📱 0704557858\n\nYou'll get activation code via SMS!`);
-        }
-
-        function manualPayment(plan, amount) {
-            alert(`💰 ${plan} PLAN - UGX ${amount.toLocaleString()}\n\nSend to: 0704557858\nInclude your name as reference!\n\nYou'll receive activation code via SMS.`);
-        }
-
-        function showMTNPayment() {
-            alert(`📱 MTN MOBILE MONEY\n\n1. Dial *185#\n2. Send to: 0704557858\n3. Amount for your plan\n4. Get code via SMS\n5. Activate and watch!`);
-        }
-
-        function showAirtelPayment() {
-            alert(`📱 AIRTEL MONEY\n\n1. Go to Airtel Money\n2. Send to: 0704557858\n3. Amount for your plan\n4. Get code via SMS\n5. Activate and enjoy!`);
+            playMovie(episodeUrl, episodeTitle, 'Series Episode');
         }
 
         function addToWatchHistory(movieId, movieTitle) {
             let watchHistory = JSON.parse(localStorage.getItem('tmw_watch_history')) || [];
-            watchHistory.push({ movieId: movieId, movieTitle: movieTitle, watchedAt: new Date().toISOString() });
-            if (watchHistory.length > 50) watchHistory = watchHistory.slice(-50);
+            watchHistory.push({
+                movieId: movieId,
+                movieTitle: movieTitle,
+                watchedAt: new Date().toISOString()
+            });
+            if (watchHistory.length > 50) {
+                watchHistory = watchHistory.slice(-50);
+            }
             localStorage.setItem('tmw_watch_history', JSON.stringify(watchHistory));
         }
 
@@ -1115,13 +1529,21 @@
             }
         }
 
-        function showSeries() { switchCategory('series'); }
-        function showMovies() { switchCategory('popular'); }
+        function showSeries() {
+            switchCategory('series');
+        }
+
+        function showMovies() {
+            switchCategory('popular');
+        }
 
         function openSupport() {
             const choice = confirm('Choose support option:\n\nOK - WhatsApp Support: 0765206238\nCancel - Call Support: 0765206238');
-            if (choice) window.open('https://wa.me/256765206238', '_blank');
-            else window.open('tel:0765206238', '_self');
+            if (choice) {
+                window.open('https://wa.me/256765206238', '_blank');
+            } else {
+                window.open('tel:0765206238', '_self');
+            }
         }
 
         function checkSubscription() {
@@ -1129,42 +1551,61 @@
             const buttons = document.querySelectorAll('.stream-btn');
             
             if (!subscription) {
-                buttons.forEach(btn => { btn.disabled = true; btn.textContent = 'SUBSCRIBE TO STREAM'; });
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.textContent = 'SUBSCRIBE TO STREAM';
+                });
             } else {
                 const subData = JSON.parse(subscription);
                 const expires = new Date(subData.expires);
                 const now = new Date();
                 
                 if (expires <= now) {
-                    buttons.forEach(btn => { btn.disabled = true; btn.textContent = 'SUBSCRIPTION EXPIRED'; });
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.textContent = 'SUBSCRIPTION EXPIRED';
+                    });
                 } else {
-                    buttons.forEach(btn => { btn.disabled = false; btn.textContent = 'STREAM NOW'; });
+                    buttons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.textContent = 'STREAM NOW';
+                    });
                 }
             }
         }
 
+        // FIXED: AUTO-RELOAD ALL CONTENT
         function setupAutoReload() {
             let lastAdminData = localStorage.getItem('tmw_admin_data');
+            
             setInterval(() => {
                 const currentAdminData = localStorage.getItem('tmw_admin_data');
                 if (currentAdminData !== lastAdminData) {
                     lastAdminData = currentAdminData;
-                    loadPopularMovies();
+                    
+                    // Reload current category
+                    const activeTab = document.querySelector('.category-tab.active');
+                    if (activeTab) {
+                        const category = activeTab.textContent.includes('MOVIES') ? 'popular' : 
+                                       activeTab.textContent.includes('SERIES') ? 'series' : 'updates';
+                        switchCategory(category);
+                    }
                 }
             }, 2000);
         }
 
-        // INITIALIZE
+        // RUN WHEN PAGE LOADS
         window.addEventListener('load', function() {
             checkLoginStatus();
             checkSubscription();
             loadPopularMovies();
             setupAutoReload();
-        });
-
-        // Close video player when clicking outside
-        document.getElementById('videoPlayerOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeVideoPlayer();
+            
+            const playMovieId = localStorage.getItem('play_movie_id');
+            if (playMovieId) {
+                localStorage.removeItem('play_movie_id');
+                streamMovieById(playMovieId);
+            }
         });
     </script>
 </body>
