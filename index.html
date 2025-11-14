@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMW - Ultimate Translated Movies</title>
     <style>
-        /* ALL YOUR ORIGINAL STYLES REMAIN EXACTLY THE SAME */
         * {
             margin: 0;
             padding: 0;
@@ -1028,7 +1027,7 @@
     </footer>
 
     <script>
-        // REGISTRATION SYSTEM - WITH REDIRECT TO HOME
+        // REGISTRATION SYSTEM
         function showRegistration() {
             document.getElementById('registrationOverlay').style.display = 'flex';
         }
@@ -1057,7 +1056,6 @@
                 return;
             }
 
-            // Save user data
             const userData = {
                 name: name,
                 password: password,
@@ -1069,8 +1067,6 @@
 
             alert('🎉 Account created successfully! Welcome to TMW!');
             closeRegistration();
-
-            // REDIRECT TO HOME PAGE AFTER REGISTRATION
             window.location.href = 'index.html';
         }
 
@@ -1081,9 +1077,8 @@
             }
         }
 
-        // CATEGORY SWITCHING - 3 CATEGORIES
+        // CATEGORY SWITCHING
         function switchCategory(category) {
-            // Remove active class from all tabs and contents
             document.querySelectorAll('.category-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -1091,12 +1086,10 @@
                 content.classList.remove('active');
             });
 
-            // Add active class to clicked tab and corresponding content
             const tabIndex = getTabIndex(category);
             document.querySelector(`.category-tab:nth-child(${tabIndex})`).classList.add('active');
             document.getElementById(`${category}-content`).classList.add('active');
 
-            // Load content for the category if needed
             if (category === 'popular') {
                 loadPopularMovies();
             }
@@ -1111,10 +1104,8 @@
             }
         }
 
-        // FIXED: STREAMING FUNCTION - ONLY THIS PART CHANGED
+        // FIXED STREAMING FUNCTION
         function streamMovieById(movieId) {
-            console.log("Stream button clicked for movie ID:", movieId);
-            
             const isLoggedIn = localStorage.getItem('tmw_logged_in');
             if (!isLoggedIn) {
                 alert('🔐 Please register first to watch movies!');
@@ -1126,10 +1117,8 @@
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movie = adminData.movies.find(m => m.id == movieId);
             
-            console.log("Found movie:", movie);
-            
             if (!movie) {
-                alert('❌ Movie not found! Please try another movie.');
+                alert('Movie not found!');
                 return;
             }
             
@@ -1139,15 +1128,14 @@
                 const now = new Date();
 
                 if (expires > now) {
-                    // FIXED: Use the correct property name from admin panel
-                    const videoLink = movie.videoLink;
+                    // FIXED: Check both videoLink and movieLink properties
+                    const videoLink = movie.videoLink || movie.movieLink;
                     
                     if (!videoLink) {
-                        alert('❌ Video link not found for this movie!');
+                        alert('❌ Video link not found for this movie! Please check admin panel.');
                         return;
                     }
 
-                    // Update movies watched count
                     let moviesWatched = subData.moviesWatched || 0;
                     let moviesLimit = getMoviesLimit(subData.plan);
                     
@@ -1160,11 +1148,10 @@
                     subData.moviesWatched = moviesWatched;
                     localStorage.setItem('tmw_subscription', JSON.stringify(subData));
                     
-                    // Add to watch history
                     addToWatchHistory(movieId, movie.title);
                     
-                    // Play the movie - FIXED THIS PART
-                    playMovie(videoLink, movie.title, `${movie.genre || 'ACTION'} • ${movie.views || '0'} views`);
+                    // FIXED: Play movie with proper Google Drive handling
+                    playMovie(videoLink, movie.title, `${movie.genre || 'ACTION'} • ${movie.views.toLocaleString()} views`);
                     
                 } else {
                     alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again!');
@@ -1174,23 +1161,20 @@
             }
         }
 
-        // FIXED: PLAY MOVIE FUNCTION - ONLY THIS PART CHANGED
+        // FIXED VIDEO PLAYER FUNCTION
         function playMovie(movieUrl, movieTitle, movieInfo) {
-            console.log("Playing movie:", movieTitle, "URL:", movieUrl);
-            
             const player = document.getElementById('moviePlayer');
             const overlay = document.getElementById('videoPlayerOverlay');
             const title = document.getElementById('playingTitle');
             const info = document.getElementById('playingInfo');
 
-            // Convert Google Drive links to embed format
             let finalUrl = movieUrl;
             
+            // Convert Google Drive links to embed format
             if (movieUrl.includes('drive.google.com')) {
                 if (movieUrl.includes('/file/d/')) {
-                    const fileId = movieUrl.match(/\/file\/d\/([^\/]+)/)[1];
+                    const fileId = movieUrl.split('/file/d/')[1].split('/')[0];
                     finalUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-                    console.log("Converted Google Drive URL:", finalUrl);
                 }
             }
             
@@ -1198,8 +1182,6 @@
             title.textContent = movieTitle;
             info.textContent = movieInfo;
             overlay.style.display = 'flex';
-            
-            console.log("Video player opened successfully");
         }
 
         function closeVideoPlayer() {
@@ -1210,14 +1192,13 @@
             overlay.style.display = 'none';
         }
 
-        // Close video player when clicking outside
         document.getElementById('videoPlayerOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeVideoPlayer();
             }
         });
 
-        // PAYMENT FUNCTIONS - ALL ORIGINAL
+        // PAYMENT FUNCTIONS
         function autoDialPayment(plan, amount) {
             alert(`📞 ${plan} PLAN - Auto Dial\nAmount: UGX ${amount.toLocaleString()}\n\nINSTRUCTIONS:\n1. Dial *185# on your phone\n2. Select "Send Money"\n3. Enter 0704557858\n4. Enter amount: UGX ${amount.toLocaleString()}\n5. Complete payment\n6. You will receive activation code via SMS\n7. Use ACTIVATE CODE button to enter your code\n\nNeed help? Support: 0765206238`);
             
@@ -1230,7 +1211,6 @@
             window.location.href = 'activate.html';
         }
 
-        // ENHANCED PAYMENT METHODS - ALL ORIGINAL
         function showMTNPayment() {
             alert(`📱 MTN MOBILE MONEY\n\n🌟 FEATURES:\n• Secure MTN transactions\n• Instant code delivery\n• UGX protected payments\n• 24/7 support available\n\n💳 PAYMENT STEPS:\n1. Go to MTN Mobile Money\n2. Select "Send Money"\n3. Enter number: 0704557858\n4. Enter amount for your plan\n5. Complete payment\n6. Receive code via SMS within 2 minutes\n7. Activate and start streaming!\n\n🔒 SECURITY: All transactions protected by MTN`);
         }
@@ -1247,7 +1227,7 @@
             alert(`💬 SMS PAYMENT\n\n🌟 FEATURES:\n• Simple text-based payment\n• Direct communication\n• Personal assistance\n• Flexible payment options\n\n💳 PAYMENT STEPS:\n1. Send SMS to: 0704557858\n2. Format: "TMW [Plan] [Your Name]"\n   Example: "TMW DAILY John"\n3. You'll receive payment instructions\n4. Complete payment as directed\n5. Receive activation code via SMS\n6. Activate your subscription\n\n📞 SUPPORT: We guide you through every step!`);
         }
 
-        // MOVIE FUNCTIONS - ORIGINAL
+        // MOVIE FUNCTIONS
         function loadPopularMovies() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { movies: [] };
             const movies = adminData.movies;
@@ -1299,22 +1279,16 @@
             section.innerHTML = html;
         }
 
-        // WATCH HISTORY FUNCTIONS - ORIGINAL
         function addToWatchHistory(movieId, movieTitle) {
             let watchHistory = JSON.parse(localStorage.getItem('tmw_watch_history')) || [];
-            
-            // Add new watch entry
             watchHistory.push({
                 movieId: movieId,
                 movieTitle: movieTitle,
                 watchedAt: new Date().toISOString()
             });
-            
-            // Keep only last 50 entries to prevent storage issues
             if (watchHistory.length > 50) {
                 watchHistory = watchHistory.slice(-50);
             }
-            
             localStorage.setItem('tmw_watch_history', JSON.stringify(watchHistory));
         }
 
@@ -1373,13 +1347,25 @@
             }
         }
 
-        // RUN WHEN PAGE LOADS - ORIGINAL
+        // AUTO-RELOAD CONTENT
+        function setupAutoReload() {
+            let lastAdminData = localStorage.getItem('tmw_admin_data');
+            setInterval(() => {
+                const currentAdminData = localStorage.getItem('tmw_admin_data');
+                if (currentAdminData !== lastAdminData) {
+                    lastAdminData = currentAdminData;
+                    loadPopularMovies();
+                }
+            }, 2000);
+        }
+
+        // RUN WHEN PAGE LOADS
         window.addEventListener('load', function() {
             checkLoginStatus();
             checkSubscription();
             loadPopularMovies();
+            setupAutoReload();
             
-            // Check if we need to play a specific movie (from dashboard)
             const playMovieId = localStorage.getItem('play_movie_id');
             if (playMovieId) {
                 localStorage.removeItem('play_movie_id');
