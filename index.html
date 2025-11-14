@@ -1399,12 +1399,14 @@
             section.innerHTML = html;
         }
 
-        // FIXED: LOAD SERIES FROM ADMIN PANEL
+        // FIXED: LOAD SERIES FROM ADMIN PANEL - IMPROVED
         function loadSeries() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { series: [] };
             const series = adminData.series;
             
-            if (series.length === 0) {
+            console.log('Loading series from admin data:', series); // Debug log
+            
+            if (!series || series.length === 0) {
                 document.getElementById('seriesContainer').innerHTML = `
                     <div style="text-align: center; color: #666; padding: 40px; width: 100%;">
                         📺 No series added yet<br>
@@ -1414,7 +1416,7 @@
                 return;
             }
 
-            let html = '<div class="series-container">';
+            let html = '';
             
             series.forEach(seriesItem => {
                 // FIXED: Use series poster or default image
@@ -1429,27 +1431,28 @@
                             <h3 class="series-title">${seriesItem.title}</h3>
                             <div class="episode-count">${episodeCount} Episodes</div>
                             <div class="episode-list">
-                                ${seriesItem.episodes.map((episode, index) => `
+                                ${seriesItem.episodes ? seriesItem.episodes.map((episode, index) => `
                                     <div class="episode-item" onclick="playEpisode('${episode.link}', '${seriesItem.title} - ${episode.title}')">
                                         ${episode.title}
                                     </div>
-                                `).join('')}
+                                `).join('') : '<div class="episode-item">No episodes available</div>'}
                             </div>
                         </div>
                     </div>
                 `;
             });
             
-            html += '</div>';
             document.getElementById('seriesContainer').innerHTML = html;
         }
 
-        // FIXED: LOAD UPDATES FROM ADMIN PANEL
+        // FIXED: LOAD UPDATES FROM ADMIN PANEL - IMPROVED
         function loadUpdates() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { updates: [] };
             const updates = adminData.updates;
             
-            if (updates.length === 0) {
+            console.log('Loading updates from admin data:', updates); // Debug log
+            
+            if (!updates || updates.length === 0) {
                 document.getElementById('updatesContainer').innerHTML = `
                     <div style="text-align: center; color: #666; padding: 40px;">
                         📢 No updates posted yet<br>
@@ -1459,7 +1462,7 @@
                 return;
             }
 
-            let html = '<div class="updates-container">';
+            let html = '';
             
             updates.forEach(update => {
                 html += `
@@ -1484,7 +1487,6 @@
                 `;
             });
             
-            html += '</div>';
             document.getElementById('updatesContainer').innerHTML = html;
         }
 
