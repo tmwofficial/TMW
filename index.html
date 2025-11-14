@@ -129,18 +129,19 @@
             background: #444;
         }
         
-        /* NEW: Horizontal Categories Bar */
+        /* NEW: Horizontal Categories Bar - RED STYLE */
         .categories-bar {
             display: flex;
-            background: var(--dark-gray);
+            background: linear-gradient(135deg, #8B0000, #B22222, #DC143C);
             padding: 0;
             margin-top: 140px;
             position: sticky;
             top: 140px;
             z-index: 998;
-            border-bottom: 2px solid var(--medium-gray);
+            border-bottom: 3px solid #FF0000;
             overflow-x: auto;
             scrollbar-width: none; /* Firefox */
+            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
         }
         
         .categories-bar::-webkit-scrollbar {
@@ -151,14 +152,17 @@
             flex: 0 0 auto;
             padding: 15px 25px;
             text-align: center;
-            background: var(--dark-gray);
+            background: transparent;
             border: none;
-            color: var(--light-gray);
+            color: var(--white);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            border-right: 1px solid var(--medium-gray);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
             white-space: nowrap;
+            position: relative;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         
         .category-item:last-child {
@@ -166,12 +170,26 @@
         }
         
         .category-item.active {
-            background: var(--primary);
+            background: rgba(255, 255, 255, 0.2);
             color: var(--white);
+            font-weight: 900;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .category-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #FFD700;
+            box-shadow: 0 0 8px #FFD700;
         }
         
         .category-item:hover {
-            background: var(--medium-gray);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
         }
         
         /* Main Content */
@@ -1074,7 +1092,7 @@
         </div>
     </nav>
 
-    <!-- NEW: Horizontal Categories Bar -->
+    <!-- NEW: Horizontal Categories Bar - RED STYLE -->
     <div class="categories-bar">
         <div class="category-item active" onclick="switchCategory('popular')">POPULAR MOVIES</div>
         <div class="category-item" onclick="switchCategory('series')">SERIES</div>
