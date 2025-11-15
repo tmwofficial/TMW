@@ -804,6 +804,144 @@
             margin: 10px 0;
         }
 
+        /* COMMENTS AND LIKES STYLES FOR MAIN WEBSITE */
+        .comments-section {
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .comments-title {
+            color: #e50914;
+            font-size: 1.1rem;
+        }
+
+        .comments-count {
+            background: #333;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-input {
+            flex: 1;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .comment-submit {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comments-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            background: #2a2a2a;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 3px solid #25D366;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #e50914;
+            font-size: 0.9rem;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.7rem;
+        }
+
+        .comment-text {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .likes-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+
+        .like-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            background: #e50914;
+        }
+
+        .like-btn.liked {
+            background: #e50914;
+            color: white;
+        }
+
+        .likes-count {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .update-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
         @media (max-width: 768px) {
             .methods-grid {
                 grid-template-columns: 1fr;
@@ -1445,13 +1583,14 @@
             document.getElementById('seriesContainer').innerHTML = html;
         }
 
-        // FIXED: LOAD UPDATES FROM ADMIN PANEL - IMPROVED
+        // ENHANCED: LOAD UPDATES WITH COMMENTS AND LIKES FOR CUSTOMERS
         function loadUpdates() {
             const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { updates: [] };
             const updates = adminData.updates;
+            const userData = JSON.parse(localStorage.getItem('tmw_user_data')) || { name: 'User' };
             
-            console.log('Loading updates from admin data:', updates); // Debug log
-            
+            console.log('Loading updates from admin data:', updates);
+
             if (!updates || updates.length === 0) {
                 document.getElementById('updatesContainer').innerHTML = `
                     <div style="text-align: center; color: #666; padding: 40px;">
@@ -1465,6 +1604,8 @@
             let html = '';
             
             updates.forEach(update => {
+                const userLiked = update.likedBy && update.likedBy.includes(userData.name);
+                
                 html += `
                     <div class="update-item">
                         <h3 class="update-title">${update.title}</h3>
@@ -1483,11 +1624,128 @@
                                 <p>${update.content.description}</p>
                             ` : ''}
                         </div>
+                        
+                        <!-- Likes Section -->
+                        <div class="likes-section">
+                            <button class="like-btn ${userLiked ? 'liked' : ''}" onclick="likeUpdate(${update.id})">
+                                👍 ${userLiked ? 'Liked' : 'Like'}
+                            </button>
+                            <span class="likes-count">${update.likes || 0} likes</span>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="comments-section">
+                            <div class="comments-header">
+                                <div class="comments-title">Comments</div>
+                                <div class="comments-count">${update.comments ? update.comments.length : 0}</div>
+                            </div>
+                            
+                            <div class="comment-form">
+                                <input type="text" class="comment-input" id="commentInput_${update.id}" placeholder="Write a comment...">
+                                <button class="comment-submit" onclick="addComment(${update.id})">Post</button>
+                            </div>
+                            
+                            <div class="comments-list">
+                                ${update.comments && update.comments.length > 0 ? update.comments.map(comment => `
+                                    <div class="comment-item">
+                                        <div class="comment-header">
+                                            <div class="comment-author">${comment.author}</div>
+                                            <div class="comment-date">${comment.date}</div>
+                                        </div>
+                                        <div class="comment-text">${comment.text}</div>
+                                    </div>
+                                `).join('') : `
+                                    <div style="text-align: center; color: #666; padding: 20px;">
+                                        No comments yet. Be the first to comment!
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+
+                        <div class="update-stats">
+                            <span>${update.likes || 0} likes</span>
+                            <span>${update.comments ? update.comments.length : 0} comments</span>
+                        </div>
                     </div>
                 `;
             });
             
             document.getElementById('updatesContainer').innerHTML = html;
+        }
+
+        // NEW: LIKE UPDATE FUNCTION FOR CUSTOMERS
+        function likeUpdate(updateId) {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                alert('🔐 Please login first to like updates!');
+                showRegistration();
+                return;
+            }
+
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { updates: [] };
+            const update = adminData.updates.find(u => u.id === updateId);
+            const userData = JSON.parse(localStorage.getItem('tmw_user_data'));
+            
+            if (update && userData) {
+                if (!update.likes) update.likes = 0;
+                if (!update.likedBy) update.likedBy = [];
+                
+                // Check if user already liked
+                const userIndex = update.likedBy.indexOf(userData.name);
+                if (userIndex > -1) {
+                    // Unlike
+                    update.likes -= 1;
+                    update.likedBy.splice(userIndex, 1);
+                } else {
+                    // Like
+                    update.likes += 1;
+                    update.likedBy.push(userData.name);
+                }
+                
+                localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
+                loadUpdates();
+            }
+        }
+
+        // NEW: ADD COMMENT FUNCTION FOR CUSTOMERS
+        function addComment(updateId) {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                alert('🔐 Please login first to comment!');
+                showRegistration();
+                return;
+            }
+
+            const commentInput = document.getElementById(`commentInput_${updateId}`);
+            const commentText = commentInput.value.trim();
+            
+            if (!commentText) {
+                alert('Please write a comment!');
+                return;
+            }
+
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { updates: [] };
+            const update = adminData.updates.find(u => u.id === updateId);
+            const userData = JSON.parse(localStorage.getItem('tmw_user_data'));
+            
+            if (update && userData) {
+                if (!update.comments) update.comments = [];
+                
+                const comment = {
+                    id: Date.now(),
+                    author: userData.name,
+                    text: commentText,
+                    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+                };
+                
+                update.comments.push(comment);
+                localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
+                
+                commentInput.value = '';
+                loadUpdates();
+                
+                alert('✅ Comment posted successfully!');
+            }
         }
 
         // FIXED: PLAY EPISODE FUNCTION
