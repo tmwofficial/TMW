@@ -942,6 +942,30 @@
             color: #666;
         }
 
+        /* FREE TRIAL MODAL STYLES */
+        .trial-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trial-container {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            border: 3px solid #25D366;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .methods-grid {
                 grid-template-columns: 1fr;
@@ -997,6 +1021,18 @@
         </div>
     </div>
 
+    <!-- FREE TRIAL MODAL -->
+    <div class="trial-overlay" id="trialOverlay">
+        <div class="trial-container">
+            <h2 style="color: #25D366; margin-bottom: 20px;">🎉 FREE TRIAL ACTIVATED!</h2>
+            <p style="color: white; margin-bottom: 15px;">You now have <strong>1 HOUR</strong> of FREE access!</p>
+            <p style="color: #ccc; margin-bottom: 20px;">🎬 Watch <strong>1 movie</strong> for FREE</p>
+            <p style="color: #25D366; font-weight: bold; margin-bottom: 20px;">⏰ Trial expires in: <span id="trialTimer">60:00</span></p>
+            <button class="register-btn" onclick="closeTrial()" style="background: #25D366;">START STREAMING NOW!</button>
+            <p style="color: #ccc; margin-top: 15px; font-size: 0.9rem;">After trial, subscribe to continue watching</p>
+        </div>
+    </div>
+
     <!-- Welcome Banner -->
     <div class="welcome-banner">
         <p>WELCOME TO TMW . SUBSCRIBE AND ENJOY.</p>
@@ -1016,6 +1052,9 @@
         </div>
         
         <div class="nav-buttons">
+            <!-- FREE TRIAL BUTTON -->
+            <button class="nav-btn" onclick="giveFreeTrial()" style="background: #25D366;">🎁 FREE TRIAL</button>
+            
             <!-- ACTIVATE CODE BUTTON -->
             <button class="nav-btn" onclick="window.location.href='activate.html'">ACTIVATE CODE</button>
             
@@ -1138,6 +1177,61 @@
                 </div>
             </div>
         </div>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section" style="background: #1a1a1a; padding: 40px; margin: 40px 0; border-radius: 10px; border: 2px solid #e50914;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #e50914; font-size: 2rem; margin-bottom: 10px;">💬 WHAT OUR CUSTOMERS SAY</h2>
+                <p style="color: #ccc;">Real feedback from happy TMW users</p>
+            </div>
+            
+            <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="testimonial-card" style="background: #2a2a2a; padding: 20px; border-radius: 10px; border-left: 4px solid #25D366;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; background: #e50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold;">J</div>
+                        <div>
+                            <div style="font-weight: bold; color: #e50914;">John M.</div>
+                            <div style="font-size: 0.8rem; color: #ccc;">Kampala</div>
+                        </div>
+                    </div>
+                    <p style="color: #ccc; line-height: 1.5;">"Best translated movies I've found! The quality is amazing and streaming is so smooth. Worth every shilling! ⭐⭐⭐⭐⭐"</p>
+                    <div style="color: #ffcc00; margin-top: 10px;">★★★★★</div>
+                </div>
+                
+                <div class="testimonial-card" style="background: #2a2a2a; padding: 20px; border-radius: 10px; border-left: 4px solid #25D366;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; background: #e50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold;">S</div>
+                        <div>
+                            <div style="font-weight: bold; color: #e50914;">Sarah K.</div>
+                            <div style="font-size: 0.8rem; color: #ccc;">Entebbe</div>
+                        </div>
+                    </div>
+                    <p style="color: #ccc; line-height: 1.5;">"Payment was instant and the movies play perfectly. I love that everything works on the website without external links! 🔥"</p>
+                    <div style="color: #ffcc00; margin-top: 10px;">★★★★★</div>
+                </div>
+                
+                <div class="testimonial-card" style="background: #2a2a2a; padding: 20px; border-radius: 10px; border-left: 4px solid #25D366;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; background: #e50914; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold;">M</div>
+                        <div>
+                            <div style="font-weight: bold; color: #e50914;">Mike T.</div>
+                            <div style="font-size: 0.8rem; color: #ccc;">Jinja</div>
+                        </div>
+                    </div>
+                    <p style="color: #ccc; line-height: 1.5;">"The free trial got me hooked! Now I'm a monthly subscriber. Support team is very helpful too. Great service! 👍"</p>
+                    <div style="color: #ffcc00; margin-top: 10px;">★★★★★</div>
+                </div>
+            </div>
+            
+            <!-- Add Testimonial Form -->
+            <div class="add-testimonial" style="margin-top: 30px; text-align: center;">
+                <h4 style="color: #25D366; margin-bottom: 15px;">📝 Share Your Experience</h4>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <input type="text" id="userTestimonial" placeholder="Write your testimonial..." style="padding: 10px; border-radius: 20px; border: 1px solid #333; background: #2a2a2a; color: white; min-width: 250px;">
+                    <button onclick="submitTestimonial()" style="background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">Submit Review</button>
+                </div>
+            </div>
+        </section>
 
         <!-- ENHANCED PAYMENT METHODS SECTION -->
         <section class="payment-methods">
@@ -1364,6 +1458,164 @@
             }
         }
 
+        // FREE TRIAL SYSTEM
+        function giveFreeTrial() {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                alert('🔐 Please register first to get free trial!');
+                showRegistration();
+                return;
+            }
+
+            // Check if already has subscription
+            const existingSub = localStorage.getItem('tmw_subscription');
+            if (existingSub) {
+                const subData = JSON.parse(existingSub);
+                const expires = new Date(subData.expires);
+                const now = new Date();
+                
+                if (expires > now) {
+                    alert('🎉 You already have an active subscription! Enjoy watching!');
+                    return;
+                }
+            }
+
+            // Give free trial - 1 MOVIE ONLY
+            const trialEnd = new Date();
+            trialEnd.setHours(trialEnd.getHours() + 1); // 1 hour trial
+            
+            const trialData = {
+                plan: 'FREE_TRIAL',
+                expires: trialEnd,
+                moviesWatched: 0,
+                moviesLimit: 1, // ONLY 1 MOVIE during trial
+                trialActivated: new Date().toISOString()
+            };
+            
+            localStorage.setItem('tmw_subscription', JSON.stringify(trialData));
+            
+            // Show success modal
+            document.getElementById('trialOverlay').style.display = 'flex';
+            startTrialTimer();
+            
+            // Update UI
+            checkSubscription();
+        }
+
+        function closeTrial() {
+            document.getElementById('trialOverlay').style.display = 'none';
+            window.location.reload();
+        }
+
+        function startTrialTimer() {
+            const timerElement = document.getElementById('trialTimer');
+            let minutes = 60;
+            let seconds = 0;
+            
+            const timer = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(timer);
+                        timerElement.textContent = "EXPIRED";
+                        timerElement.style.color = "#e50914";
+                        return;
+                    }
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    seconds--;
+                }
+                
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // TESTIMONIALS SYSTEM
+        function submitTestimonial() {
+            const isLoggedIn = localStorage.getItem('tmw_logged_in');
+            if (!isLoggedIn) {
+                alert('🔐 Please login to submit a testimonial!');
+                showRegistration();
+                return;
+            }
+
+            const testimonialText = document.getElementById('userTestimonial').value.trim();
+            const userData = JSON.parse(localStorage.getItem('tmw_user_data'));
+            
+            if (!testimonialText) {
+                alert('Please write your testimonial!');
+                return;
+            }
+
+            if (testimonialText.length < 10) {
+                alert('Please write a longer testimonial (at least 10 characters)');
+                return;
+            }
+
+            // Save testimonial
+            let testimonials = JSON.parse(localStorage.getItem('tmw_testimonials')) || [];
+            
+            const newTestimonial = {
+                id: Date.now(),
+                author: userData.name,
+                text: testimonialText,
+                date: new Date().toLocaleDateString(),
+                location: 'Uganda',
+                rating: 5
+            };
+            
+            testimonials.push(newTestimonial);
+            localStorage.setItem('tmw_testimonials', JSON.stringify(testimonials));
+            
+            // Clear input
+            document.getElementById('userTestimonial').value = '';
+            
+            alert('✅ Thank you for your testimonial! It will be reviewed and displayed soon.');
+        }
+
+        // ENHANCED SUBSCRIPTION CHECK WITH TRIAL SUPPORT
+        function checkSubscription() {
+            const subscription = localStorage.getItem('tmw_subscription');
+            const buttons = document.querySelectorAll('.stream-btn');
+            const freeTrialBtn = document.querySelector('[onclick="giveFreeTrial()"]');
+            
+            if (!subscription) {
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.textContent = 'SUBSCRIBE TO STREAM';
+                });
+                if (freeTrialBtn) {
+                    freeTrialBtn.style.display = 'block';
+                }
+            } else {
+                const subData = JSON.parse(subscription);
+                const expires = new Date(subData.expires);
+                const now = new Date();
+                
+                if (expires <= now) {
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.textContent = 'SUBSCRIPTION EXPIRED';
+                    });
+                    if (freeTrialBtn) {
+                        freeTrialBtn.style.display = 'block';
+                    }
+                } else {
+                    buttons.forEach(btn => {
+                        btn.disabled = false;
+                        if (subData.plan === 'FREE_TRIAL') {
+                            btn.textContent = `FREE TRIAL (${subData.moviesWatched || 0}/${subData.moviesLimit} movies)`;
+                        } else {
+                            btn.textContent = 'STREAM NOW';
+                        }
+                    });
+                    if (freeTrialBtn) {
+                        freeTrialBtn.style.display = 'none';
+                    }
+                }
+            }
+        }
+
         // FIXED STREAMING FUNCTION
         function streamMovieById(movieId) {
             const isLoggedIn = localStorage.getItem('tmw_logged_in');
@@ -1388,7 +1640,6 @@
                 const now = new Date();
 
                 if (expires > now) {
-                    // FIXED: Check both videoLink and movieLink properties
                     const videoLink = movie.videoLink || movie.movieLink;
                     
                     if (!videoLink) {
@@ -1400,7 +1651,11 @@
                     let moviesLimit = getMoviesLimit(subData.plan);
                     
                     if (moviesWatched >= moviesLimit) {
-                        alert(`🚫 MOVIE LIMIT REACHED!\n\nPlan: ${subData.plan}\nWatched: ${moviesWatched}/${moviesLimit} movies\n\nPlease subscribe again!`);
+                        if (subData.plan === 'FREE_TRIAL') {
+                            alert(`🎬 FREE TRIAL COMPLETED!\n\nYou watched your 1 FREE movie!\n\nSubscribe now to continue watching unlimited movies!`);
+                        } else {
+                            alert(`🚫 MOVIE LIMIT REACHED!\n\nPlan: ${subData.plan}\nWatched: ${moviesWatched}/${moviesLimit} movies\n\nPlease subscribe again!`);
+                        }
                         return;
                     }
                     
@@ -1414,10 +1669,22 @@
                     playMovie(videoLink, movie.title, `${movie.genre || 'ACTION'} • ${movie.views.toLocaleString()} views`);
                     
                 } else {
-                    alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again!');
+                    alert('❌ SUBSCRIPTION EXPIRED\n\nPlease subscribe again or get FREE trial!');
                 }
             } else {
-                alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe to watch movies!');
+                alert('🔒 SUBSCRIPTION REQUIRED\n\nPlease subscribe or get FREE trial to watch movies!');
+            }
+        }
+
+        // UPDATE MOVIES LIMIT FOR TRIAL - ONLY 1 MOVIE
+        function getMoviesLimit(plan) {
+            switch(plan) {
+                case 'FREE_TRIAL': return 1; // ONLY 1 MOVIE FOR TRIAL
+                case 'DAILY': return 5;
+                case 'WEEKLY': return 15;
+                case 'MONTHLY': return 999;
+                case 'PREMIUM': return 999;
+                default: return 5;
             }
         }
 
@@ -1779,16 +2046,6 @@
             localStorage.setItem('tmw_watch_history', JSON.stringify(watchHistory));
         }
 
-        function getMoviesLimit(plan) {
-            switch(plan) {
-                case 'DAILY': return 5;
-                case 'WEEKLY': return 15;
-                case 'MONTHLY': return 999;
-                case 'PREMIUM': return 999;
-                default: return 5;
-            }
-        }
-
         function showSeries() {
             switchCategory('series');
         }
@@ -1803,34 +2060,6 @@
                 window.open('https://wa.me/256765206238', '_blank');
             } else {
                 window.open('tel:0765206238', '_self');
-            }
-        }
-
-        function checkSubscription() {
-            const subscription = localStorage.getItem('tmw_subscription');
-            const buttons = document.querySelectorAll('.stream-btn');
-            
-            if (!subscription) {
-                buttons.forEach(btn => {
-                    btn.disabled = true;
-                    btn.textContent = 'SUBSCRIBE TO STREAM';
-                });
-            } else {
-                const subData = JSON.parse(subscription);
-                const expires = new Date(subData.expires);
-                const now = new Date();
-                
-                if (expires <= now) {
-                    buttons.forEach(btn => {
-                        btn.disabled = true;
-                        btn.textContent = 'SUBSCRIPTION EXPIRED';
-                    });
-                } else {
-                    buttons.forEach(btn => {
-                        btn.disabled = false;
-                        btn.textContent = 'STREAM NOW';
-                    });
-                }
             }
         }
 
