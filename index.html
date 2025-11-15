@@ -968,19 +968,19 @@
 
         @media (max-width: 768px) {
             .methods-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .trust-badges {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .instructions-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .movies-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .series-container {
@@ -1318,10 +1318,7 @@
     <div class="video-player-overlay" id="videoPlayerOverlay">
         <div class="video-player-container">
             <button class="close-player" onclick="closeVideoPlayer()">×</button>
-            <iframe id="moviePlayer" class="video-player" 
-                    frameborder="0" 
-                    allowfullscreen
-                    allow="autoplay; encrypted-media">
+            <iframe id="moviePlayer" class="video-player" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen>
             </iframe>
             <div style="text-align: center; margin-top: 15px;">
                 <h3 id="playingTitle" style="color: #e50914;"></h3>
