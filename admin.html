@@ -603,6 +603,160 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* COMMENTS AND LIKES STYLES */
+        .comments-section {
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .comments-title {
+            color: #e50914;
+            font-size: 1.1rem;
+        }
+
+        .comments-count {
+            background: #333;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-input {
+            flex: 1;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .comment-submit {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comments-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            background: #2a2a2a;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 3px solid #25D366;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #e50914;
+            font-size: 0.9rem;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.7rem;
+        }
+
+        .comment-text {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .likes-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+
+        .like-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            background: #e50914;
+        }
+
+        .like-btn.liked {
+            background: #e50914;
+            color: white;
+        }
+
+        .likes-count {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .update-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .admin-comment-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .delete-comment-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
     </style>
 </head>
 <body>
@@ -1371,6 +1525,7 @@
             }
         }
 
+        // ENHANCED UPDATE FUNCTIONS WITH COMMENTS AND LIKES
         function addUpdate() {
             const title = document.getElementById('updateTitle').value;
 
@@ -1413,7 +1568,10 @@
                 type: currentUpdateType,
                 title: title,
                 content: content,
-                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                likes: 0,
+                likedBy: [],
+                comments: []
             };
 
             if (!adminData.updates) adminData.updates = [];
@@ -1463,9 +1621,106 @@
                         <div style="color: white; line-height: 1.5; margin-top: 10px;">${update.content.description}</div>
                     ` : ''}
                     
+                    <!-- Likes Section -->
+                    <div class="likes-section">
+                        <button class="like-btn" onclick="likeUpdate(${update.id})">
+                            👍 Like
+                        </button>
+                        <span class="likes-count">${update.likes || 0} likes</span>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <div class="comments-header">
+                            <div class="comments-title">Comments</div>
+                            <div class="comments-count">${update.comments ? update.comments.length : 0}</div>
+                        </div>
+                        
+                        <div class="comment-form">
+                            <input type="text" class="comment-input" id="commentInput_${update.id}" placeholder="Write a comment...">
+                            <button class="comment-submit" onclick="addComment(${update.id})">Post</button>
+                        </div>
+                        
+                        <div class="comments-list">
+                            ${update.comments && update.comments.length > 0 ? update.comments.map(comment => `
+                                <div class="comment-item">
+                                    <div class="comment-header">
+                                        <div class="comment-author">${comment.author}</div>
+                                        <div class="comment-date">${comment.date}</div>
+                                    </div>
+                                    <div class="comment-text">${comment.text}</div>
+                                    <div class="admin-comment-actions">
+                                        <button class="delete-comment-btn" onclick="deleteComment(${update.id}, ${comment.id})">Delete</button>
+                                    </div>
+                                </div>
+                            `).join('') : `
+                                <div style="text-align: center; color: #666; padding: 20px;">
+                                    No comments yet. Be the first to comment!
+                                </div>
+                            `}
+                        </div>
+                    </div>
+
+                    <div class="update-stats">
+                        <span>${update.likes || 0} likes</span>
+                        <span>${update.comments ? update.comments.length : 0} comments</span>
+                    </div>
+                    
                     <button class="delete-btn" onclick="deleteUpdate(${update.id})" style="margin-top: 10px;">Delete Update</button>
                 </div>
             `).join('');
+        }
+
+        function likeUpdate(updateId) {
+            const update = adminData.updates.find(u => u.id === updateId);
+            if (update) {
+                if (!update.likes) update.likes = 0;
+                if (!update.likedBy) update.likedBy = [];
+                
+                // Simple like system - just increment
+                update.likes += 1;
+                saveAdminData();
+                loadUpdates();
+            }
+        }
+
+        function addComment(updateId) {
+            const commentInput = document.getElementById(`commentInput_${updateId}`);
+            const commentText = commentInput.value.trim();
+            
+            if (!commentText) {
+                alert('Please write a comment!');
+                return;
+            }
+
+            const update = adminData.updates.find(u => u.id === updateId);
+            if (update) {
+                if (!update.comments) update.comments = [];
+                
+                const comment = {
+                    id: Date.now(),
+                    author: 'Admin', // In main site, this would be user's name
+                    text: commentText,
+                    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+                };
+                
+                update.comments.push(comment);
+                saveAdminData();
+                
+                commentInput.value = '';
+                loadUpdates();
+            }
+        }
+
+        function deleteComment(updateId, commentId) {
+            if (confirm('Are you sure you want to delete this comment?')) {
+                const update = adminData.updates.find(u => u.id === updateId);
+                if (update && update.comments) {
+                    update.comments = update.comments.filter(c => c.id !== commentId);
+                    saveAdminData();
+                    loadUpdates();
+                }
+            }
         }
 
         function deleteUpdate(updateId) {
