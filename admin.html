@@ -1,3 +1,5 @@
+[file name]: admin.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1250,14 +1252,14 @@
 
     <script>
         // ==================== FIREBASE INITIALIZATION ====================
-        // REPLACE WITH YOUR FIREBASE CONFIG
+        // YOUR FIREBASE CONFIG - ADDED SUCCESSFULLY!
         const firebaseConfig = {
-            apiKey: "your-api-key-here",
-            authDomain: "tmw-412b8.firebaseapp.com",
-            projectId: "tmw-412b8",
-            storageBucket: "tmw-412b8.appspot.com",
-            messagingSenderId: "your-sender-id",
-            appId: "your-app-id"
+            apiKey: "AIzaSyBXXQXDQsF9QYbsaLBNLc4cxH-6LEzjNs",
+            authDomain: "translated-movie-world.firebaseapp.com",
+            projectId: "translated-movie-world",
+            storageBucket: "translated-movie-world.firebasestorage.app",
+            messagingSenderId: "20980905671",
+            appId: "1:20980905671:web:6ae7e68335f847f37df0e2"
         };
 
         // Initialize Firebase
@@ -1281,6 +1283,7 @@
         let recordingTimer = null;
         let recordingSeconds = 0;
         let audioBlob = null;
+        let visualizerInterval = null;
 
         // ==================== UPLOAD SYSTEM FUNCTIONS ====================
 
@@ -1516,7 +1519,10 @@
 
         function playRecording() {
             const audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.play();
+            audioPlayer.play().catch(error => {
+                console.error('Error playing audio:', error);
+                alert('❌ Error playing recording. Please try again.');
+            });
         }
 
         function updateRecordingTimer() {
@@ -1531,6 +1537,7 @@
             const visualizer = document.getElementById('visualizer');
             visualizer.innerHTML = '';
             
+            // Create visualizer bars
             for (let i = 0; i < 20; i++) {
                 const bar = document.createElement('div');
                 bar.className = 'visualizer-bar';
@@ -1538,20 +1545,23 @@
                 visualizer.appendChild(bar);
             }
             
-            // Animate bars
+            // Animate bars with setInterval instead of requestAnimationFrame
             const bars = visualizer.getElementsByClassName('visualizer-bar');
-            const animate = () => {
+            visualizerInterval = setInterval(() => {
                 if (mediaRecorder && mediaRecorder.state === 'recording') {
                     for (let bar of bars) {
                         bar.style.height = Math.random() * 20 + 5 + 'px';
                     }
-                    requestAnimationFrame(animate);
                 }
-            };
-            animate();
+            }, 100);
         }
 
         function stopVisualizer() {
+            if (visualizerInterval) {
+                clearInterval(visualizerInterval);
+                visualizerInterval = null;
+            }
+            
             const bars = document.getElementsByClassName('visualizer-bar');
             for (let bar of bars) {
                 bar.style.height = '5px';
@@ -1597,6 +1607,8 @@
                 document.getElementById('playBtn').disabled = true;
                 document.getElementById('saveVoiceBtn').disabled = true;
                 audioBlob = null;
+                recordingSeconds = 0;
+                document.getElementById('recordingTimer').textContent = '00:00';
                 
                 alert('✅ Voice update posted successfully!');
                 loadUpdates();
@@ -1752,7 +1764,7 @@
             }
         }
 
-        // ==================== EXISTING ADMIN FUNCTIONS (KEPT THE SAME) ====================
+        // ==================== EXISTING ADMIN FUNCTIONS ====================
 
         function login() {
             const username = document.getElementById('username').value;
@@ -1839,7 +1851,7 @@
                 });
             }
 
-            // Save to localStorage (you can modify to save to Firebase later)
+            // Save to localStorage
             let adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { codes: [] };
             if (!adminData.codes) adminData.codes = [];
             adminData.codes.push(...newCodes);
@@ -1864,7 +1876,7 @@
             }
         }
 
-        // FIXED: UPDATE MOVIES LIST FROM FIREBASE
+        // UPDATE MOVIES LIST FROM FIREBASE
         async function updateMoviesList() {
             const container = document.getElementById('moviesList');
             
@@ -1917,7 +1929,7 @@
             `).join('');
         }
 
-        // FIXED: DELETE MOVIE FUNCTION
+        // DELETE MOVIE FUNCTION
         async function deleteMovie(movieId) {
             if (confirm('Are you sure you want to delete this movie?')) {
                 try {
@@ -1929,14 +1941,14 @@
             }
         }
 
-        // SERIES FUNCTIONS (KEPT THE SAME)
+        // SERIES FUNCTIONS
         function addEpisode() {
             const title = document.getElementById('episodeTitle').value;
             const link = document.getElementById('episodeLink').value;
 
             if (title && link) {
                 currentEpisodes.push({
-                    id: Date.now(),
+                    id: Date.now().toString(), // FIXED: Ensure string ID
                     title: title,
                     link: link,
                     addedDate: new Date().toLocaleDateString()
@@ -1975,7 +1987,7 @@
             updateEpisodeList();
         }
 
-        // FIXED: SAVE SERIES FUNCTION
+        // SAVE SERIES FUNCTION
         async function saveSeries() {
             const title = document.getElementById('seriesTitle').value;
 
@@ -2007,7 +2019,7 @@
             }
         }
 
-        // FIXED: LOAD SERIES FROM FIREBASE
+        // LOAD SERIES FROM FIREBASE
         async function loadSeries() {
             const container = document.getElementById('seriesList');
 
@@ -2062,7 +2074,7 @@
             }
         }
 
-        // FIXED: ADD EPISODE TO EXISTING SERIES
+        // ADD EPISODE TO EXISTING SERIES
         async function addEpisodeToSeries(seriesId) {
             const title = document.getElementById(`newEpisodeTitle_${seriesId}`).value;
             const link = document.getElementById(`newEpisodeLink_${seriesId}`).value;
@@ -2079,7 +2091,7 @@
                     const episodes = series.episodes || [];
                     
                     episodes.push({
-                        id: Date.now().toString(),
+                        id: Date.now().toString(), // FIXED: Ensure string ID
                         title: title,
                         link: link,
                         addedDate: new Date().toLocaleDateString()
@@ -2101,7 +2113,7 @@
             }
         }
 
-        // FIXED: DELETE EPISODE
+        // DELETE EPISODE
         async function deleteEpisode(seriesId, episodeId) {
             if (confirm('Are you sure you want to delete this episode?')) {
                 try {
@@ -2123,7 +2135,7 @@
             }
         }
 
-        // FIXED: DELETE SERIES
+        // DELETE SERIES
         async function deleteSeries(seriesId) {
             if (confirm('Are you sure you want to delete this series?')) {
                 try {
@@ -2150,7 +2162,7 @@
             document.getElementById('videoPlayer').style.display = 'flex';
         }
 
-        // FIXED: ADD UPDATE FUNCTION (TEXT/IMAGE/VIDEO)
+        // ADD UPDATE FUNCTION (TEXT/IMAGE/VIDEO)
         async function addUpdate() {
             const title = document.getElementById('updateTitle').value;
 
@@ -2221,7 +2233,7 @@
             }
         }
 
-        // FIXED: LOAD UPDATES FROM FIREBASE
+        // LOAD UPDATES FROM FIREBASE
         async function loadUpdates() {
             const container = document.getElementById('updatesList');
 
@@ -2322,7 +2334,7 @@
             }
         }
 
-        // FIXED: DELETE UPDATE
+        // DELETE UPDATE
         async function deleteUpdate(updateId) {
             if (confirm('Are you sure you want to delete this update?')) {
                 try {
@@ -2334,7 +2346,7 @@
             }
         }
 
-        // FIXED: ADD COMMENT (ADMIN)
+        // ADD COMMENT (ADMIN)
         async function addComment(updateId) {
             const commentInput = document.getElementById(`commentInput_${updateId}`);
             const commentText = commentInput.value.trim();
@@ -2373,7 +2385,7 @@
             }
         }
 
-        // FIXED: DELETE COMMENT
+        // DELETE COMMENT
         async function deleteComment(updateId, commentId) {
             if (confirm('Are you sure you want to delete this comment?')) {
                 try {
@@ -2396,7 +2408,7 @@
             }
         }
 
-        // FIXED: LIKE UPDATE (ADMIN)
+        // LIKE UPDATE (ADMIN)
         async function likeUpdate(updateId) {
             try {
                 const updateRef = db.collection('updates').doc(updateId);
@@ -2542,3 +2554,4 @@
     </script>
 </body>
 </html>
+[file content end]
