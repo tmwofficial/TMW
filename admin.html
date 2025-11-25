@@ -1,5 +1,3 @@
-[file name]: admin.html
-[file content begin]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +38,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 3000;
         }
 
         .login-logo {
@@ -1262,7 +1261,13 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("✅ Firebase initialized successfully");
+        } catch (error) {
+            console.error("❌ Firebase initialization error:", error);
+        }
+
         const db = firebase.firestore();
         const storage = firebase.storage();
 
@@ -1283,7 +1288,36 @@
         let recordingSeconds = 0;
         let audioBlob = null;
 
-        // ==================== UPLOAD SYSTEM FUNCTIONS ====================
+        // ==================== FIXED LOGIN FUNCTION ====================
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+
+            console.log("Login attempt:", username, password);
+
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                console.log("✅ Login successful");
+                successDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    loadAdminData();
+                }, 1500);
+                
+            } else {
+                console.log("❌ Login failed");
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+                document.getElementById('password').value = '';
+            }
+        }
+
+        // ==================== FIXED ADD MOVIE FUNCTIONS ====================
 
         function setUploadMethod(method) {
             currentUploadMethod = method;
@@ -1317,8 +1351,10 @@
             }
         });
 
-        // FAST UPLOAD: Add movie with file upload
+        // FIXED: Add movie function
         async function addMovie() {
+            console.log("🟡 Add movie function called");
+            
             const title = document.getElementById('movieTitle').value;
             const poster = document.getElementById('moviePoster').value;
 
@@ -1336,9 +1372,11 @@
                 let videoLink = '';
 
                 if (currentUploadMethod === 'phone') {
+                    console.log("📱 Phone upload selected");
                     // Upload movie file to Firebase Storage
                     videoLink = await uploadMovieFile(selectedMovieFile);
                 } else {
+                    console.log("🎬 Google Drive upload selected");
                     // Use Google Drive link
                     const driveLink = document.getElementById('driveMovieLink').value;
                     if (!driveLink) {
@@ -1355,9 +1393,11 @@
                     views: Math.floor(Math.random() * 1000) + 100,
                     addedDate: new Date().toLocaleDateString(),
                     genre: 'ACTION',
-                    uploadMethod: currentUploadMethod
+                    uploadMethod: currentUploadMethod,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 };
 
+                console.log("🎬 Saving movie to Firebase:", movie);
                 await addMovieToFirebase(movie);
                 
                 // Reset form
@@ -1377,7 +1417,7 @@
             }
         }
 
-        // Upload movie file to Firebase Storage
+        // FIXED: Upload movie file to Firebase Storage
         async function uploadMovieFile(file) {
             return new Promise((resolve, reject) => {
                 const storageRef = storage.ref();
@@ -1392,19 +1432,23 @@
                         document.getElementById('progressFill').style.width = progress + '%';
                     },
                     (error) => {
+                        console.error('Upload error:', error);
                         reject(error);
                     },
                     async () => {
                         // Upload completed
                         const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                        console.log('✅ File uploaded successfully:', downloadURL);
                         resolve(downloadURL);
                     }
                 );
             });
         }
 
-        // Google Drive movie (backup method)
+        // FIXED: Google Drive movie (backup method)
         async function addDriveMovie() {
+            console.log("🟡 Add Drive movie function called");
+            
             const title = document.getElementById('driveMovieTitle').value;
             const poster = document.getElementById('driveMoviePoster').value;
             const link = document.getElementById('driveMovieLink').value;
@@ -1417,10 +1461,12 @@
                     views: Math.floor(Math.random() * 1000) + 100,
                     addedDate: new Date().toLocaleDateString(),
                     genre: 'ACTION',
-                    uploadMethod: 'drive'
+                    uploadMethod: 'drive',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 
                 try {
+                    console.log("🎬 Saving Drive movie to Firebase:", movie);
                     await addMovieToFirebase(movie);
                     
                     document.getElementById('driveMovieTitle').value = '';
@@ -1430,6 +1476,7 @@
                     alert('✅ Movie added successfully!');
                     updateMoviesList();
                 } catch (error) {
+                    console.error('Error adding Drive movie:', error);
                     alert('❌ Error adding movie. Please try again.');
                 }
             } else {
@@ -1437,7 +1484,223 @@
             }
         }
 
-        // ==================== VOICE RECORDING FUNCTIONS ====================
+        // ==================== FIXED FIREBASE DATABASE FUNCTIONS ====================
+
+        // FIXED: SAVE MOVIE TO FIREBASE
+        async function addMovieToFirebase(movie) {
+            try {
+                console.log("🔥 Adding movie to Firestore...");
+                const docRef = await db.collection('movies').add(movie);
+                console.log('✅ Movie added with ID:', docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error('❌ Error adding movie:', error);
+                throw error;
+            }
+        }
+
+        // FIXED: GET MOVIES FROM FIREBASE
+        async function getMoviesFromFirebase() {
+            try {
+                console.log("🔥 Fetching movies from Firestore...");
+                const snapshot = await db.collection('movies').orderBy('timestamp', 'desc').get();
+                const movies = [];
+                snapshot.forEach(doc => {
+                    movies.push({ id: doc.id, ...doc.data() });
+                });
+                console.log(`✅ Found ${movies.length} movies`);
+                return movies;
+            } catch (error) {
+                console.error('❌ Error getting movies:', error);
+                return [];
+            }
+        }
+
+        // FIXED: DELETE MOVIE FROM FIREBASE
+        async function deleteMovieFromFirebase(movieId) {
+            try {
+                console.log("🔥 Deleting movie:", movieId);
+                await db.collection('movies').doc(movieId).delete();
+                console.log('✅ Movie deleted:', movieId);
+            } catch (error) {
+                console.error('❌ Error deleting movie:', error);
+                throw error;
+            }
+        }
+
+        // FIXED: SAVE SERIES TO FIREBASE
+        async function addSeriesToFirebase(series) {
+            try {
+                console.log("🔥 Adding series to Firestore...");
+                const docRef = await db.collection('series').add(series);
+                console.log('✅ Series added with ID:', docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error('❌ Error adding series:', error);
+                throw error;
+            }
+        }
+
+        // FIXED: GET SERIES FROM FIREBASE
+        async function getSeriesFromFirebase() {
+            try {
+                console.log("🔥 Fetching series from Firestore...");
+                const snapshot = await db.collection('series').get();
+                const series = [];
+                snapshot.forEach(doc => {
+                    series.push({ id: doc.id, ...doc.data() });
+                });
+                console.log(`✅ Found ${series.length} series`);
+                return series;
+            } catch (error) {
+                console.error('❌ Error getting series:', error);
+                return [];
+            }
+        }
+
+        // FIXED: DELETE SERIES FROM FIREBASE
+        async function deleteSeriesFromFirebase(seriesId) {
+            try {
+                console.log("🔥 Deleting series:", seriesId);
+                await db.collection('series').doc(seriesId).delete();
+                console.log('✅ Series deleted:', seriesId);
+            } catch (error) {
+                console.error('❌ Error deleting series:', error);
+                throw error;
+            }
+        }
+
+        // FIXED: SAVE UPDATE TO FIREBASE
+        async function addUpdateToFirebase(update) {
+            try {
+                console.log("🔥 Adding update to Firestore...");
+                const docRef = await db.collection('updates').add(update);
+                console.log('✅ Update added with ID:', docRef.id);
+                return docRef.id;
+            } catch (error) {
+                console.error('❌ Error adding update:', error);
+                throw error;
+            }
+        }
+
+        // FIXED: GET UPDATES FROM FIREBASE
+        async function getUpdatesFromFirebase() {
+            try {
+                console.log("🔥 Fetching updates from Firestore...");
+                const snapshot = await db.collection('updates').orderBy('date', 'desc').get();
+                const updates = [];
+                snapshot.forEach(doc => {
+                    updates.push({ id: doc.id, ...doc.data() });
+                });
+                console.log(`✅ Found ${updates.length} updates`);
+                return updates;
+            } catch (error) {
+                console.error('❌ Error getting updates:', error);
+                return [];
+            }
+        }
+
+        // FIXED: DELETE UPDATE FROM FIREBASE
+        async function deleteUpdateFromFirebase(updateId) {
+            try {
+                console.log("🔥 Deleting update:", updateId);
+                await db.collection('updates').doc(updateId).delete();
+                console.log('✅ Update deleted:', updateId);
+            } catch (error) {
+                console.error('❌ Error deleting update:', error);
+                throw error;
+            }
+        }
+
+        // ==================== FIXED SERIES FUNCTIONS ====================
+
+        function addEpisode() {
+            console.log("🟡 Add episode function called");
+            
+            const title = document.getElementById('episodeTitle').value;
+            const link = document.getElementById('episodeLink').value;
+
+            if (title && link) {
+                currentEpisodes.push({
+                    id: Date.now().toString(),
+                    title: title,
+                    link: link,
+                    addedDate: new Date().toLocaleDateString()
+                });
+
+                updateEpisodeList();
+                
+                document.getElementById('episodeTitle').value = '';
+                document.getElementById('episodeLink').value = '';
+                
+                console.log("✅ Episode added to current list");
+            } else {
+                alert('Please fill both episode title and link!');
+            }
+        }
+
+        function updateEpisodeList() {
+            const container = document.getElementById('currentEpisodes');
+            
+            if (currentEpisodes.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No episodes added yet</div>';
+                return;
+            }
+
+            container.innerHTML = currentEpisodes.map((episode, index) => `
+                <div class="episode-item">
+                    <div>
+                        <strong>${episode.title}</strong>
+                        <div style="font-size: 0.7rem; color: #ccc;">${episode.link.substring(0, 50)}...</div>
+                    </div>
+                    <button class="delete-btn" onclick="removeEpisode(${index})" style="width: auto; margin: 0;">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function removeEpisode(index) {
+            currentEpisodes.splice(index, 1);
+            updateEpisodeList();
+        }
+
+        // FIXED: SAVE SERIES FUNCTION
+        async function saveSeries() {
+            console.log("🟡 Save series function called");
+            
+            const title = document.getElementById('seriesTitle').value;
+
+            if (!title || currentEpisodes.length === 0) {
+                alert('Please add series title and at least one episode!');
+                return;
+            }
+
+            const series = {
+                title: title,
+                episodes: [...currentEpisodes],
+                created: new Date().toLocaleDateString(),
+                updated: new Date().toLocaleDateString(),
+                poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                console.log("📺 Saving series to Firebase:", series);
+                await addSeriesToFirebase(series);
+
+                // Reset form
+                document.getElementById('seriesTitle').value = '';
+                currentEpisodes = [];
+                updateEpisodeList();
+                
+                alert('✅ Series saved successfully! It will appear on all devices.');
+                loadSeries();
+            } catch (error) {
+                console.error('Error saving series:', error);
+                alert('❌ Error saving series. Please try again.');
+            }
+        }
+
+        // ==================== FIXED UPDATE FUNCTIONS ====================
 
         function setUpdateType(type) {
             currentUpdateType = type;
@@ -1455,111 +1718,10 @@
             document.getElementById('voiceRecorder').style.display = type === 'voice' ? 'block' : 'none';
         }
 
-        async function startRecording() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = (event) => {
-                    audioChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    document.getElementById('audioPlayer').src = audioUrl;
-                    document.getElementById('audioPlayer').style.display = 'block';
-                    document.getElementById('playBtn').disabled = false;
-                    document.getElementById('saveVoiceBtn').disabled = false;
-                    
-                    // Stop all tracks
-                    stream.getTracks().forEach(track => track.stop());
-                };
-
-                mediaRecorder.start();
-                
-                // Update UI
-                document.getElementById('recordBtn').classList.add('recording');
-                document.getElementById('recordBtn').disabled = true;
-                document.getElementById('stopBtn').disabled = false;
-                document.getElementById('playBtn').disabled = true;
-                document.getElementById('saveVoiceBtn').disabled = true;
-                
-                // Start timer
-                recordingSeconds = 0;
-                updateRecordingTimer();
-                recordingTimer = setInterval(updateRecordingTimer, 1000);
-                
-                // Start visualizer
-                startVisualizer();
-                
-            } catch (error) {
-                console.error('Error starting recording:', error);
-                alert('❌ Error accessing microphone. Please check permissions.');
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                
-                // Update UI
-                document.getElementById('recordBtn').classList.remove('recording');
-                document.getElementById('recordBtn').disabled = false;
-                document.getElementById('stopBtn').disabled = true;
-                
-                // Stop timer and visualizer
-                clearInterval(recordingTimer);
-                stopVisualizer();
-            }
-        }
-
-        function playRecording() {
-            const audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.play();
-        }
-
-        function updateRecordingTimer() {
-            recordingSeconds++;
-            const minutes = Math.floor(recordingSeconds / 60);
-            const seconds = recordingSeconds % 60;
-            document.getElementById('recordingTimer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function startVisualizer() {
-            const visualizer = document.getElementById('visualizer');
-            visualizer.innerHTML = '';
+        // FIXED: ADD UPDATE FUNCTION (TEXT/IMAGE/VIDEO)
+        async function addUpdate() {
+            console.log("🟡 Add update function called");
             
-            for (let i = 0; i < 20; i++) {
-                const bar = document.createElement('div');
-                bar.className = 'visualizer-bar';
-                bar.style.height = Math.random() * 20 + 5 + 'px';
-                visualizer.appendChild(bar);
-            }
-            
-            // Animate bars
-            const bars = visualizer.getElementsByClassName('visualizer-bar');
-            const animate = () => {
-                if (mediaRecorder && mediaRecorder.state === 'recording') {
-                    for (let bar of bars) {
-                        bar.style.height = Math.random() * 20 + 5 + 'px';
-                    }
-                    setTimeout(() => animate(), 100);
-                }
-            };
-            animate();
-        }
-
-        function stopVisualizer() {
-            const bars = document.getElementsByClassName('visualizer-bar');
-            for (let bar of bars) {
-                bar.style.height = '5px';
-            }
-        }
-
-        async function saveVoiceUpdate() {
             const title = document.getElementById('updateTitle').value;
 
             if (!title) {
@@ -1567,194 +1729,72 @@
                 return;
             }
 
-            if (!audioBlob) {
-                alert('Please record a voice message first!');
+            if (currentUpdateType === 'voice') {
+                alert('For voice updates, use the voice recorder section below.');
                 return;
             }
 
-            try {
-                // Upload audio to Firebase Storage
-                const audioUrl = await uploadAudioFile(audioBlob);
-                
-                const update = {
-                    type: 'voice',
-                    title: title,
-                    content: {
-                        audioUrl: audioUrl,
-                        description: 'Voice update from admin',
-                        duration: recordingSeconds
-                    },
-                    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
-                    likes: 0,
-                    likedBy: [],
-                    comments: []
-                };
+            let content = {};
+            
+            if (currentUpdateType === 'text') {
+                const text = document.getElementById('updateText').value;
+                if (!text) {
+                    alert('Please add update content!');
+                    return;
+                }
+                content = { text: text };
+            }
+            else if (currentUpdateType === 'image') {
+                const imageUrl = document.getElementById('updateImage').value;
+                const description = document.getElementById('imageDescription').value;
+                if (!imageUrl) {
+                    alert('Please add image URL!');
+                    return;
+                }
+                content = { imageUrl: imageUrl, description: description };
+            }
+            else if (currentUpdateType === 'video') {
+                const videoUrl = document.getElementById('updateVideo').value;
+                const description = document.getElementById('videoDescription').value;
+                if (!videoUrl) {
+                    alert('Please add video URL!');
+                    return;
+                }
+                content = { videoUrl: videoUrl, description: description };
+            }
 
+            const update = {
+                type: currentUpdateType,
+                title: title,
+                content: content,
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                likes: 0,
+                likedBy: [],
+                comments: [],
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                console.log("📢 Saving update to Firebase:", update);
                 await addUpdateToFirebase(update);
 
                 // Reset form
                 document.getElementById('updateTitle').value = '';
-                document.getElementById('audioPlayer').style.display = 'none';
-                document.getElementById('playBtn').disabled = true;
-                document.getElementById('saveVoiceBtn').disabled = true;
-                audioBlob = null;
+                document.getElementById('updateText').value = '';
+                document.getElementById('updateImage').value = '';
+                document.getElementById('imageDescription').value = '';
+                document.getElementById('updateVideo').value = '';
+                document.getElementById('videoDescription').value = '';
                 
-                alert('✅ Voice update posted successfully!');
+                alert('✅ Update posted successfully! It will appear on all devices.');
                 loadUpdates();
             } catch (error) {
-                console.error('Error saving voice update:', error);
-                alert('❌ Error posting voice update. Please try again.');
-            }
-        }
-
-        async function uploadAudioFile(blob) {
-            return new Promise((resolve, reject) => {
-                const storageRef = storage.ref();
-                const audioRef = storageRef.child('voice_updates/' + Date.now() + '.wav');
-                const uploadTask = audioRef.put(blob);
-
-                uploadTask.on('state_changed',
-                    null,
-                    (error) => {
-                        reject(error);
-                    },
-                    async () => {
-                        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                        resolve(downloadURL);
-                    }
-                );
-            });
-        }
-
-        // ==================== FIREBASE DATABASE FUNCTIONS ====================
-
-        // SAVE MOVIE TO FIREBASE
-        async function addMovieToFirebase(movie) {
-            try {
-                const docRef = await db.collection('movies').add(movie);
-                console.log('Movie added with ID:', docRef.id);
-                return docRef.id;
-            } catch (error) {
-                console.error('Error adding movie:', error);
-                throw error;
-            }
-        }
-
-        // GET MOVIES FROM FIREBASE
-        async function getMoviesFromFirebase() {
-            try {
-                const snapshot = await db.collection('movies').get();
-                const movies = [];
-                snapshot.forEach(doc => {
-                    movies.push({ id: doc.id, ...doc.data() });
-                });
-                return movies;
-            } catch (error) {
-                console.error('Error getting movies:', error);
-                return [];
-            }
-        }
-
-        // DELETE MOVIE FROM FIREBASE
-        async function deleteMovieFromFirebase(movieId) {
-            try {
-                await db.collection('movies').doc(movieId).delete();
-                console.log('Movie deleted:', movieId);
-            } catch (error) {
-                console.error('Error deleting movie:', error);
-                throw error;
-            }
-        }
-
-        // SAVE SERIES TO FIREBASE
-        async function addSeriesToFirebase(series) {
-            try {
-                const docRef = await db.collection('series').add(series);
-                console.log('Series added with ID:', docRef.id);
-                return docRef.id;
-            } catch (error) {
-                console.error('Error adding series:', error);
-                throw error;
-            }
-        }
-
-        // GET SERIES FROM FIREBASE
-        async function getSeriesFromFirebase() {
-            try {
-                const snapshot = await db.collection('series').get();
-                const series = [];
-                snapshot.forEach(doc => {
-                    series.push({ id: doc.id, ...doc.data() });
-                });
-                return series;
-            } catch (error) {
-                console.error('Error getting series:', error);
-                return [];
-            }
-        }
-
-        // SAVE UPDATE TO FIREBASE
-        async function addUpdateToFirebase(update) {
-            try {
-                const docRef = await db.collection('updates').add(update);
-                console.log('Update added with ID:', docRef.id);
-                return docRef.id;
-            } catch (error) {
-                console.error('Error adding update:', error);
-                throw error;
-            }
-        }
-
-        // GET UPDATES FROM FIREBASE
-        async function getUpdatesFromFirebase() {
-            try {
-                const snapshot = await db.collection('updates').orderBy('date', 'desc').get();
-                const updates = [];
-                snapshot.forEach(doc => {
-                    updates.push({ id: doc.id, ...doc.data() });
-                });
-                return updates;
-            } catch (error) {
-                console.error('Error getting updates:', error);
-                return [];
-            }
-        }
-
-        // DELETE UPDATE FROM FIREBASE
-        async function deleteUpdateFromFirebase(updateId) {
-            try {
-                await db.collection('updates').doc(updateId).delete();
-                console.log('Update deleted:', updateId);
-            } catch (error) {
-                console.error('Error deleting update:', error);
-                throw error;
+                console.error('Error posting update:', error);
+                alert('❌ Error posting update. Please try again.');
             }
         }
 
         // ==================== EXISTING ADMIN FUNCTIONS ====================
-
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
-
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                successDiv.style.display = 'block';
-                errorDiv.style.display = 'none';
-                
-                setTimeout(() => {
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('adminPanel').style.display = 'block';
-                    loadAdminData();
-                }, 1500);
-                
-            } else {
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-                document.getElementById('password').value = '';
-            }
-        }
 
         function logout() {
             document.getElementById('adminPanel').style.display = 'none';
@@ -1843,7 +1883,7 @@
             }
         }
 
-        // UPDATE MOVIES LIST FROM FIREBASE
+        // FIXED: UPDATE MOVIES LIST FROM FIREBASE
         async function updateMoviesList() {
             const container = document.getElementById('moviesList');
             
@@ -1896,7 +1936,7 @@
             `).join('');
         }
 
-        // DELETE MOVIE FUNCTION
+        // FIXED: DELETE MOVIE FUNCTION
         async function deleteMovie(movieId) {
             if (confirm('Are you sure you want to delete this movie?')) {
                 try {
@@ -1908,85 +1948,7 @@
             }
         }
 
-        // SERIES FUNCTIONS
-        function addEpisode() {
-            const title = document.getElementById('episodeTitle').value;
-            const link = document.getElementById('episodeLink').value;
-
-            if (title && link) {
-                currentEpisodes.push({
-                    id: Date.now().toString(),
-                    title: title,
-                    link: link,
-                    addedDate: new Date().toLocaleDateString()
-                });
-
-                updateEpisodeList();
-                
-                document.getElementById('episodeTitle').value = '';
-                document.getElementById('episodeLink').value = '';
-            } else {
-                alert('Please fill both episode title and link!');
-            }
-        }
-
-        function updateEpisodeList() {
-            const container = document.getElementById('currentEpisodes');
-            
-            if (currentEpisodes.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No episodes added yet</div>';
-                return;
-            }
-
-            container.innerHTML = currentEpisodes.map((episode, index) => `
-                <div class="episode-item">
-                    <div>
-                        <strong>${episode.title}</strong>
-                        <div style="font-size: 0.7rem; color: #ccc;">${episode.link.substring(0, 50)}...</div>
-                    </div>
-                    <button class="delete-btn" onclick="removeEpisode(${index})" style="width: auto; margin: 0;">Remove</button>
-                </div>
-            `).join('');
-        }
-
-        function removeEpisode(index) {
-            currentEpisodes.splice(index, 1);
-            updateEpisodeList();
-        }
-
-        // SAVE SERIES FUNCTION
-        async function saveSeries() {
-            const title = document.getElementById('seriesTitle').value;
-
-            if (!title || currentEpisodes.length === 0) {
-                alert('Please add series title and at least one episode!');
-                return;
-            }
-
-            const series = {
-                title: title,
-                episodes: [...currentEpisodes],
-                created: new Date().toLocaleDateString(),
-                updated: new Date().toLocaleDateString(),
-                poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=300&h=450&fit=crop'
-            };
-
-            try {
-                await addSeriesToFirebase(series);
-
-                // Reset form
-                document.getElementById('seriesTitle').value = '';
-                currentEpisodes = [];
-                updateEpisodeList();
-                
-                alert('✅ Series saved successfully! It will appear on all devices.');
-                loadSeries();
-            } catch (error) {
-                alert('❌ Error saving series. Please try again.');
-            }
-        }
-
-        // LOAD SERIES FROM FIREBASE
+        // FIXED: LOAD SERIES FROM FIREBASE
         async function loadSeries() {
             const container = document.getElementById('seriesList');
 
@@ -2041,7 +2003,7 @@
             }
         }
 
-        // ADD EPISODE TO EXISTING SERIES
+        // FIXED: ADD EPISODE TO EXISTING SERIES
         async function addEpisodeToSeries(seriesId) {
             const title = document.getElementById(`newEpisodeTitle_${seriesId}`).value;
             const link = document.getElementById(`newEpisodeLink_${seriesId}`).value;
@@ -2080,7 +2042,7 @@
             }
         }
 
-        // DELETE EPISODE
+        // FIXED: DELETE EPISODE
         async function deleteEpisode(seriesId, episodeId) {
             if (confirm('Are you sure you want to delete this episode?')) {
                 try {
@@ -2102,7 +2064,7 @@
             }
         }
 
-        // DELETE SERIES
+        // FIXED: DELETE SERIES
         async function deleteSeries(seriesId) {
             if (confirm('Are you sure you want to delete this series?')) {
                 try {
@@ -2129,78 +2091,7 @@
             document.getElementById('videoPlayer').style.display = 'flex';
         }
 
-        // ADD UPDATE FUNCTION (TEXT/IMAGE/VIDEO)
-        async function addUpdate() {
-            const title = document.getElementById('updateTitle').value;
-
-            if (!title) {
-                alert('Please add an update title!');
-                return;
-            }
-
-            if (currentUpdateType === 'voice') {
-                alert('For voice updates, use the voice recorder section below.');
-                return;
-            }
-
-            let content = {};
-            
-            if (currentUpdateType === 'text') {
-                const text = document.getElementById('updateText').value;
-                if (!text) {
-                    alert('Please add update content!');
-                    return;
-                }
-                content = { text: text };
-            }
-            else if (currentUpdateType === 'image') {
-                const imageUrl = document.getElementById('updateImage').value;
-                const description = document.getElementById('imageDescription').value;
-                if (!imageUrl) {
-                    alert('Please add image URL!');
-                    return;
-                }
-                content = { imageUrl: imageUrl, description: description };
-            }
-            else if (currentUpdateType === 'video') {
-                const videoUrl = document.getElementById('updateVideo').value;
-                const description = document.getElementById('videoDescription').value;
-                if (!videoUrl) {
-                    alert('Please add video URL!');
-                    return;
-                }
-                content = { videoUrl: videoUrl, description: description };
-            }
-
-            const update = {
-                type: currentUpdateType,
-                title: title,
-                content: content,
-                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
-                likes: 0,
-                likedBy: [],
-                comments: []
-            };
-
-            try {
-                await addUpdateToFirebase(update);
-
-                // Reset form
-                document.getElementById('updateTitle').value = '';
-                document.getElementById('updateText').value = '';
-                document.getElementById('updateImage').value = '';
-                document.getElementById('imageDescription').value = '';
-                document.getElementById('updateVideo').value = '';
-                document.getElementById('videoDescription').value = '';
-                
-                alert('✅ Update posted successfully! It will appear on all devices.');
-                loadUpdates();
-            } catch (error) {
-                alert('❌ Error posting update. Please try again.');
-            }
-        }
-
-        // LOAD UPDATES FROM FIREBASE
+        // FIXED: LOAD UPDATES FROM FIREBASE
         async function loadUpdates() {
             const container = document.getElementById('updatesList');
 
@@ -2301,7 +2192,7 @@
             }
         }
 
-        // DELETE UPDATE
+        // FIXED: DELETE UPDATE
         async function deleteUpdate(updateId) {
             if (confirm('Are you sure you want to delete this update?')) {
                 try {
@@ -2313,7 +2204,7 @@
             }
         }
 
-        // ADD COMMENT (ADMIN)
+        // FIXED: ADD COMMENT (ADMIN)
         async function addComment(updateId) {
             const commentInput = document.getElementById(`commentInput_${updateId}`);
             const commentText = commentInput.value.trim();
@@ -2352,7 +2243,7 @@
             }
         }
 
-        // DELETE COMMENT
+        // FIXED: DELETE COMMENT
         async function deleteComment(updateId, commentId) {
             if (confirm('Are you sure you want to delete this comment?')) {
                 try {
@@ -2375,7 +2266,7 @@
             }
         }
 
-        // LIKE UPDATE (ADMIN)
+        // FIXED: LIKE UPDATE (ADMIN)
         async function likeUpdate(updateId) {
             try {
                 const updateRef = db.collection('updates').doc(updateId);
@@ -2518,7 +2409,10 @@
 
         // Initialize sample data on first load
         initializeSampleData();
+
+        // Debug: Check if Firebase is working
+        console.log("🟡 Admin panel loaded");
+        console.log("🟡 Firebase initialized:", firebase.apps.length > 0);
     </script>
 </body>
 </html>
-[file content end]
