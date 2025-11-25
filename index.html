@@ -1293,7 +1293,7 @@
         let selectedAmount = 0;
         let trialUsed = localStorage.getItem('tmw_trial_used') === 'true';
 
-        // ==================== SUBSCRIPTION SYSTEM ====================
+        // ==================== ENHANCED SUBSCRIPTION SYSTEM ====================
         
         function getSubscriptionData() {
             return JSON.parse(localStorage.getItem('tmw_subscription')) || {
@@ -1302,7 +1302,8 @@
                 startDate: null,
                 endDate: null,
                 moviesWatched: 0,
-                maxMovies: 0
+                maxMovies: 0,
+                renewalNotified: false
             };
         }
 
@@ -1317,7 +1318,21 @@
                 return { allowed: false, reason: 'no_subscription' };
             }
             
+            // Check if subscription has expired
             if (subscription.endDate && new Date() > new Date(subscription.endDate)) {
+                // Auto-lock when expired
+                subscription.active = false;
+                saveSubscriptionData(subscription);
+                
+                // Show renewal notification if not already shown
+                if (!subscription.renewalNotified) {
+                    setTimeout(() => {
+                        showRenewalNotification(subscription.plan);
+                    }, 1000);
+                    subscription.renewalNotified = true;
+                    saveSubscriptionData(subscription);
+                }
+                
                 return { allowed: false, reason: 'subscription_expired' };
             }
             
@@ -1328,6 +1343,21 @@
             }
             
             return { allowed: true };
+        }
+
+        function showRenewalNotification(plan) {
+            const messages = {
+                'DAILY': 'Your Daily subscription has expired! Renew now to continue watching.',
+                'WEEKLY': 'Your Weekly subscription has expired! Renew now to continue watching.',
+                'MONTHLY': 'Your Monthly subscription has expired! Renew now to continue watching.',
+                'PREMIUM': 'Your Premium subscription has expired! Renew now to continue watching.'
+            };
+            
+            const message = messages[plan] || 'Your subscription has expired! Renew now to continue watching.';
+            
+            if (confirm(`📅 ${message}\n\nWould you like to renew your subscription now?`)) {
+                showSection('subscription');
+            }
         }
 
         function trackMovieWatch() {
@@ -1355,12 +1385,48 @@
                 startDate: new Date().toISOString(),
                 endDate: endDate.toISOString(),
                 moviesWatched: 0,
-                maxMovies: maxMovies
+                maxMovies: maxMovies,
+                renewalNotified: false
             };
             
             saveSubscriptionData(subscriptionData);
             alert(`✅ ${plan} subscription activated! You can now watch movies.`);
             loadMovies(); // Refresh to show unlocked movies
+            
+            // Set up expiration check
+            setupExpirationCheck(endDate, plan);
+        }
+
+        function setupExpirationCheck(expiryDate, plan) {
+            const now = new Date();
+            const timeUntilExpiry = expiryDate - now;
+            
+            if (timeUntilExpiry > 0) {
+                // Schedule renewal notification 1 hour before expiry
+                const notificationTime = timeUntilExpiry - (60 * 60 * 1000); // 1 hour before
+                
+                if (notificationTime > 0) {
+                    setTimeout(() => {
+                        const subscription = getSubscriptionData();
+                        if (subscription.active && !subscription.renewalNotified) {
+                            alert(`⏰ Your ${plan} subscription will expire in 1 hour! Renew now to continue watching without interruption.`);
+                            subscription.renewalNotified = true;
+                            saveSubscriptionData(subscription);
+                        }
+                    }, notificationTime);
+                }
+                
+                // Schedule auto-lock at exact expiry time
+                setTimeout(() => {
+                    const subscription = getSubscriptionData();
+                    if (subscription.active && new Date() > new Date(subscription.endDate)) {
+                        subscription.active = false;
+                        saveSubscriptionData(subscription);
+                        loadMovies(); // Refresh to lock movies
+                        showRenewalNotification(plan);
+                    }
+                }, timeUntilExpiry);
+            }
         }
 
         function showSubscriptionLockedModal() {
@@ -1943,6 +2009,17 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             loadMovies();
+            
+            // Check for expired subscriptions on page load
+            const subscription = getSubscriptionData();
+            if (subscription.active && subscription.endDate && new Date() > new Date(subscription.endDate)) {
+                subscription.active = false;
+                saveSubscriptionData(subscription);
+                loadMovies(); // Refresh to lock movies
+                setTimeout(() => {
+                    showRenewalNotification(subscription.plan);
+                }, 2000);
+            }
             
             if (!trialUsed) {
                 setTimeout(() => {
