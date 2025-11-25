@@ -1,3 +1,5 @@
+[file name]: admin.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1691,17 +1693,6 @@
             }
         }
 
-        // DELETE SERIES FROM FIREBASE
-        async function deleteSeriesFromFirebase(seriesId) {
-            try {
-                await db.collection('series').doc(seriesId).delete();
-                console.log('Series deleted:', seriesId);
-            } catch (error) {
-                console.error('Error deleting series:', error);
-                throw error;
-            }
-        }
-
         // SAVE UPDATE TO FIREBASE
         async function addUpdateToFirebase(update) {
             try {
@@ -2495,6 +2486,7 @@
                                 drawOnChartArea: false
                             }
                         }
+                    }
                 }
             });
         }
@@ -2529,3 +2521,4 @@
     </script>
 </body>
 </html>
+[file content end]
