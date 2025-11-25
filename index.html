@@ -19,13 +19,28 @@
             min-height: 100vh;
         }
 
-        /* TRUST BANNER - ADDED AT VERY TOP */
+        /* FREE TRIAL BANNER - ADDED AT VERY TOP */
+        .free-trial-banner {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 8px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1002;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #000;
+            cursor: pointer;
+        }
+
+        /* TRUST BANNER - MOVED DOWN */
         .trust-banner {
             background: linear-gradient(135deg, #25D366, #128C7E);
             padding: 8px 20px;
             text-align: center;
             position: fixed;
-            top: 0;
+            top: 32px;
             width: 100%;
             z-index: 1001;
             font-weight: bold;
@@ -39,7 +54,7 @@
             padding: 12px 20px;
             text-align: center;
             position: fixed;
-            top: 32px;
+            top: 64px;
             width: 100%;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(229, 9, 20, 0.3);
@@ -66,7 +81,7 @@
             padding: 15px 20px;
             position: fixed;
             width: 100%;
-            top: 82px;
+            top: 114px;
             z-index: 999;
             display: flex;
             justify-content: space-between;
@@ -74,136 +89,323 @@
             border-bottom: 2px solid #e50914;
         }
 
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .nav-tab.active {
+            background: #e50914;
+        }
+
+        .nav-tab:hover {
+            background: #e50914;
+            transform: translateY(-2px);
+        }
+
         /* MAIN CONTENT - ADJUSTED MARGIN */
         .main-content {
-            margin-top: 152px;
+            margin-top: 184px;
             padding: 20px;
             min-height: calc(100vh - 250px);
         }
 
-        /* FOOTER STYLES - ADDED */
-        .footer {
-            background: #141414;
-            padding: 30px 20px;
-            border-top: 2px solid #e50914;
-            margin-top: 40px;
+        /* CONTENT SECTIONS */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
         }
 
-        .support-section {
-            text-align: center;
-            margin-bottom: 25px;
+        .content-section.active {
+            display: block;
         }
 
-        .support-title {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 24px;
             color: #e50914;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+            margin: 20px 0 15px 0;
+            border-left: 4px solid #e50914;
+            padding-left: 10px;
         }
 
-        .support-options {
+        /* FREE TRIAL MODAL - ADDED */
+        .trial-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .trial-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #FFD700;
+            text-align: center;
+        }
+
+        .trial-title {
+            color: #FFD700;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .trial-movie {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .trial-movie:hover {
+            border-color: #FFD700;
+            transform: translateY(-2px);
+        }
+
+        .trial-movie-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .trial-movie-desc {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .trial-btn {
+            background: #FFD700;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+
+        .trial-btn:hover {
+            background: #FFA500;
+            transform: scale(1.05);
+        }
+
+        .trial-btn.secondary {
+            background: #666;
+            color: white;
+        }
+
+        /* MOVIES GRID */
+        .movies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        .support-option {
+        .movie-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 10px;
+        }
+
+        .movie-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .movie-views {
+            font-size: 0.7rem;
+            color: #ccc;
+        }
+
+        .movie-locked {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #e50914;
+            font-weight: bold;
+        }
+
+        /* SERIES STYLES */
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .series-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #e50914;
+        }
+
+        .series-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .series-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .episode-count {
+            background: #e50914;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .episodes-container {
+            margin-top: 10px;
+        }
+
+        .episode-row {
+            background: #2a2a2a;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .episode-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .play-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        /* UPDATES STYLES */
+        .updates-list {
+            display: grid;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .update-item {
             background: #1a1a1a;
             padding: 20px;
             border-radius: 10px;
             border-left: 4px solid #25D366;
         }
 
-        .support-option.phone {
-            border-left-color: #e50914;
-        }
-
-        .support-option.email {
-            border-left-color: #ff6b6b;
-        }
-
-        .support-icon {
-            font-size: 2rem;
+        .update-title {
+            color: #e50914;
+            font-size: 1.1rem;
             margin-bottom: 10px;
-            color: #25D366;
         }
 
-        .support-option.phone .support-icon {
-            color: #e50914;
-        }
-
-        .support-option.email .support-icon {
-            color: #ff6b6b;
-        }
-
-        .support-text {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .support-detail {
+        .update-content {
             color: #ccc;
-            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
 
-        .share-section {
-            text-align: center;
-            margin: 25px 0;
+        .update-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin: 10px 0;
         }
 
-        .share-title {
-            color: #e50914;
-            margin-bottom: 15px;
+        .update-video {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px;
+            margin: 10px 0;
         }
 
-        .share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+        .voice-update {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
         }
 
-        .share-btn {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .share-btn.whatsapp {
-            background: #25D366;
-        }
-
-        .share-btn.telegram {
-            background: #0088cc;
-        }
-
-        .share-btn.facebook {
-            background: #1877f2;
-        }
-
-        .share-btn.twitter {
-            background: #1da1f2;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-
-        .credits {
-            text-align: center;
+        .update-date {
             color: #666;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            margin-top: 10px;
         }
 
         /* UPDATE INTERACTIONS - ADDED */
@@ -298,220 +500,7 @@
             margin-bottom: 5px;
         }
 
-        /* EXISTING STYLES REMAIN UNCHANGED BELOW */
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e50914;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .nav-tab {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            transition: all 0.3s;
-        }
-
-        .nav-tab.active {
-            background: #e50914;
-        }
-
-        .nav-tab:hover {
-            background: #e50914;
-            transform: translateY(-2px);
-        }
-
-        .content-section {
-            display: none;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            font-size: 24px;
-            color: #e50914;
-            margin: 20px 0 15px 0;
-            border-left: 4px solid #e50914;
-            padding-left: 10px;
-        }
-
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .movie-card {
-            background: #1a1a1a;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .movie-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .movie-poster {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .movie-info {
-            padding: 10px;
-        }
-
-        .movie-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
-        .movie-views {
-            font-size: 0.7rem;
-            color: #ccc;
-        }
-
-        .series-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .series-card {
-            background: #1a1a1a;
-            border-radius: 10px;
-            padding: 15px;
-            border-left: 4px solid #e50914;
-        }
-
-        .series-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .series-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #e50914;
-        }
-
-        .episode-count {
-            background: #e50914;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
-        .episodes-container {
-            margin-top: 10px;
-        }
-
-        .episode-row {
-            background: #2a2a2a;
-            padding: 8px;
-            margin: 5px 0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .episode-name {
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .play-btn {
-            background: #e50914;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-
-        .updates-list {
-            display: grid;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .update-item {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #25D366;
-        }
-
-        .update-title {
-            color: #e50914;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .update-content {
-            color: #ccc;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .update-image {
-            max-width: 100%;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-
-        .update-video {
-            width: 100%;
-            height: 200px;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-
-        .voice-update {
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .update-date {
-            color: #666;
-            font-size: 0.8rem;
-            margin-top: 10px;
-        }
-
+        /* SUBSCRIPTION PLANS */
         .subscription-plans {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -575,6 +564,20 @@
             border-bottom: 1px solid #333;
         }
 
+        .plan-features li.limited {
+            color: #ff6b6b;
+        }
+
+        .plan-limit {
+            background: #e50914;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
         .subscribe-btn {
             background: #e50914;
             color: white;
@@ -593,6 +596,7 @@
             transform: scale(1.05);
         }
 
+        /* PAYMENT MODAL */
         .payment-modal {
             display: none;
             position: fixed;
@@ -690,6 +694,7 @@
             margin-top: 10px;
         }
 
+        /* VIDEO PLAYER */
         .video-player-container {
             position: fixed;
             top: 0;
@@ -748,6 +753,139 @@
             }
         }
 
+        /* FOOTER STYLES - ADDED */
+        .footer {
+            background: #141414;
+            padding: 30px 20px;
+            border-top: 2px solid #e50914;
+            margin-top: 40px;
+        }
+
+        .support-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .support-title {
+            color: #e50914;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .support-option {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #25D366;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .support-option:hover {
+            transform: translateY(-5px);
+            background: #2a2a2a;
+        }
+
+        .support-option.phone {
+            border-left-color: #e50914;
+        }
+
+        .support-option.email {
+            border-left-color: #ff6b6b;
+        }
+
+        .support-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #25D366;
+        }
+
+        .support-option.phone .support-icon {
+            color: #e50914;
+        }
+
+        .support-option.email .support-icon {
+            color: #ff6b6b;
+        }
+
+        .support-text {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .support-detail {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .share-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .share-title {
+            color: #e50914;
+            margin-bottom: 15px;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .share-btn.whatsapp {
+            background: #25D366;
+        }
+
+        .share-btn.telegram {
+            background: #0088cc;
+        }
+
+        .share-btn.facebook {
+            background: #1877f2;
+        }
+
+        .share-btn.twitter {
+            background: #1da1f2;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .credits {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        /* LOADING SPINNER */
         .loading {
             text-align: center;
             padding: 40px;
@@ -769,6 +907,7 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -780,7 +919,7 @@
             }
             
             .main-content {
-                margin-top: 172px;
+                margin-top: 204px;
             }
             
             .movies-grid {
@@ -791,24 +930,34 @@
                 grid-template-columns: 1fr;
             }
 
+            .free-trial-banner {
+                font-size: 0.8rem;
+                padding: 6px 15px;
+            }
+
             .trust-banner {
                 font-size: 0.8rem;
                 padding: 6px 15px;
             }
 
             .subscription-bar {
-                top: 26px;
+                top: 52px;
                 padding: 10px 15px;
             }
 
             .header {
-                top: 66px;
+                top: 94px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- TRUST BANNER - ADDED AT VERY TOP -->
+    <!-- FREE TRIAL BANNER - ADDED AT VERY TOP -->
+    <div class="free-trial-banner" onclick="showFreeTrial()">
+        🎬 GET 1 MOVIE FREE TRIAL! CLICK HERE TO WATCH NOW 🎬
+    </div>
+
+    <!-- TRUST BANNER - MOVED DOWN -->
     <div class="trust-banner">
         WITH YOUR TRUST WE CARE
     </div>
@@ -890,8 +1039,8 @@
                     <div class="plan-price">UGX 2,000</div>
                     <ul class="plan-features">
                         <li>24 Hours Access</li>
-                        <li>All Movies</li>
-                        <li>All Series</li>
+                        <li class="limited">Only 3 Movies<span class="plan-limit">LIMITED</span></li>
+                        <li>No Series Access</li>
                         <li>HD Quality</li>
                         <li>No Ads</li>
                     </ul>
@@ -907,8 +1056,8 @@
                     <div class="plan-price">UGX 6,000</div>
                     <ul class="plan-features">
                         <li>7 Days Access</li>
-                        <li>All Movies</li>
-                        <li>All Series</li>
+                        <li class="limited">Only 10 Movies<span class="plan-limit">LIMITED</span></li>
+                        <li>Limited Series</li>
                         <li>HD Quality</li>
                         <li>No Ads</li>
                         <li>Priority Support</li>
@@ -958,31 +1107,65 @@
         </section>
     </main>
 
+    <!-- FREE TRIAL MODAL - ADDED -->
+    <div class="trial-modal" id="trialModal">
+        <div class="trial-content">
+            <h2 class="trial-title">🎬 FREE MOVIE TRIAL</h2>
+            <p style="color: #ccc; margin-bottom: 20px;">
+                Enjoy one FREE movie! After watching, subscribe to unlock all content.
+            </p>
+            
+            <div class="trial-movie" onclick="playTrialMovie()">
+                <div class="trial-movie-title">Sample Premium Movie</div>
+                <div class="trial-movie-desc">Action • Drama • 2024</div>
+                <div style="color: #FFD700; font-size: 0.8rem; margin-top: 5px;">
+                    ⭐⭐⭐⭐⭐ Top Rated
+                </div>
+            </div>
+
+            <button class="trial-btn" onclick="playTrialMovie()">
+                <i class="fas fa-play"></i> Watch Free Movie
+            </button>
+            <button class="trial-btn secondary" onclick="closeTrial()">
+                Maybe Later
+            </button>
+        </div>
+    </div>
+
     <!-- FOOTER - ADDED -->
     <footer class="footer">
         <div class="support-section">
             <h3 class="support-title">📞 NEED HELP? CONTACT SUPPORT</h3>
             <div class="support-options">
-                <div class="support-option">
+                <div class="support-option" onclick="contactSupport('whatsapp')">
                     <div class="support-icon">
                         <i class="fab fa-whatsapp"></i>
                     </div>
                     <div class="support-text">WhatsApp Support</div>
                     <div class="support-detail">0765206238</div>
+                    <div style="color: #25D366; font-size: 0.8rem; margin-top: 5px;">
+                        Click to chat on WhatsApp
+                    </div>
                 </div>
-                <div class="support-option phone">
+                <div class="support-option phone" onclick="contactSupport('phone')">
                     <div class="support-icon">
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="support-text">Phone Call</div>
                     <div class="support-detail">0704557858</div>
+                    <div style="color: #e50914; font-size: 0.8rem; margin-top: 5px;">
+                        Click to call now
+                    </div>
                 </div>
-                <div class="support-option email">
+                <div class="support-option email" onclick="contactSupport('email')">
                     <div class="support-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="support-text">Email Support</div>
                     <div class="support-detail">mrvnjey@gmail.com</div>
+                    <div style="color: #ff6b6b; font-size: 0.8rem; margin-top: 5px;">
+                        Click to send email
+                    </div>
                 </div>
             </div>
         </div>
@@ -1108,10 +1291,148 @@
         let currentPaymentMethod = 'airtel';
         let selectedPlan = '';
         let selectedAmount = 0;
+        let trialUsed = localStorage.getItem('tmw_trial_used') === 'true';
 
-        // ==================== NEW FUNCTIONS ====================
+        // ==================== SUBSCRIPTION SYSTEM ====================
+        
+        function getSubscriptionData() {
+            return JSON.parse(localStorage.getItem('tmw_subscription')) || {
+                active: false,
+                plan: '',
+                startDate: null,
+                endDate: null,
+                moviesWatched: 0,
+                maxMovies: 0
+            };
+        }
 
-        // Share Website Function
+        function saveSubscriptionData(data) {
+            localStorage.setItem('tmw_subscription', JSON.stringify(data));
+        }
+
+        function canWatchMovie() {
+            const subscription = getSubscriptionData();
+            
+            if (!subscription.active) {
+                return { allowed: false, reason: 'no_subscription' };
+            }
+            
+            if (subscription.endDate && new Date() > new Date(subscription.endDate)) {
+                return { allowed: false, reason: 'subscription_expired' };
+            }
+            
+            if (subscription.plan === 'DAILY' || subscription.plan === 'WEEKLY') {
+                if (subscription.moviesWatched >= subscription.maxMovies) {
+                    return { allowed: false, reason: 'movie_limit_reached' };
+                }
+            }
+            
+            return { allowed: true };
+        }
+
+        function trackMovieWatch() {
+            const subscription = getSubscriptionData();
+            
+            if (subscription.active) {
+                subscription.moviesWatched += 1;
+                saveSubscriptionData(subscription);
+                
+                if ((subscription.plan === 'DAILY' || subscription.plan === 'WEEKLY') && 
+                    subscription.moviesWatched >= subscription.maxMovies) {
+                    showSubscriptionLockedModal();
+                }
+            }
+        }
+
+        function activateSubscription(plan, durationHours) {
+            const maxMovies = plan === 'DAILY' ? 3 : plan === 'WEEKLY' ? 10 : 9999;
+            const endDate = new Date();
+            endDate.setHours(endDate.getHours() + durationHours);
+            
+            const subscriptionData = {
+                active: true,
+                plan: plan,
+                startDate: new Date().toISOString(),
+                endDate: endDate.toISOString(),
+                moviesWatched: 0,
+                maxMovies: maxMovies
+            };
+            
+            saveSubscriptionData(subscriptionData);
+            alert(`✅ ${plan} subscription activated! You can now watch movies.`);
+            loadMovies(); // Refresh to show unlocked movies
+        }
+
+        function showSubscriptionLockedModal() {
+            const subscription = getSubscriptionData();
+            let message = '';
+            
+            if (subscription.plan === 'DAILY') {
+                message = `You've watched all 3 movies on your Daily plan. Upgrade to continue watching!`;
+            } else if (subscription.plan === 'WEEKLY') {
+                message = `You've watched all 10 movies on your Weekly plan. Upgrade to continue watching!`;
+            }
+            
+            if (confirm(`🎬 ${message}\n\nUpgrade your subscription now?`)) {
+                showSection('subscription');
+            }
+        }
+
+        // ==================== FREE TRIAL FUNCTIONS ====================
+
+        function showFreeTrial() {
+            if (trialUsed) {
+                alert('You have already used your free trial. Please subscribe to watch more movies!');
+                showSection('subscription');
+                return;
+            }
+            document.getElementById('trialModal').style.display = 'flex';
+        }
+
+        function closeTrial() {
+            document.getElementById('trialModal').style.display = 'none';
+        }
+
+        function playTrialMovie() {
+            const trialMovieLink = 'https://drive.google.com/file/d/1ExampleTrialMovie/preview';
+            const trialMovieTitle = 'FREE TRIAL: Action Movie 2024';
+            
+            document.getElementById('videoFrame').src = trialMovieLink;
+            document.getElementById('videoTitle').textContent = trialMovieTitle;
+            document.getElementById('videoPlayer').style.display = 'flex';
+            document.getElementById('trialModal').style.display = 'none';
+            
+            trialUsed = true;
+            localStorage.setItem('tmw_trial_used', 'true');
+            
+            setTimeout(showSubscriptionPrompt, 30000);
+        }
+
+        function showSubscriptionPrompt() {
+            if (document.getElementById('videoPlayer').style.display !== 'flex') {
+                alert('🎬 Hope you enjoyed your free movie! Subscribe now to unlock ALL movies and series! 🍿');
+                showSection('subscription');
+            }
+        }
+
+        // ==================== SUPPORT FUNCTIONS ====================
+
+        function contactSupport(type) {
+            switch(type) {
+                case 'whatsapp':
+                    window.open('https://wa.me/256765206238', '_blank');
+                    break;
+                case 'phone':
+                    window.open('tel:+256704557858');
+                    break;
+                case 'email':
+                    window.open('mailto:mrvnjey@gmail.com?subject=TMW Support&body=Hello, I need help with...');
+                    break;
+            }
+        }
+
+        // ==================== SHARE FUNCTIONS ====================
+
         function shareWebsite(platform) {
             const websiteUrl = window.location.href;
             const message = '🎬 Check out TMW - Translated Movie World! Watch amazing movies and series with local translations. ' + websiteUrl;
@@ -1136,7 +1457,8 @@
             window.open(shareUrl, '_blank', 'width=600,height=400');
         }
 
-        // Like Update Function
+        // ==================== LIKE & COMMENT FUNCTIONS ====================
+
         function likeUpdate(updateId) {
             const likeBtn = event.target;
             const isActive = likeBtn.classList.contains('active');
@@ -1144,21 +1466,18 @@
             if (isActive) {
                 likeBtn.classList.remove('active');
                 likeBtn.innerHTML = '<i class="far fa-heart"></i> Like';
-                // Remove like from localStorage
                 const likes = JSON.parse(localStorage.getItem('tmw_likes')) || {};
                 delete likes[updateId];
                 localStorage.setItem('tmw_likes', JSON.stringify(likes));
             } else {
                 likeBtn.classList.add('active');
                 likeBtn.innerHTML = '<i class="fas fa-heart"></i> Liked';
-                // Add like to localStorage
                 const likes = JSON.parse(localStorage.getItem('tmw_likes')) || {};
                 likes[updateId] = true;
                 localStorage.setItem('tmw_likes', JSON.stringify(likes));
             }
         }
 
-        // Toggle Comments Function
         function toggleComments(updateId) {
             const commentsSection = document.getElementById(`comments-${updateId}`);
             const commentBtn = event.target;
@@ -1173,7 +1492,6 @@
             }
         }
 
-        // Add Comment Function
         function addComment(updateId) {
             const commentInput = document.getElementById(`comment-input-${updateId}`);
             const commentText = commentInput.value.trim();
@@ -1183,28 +1501,22 @@
                 return;
             }
             
-            // Get existing comments
             const comments = JSON.parse(localStorage.getItem('tmw_comments')) || {};
             if (!comments[updateId]) {
                 comments[updateId] = [];
             }
             
-            // Add new comment
             comments[updateId].push({
                 author: 'User',
                 text: commentText,
                 date: new Date().toLocaleDateString()
             });
             
-            // Save to localStorage
             localStorage.setItem('tmw_comments', JSON.stringify(comments));
-            
-            // Clear input and reload comments
             commentInput.value = '';
             loadComments(updateId);
         }
 
-        // Load Comments Function
         function loadComments(updateId) {
             const commentsList = document.getElementById(`comments-list-${updateId}`);
             const comments = JSON.parse(localStorage.getItem('tmw_comments')) || {};
@@ -1223,7 +1535,7 @@
             }
         }
 
-        // ==================== EXISTING FUNCTIONS (UNCHANGED) ====================
+        // ==================== NAVIGATION FUNCTIONS ====================
 
         function showSection(sectionId) {
             document.querySelectorAll('.content-section').forEach(section => {
@@ -1246,8 +1558,11 @@
             }
         }
 
+        // ==================== MOVIE FUNCTIONS ====================
+
         async function loadMovies() {
             const container = document.getElementById('moviesGrid');
+            const subscription = getSubscriptionData();
             
             try {
                 const snapshot = await db.collection('movies').get();
@@ -1266,16 +1581,27 @@
                     return;
                 }
 
-                container.innerHTML = movies.map(movie => `
-                    <div class="movie-card" onclick="playMovie('${movie.videoLink}', '${movie.title}')">
-                        <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" 
-                             onerror="this.src='https://via.placeholder.com/200x250/333/fff?text=No+Poster'">
-                        <div class="movie-info">
-                            <div class="movie-title">${movie.title}</div>
-                            <div class="movie-views">${movie.views || 0} views</div>
+                container.innerHTML = movies.map(movie => {
+                    const canWatch = canWatchMovie();
+                    const isLocked = !canWatch.allowed;
+                    
+                    return `
+                        <div class="movie-card" onclick="playMovie('${movie.videoLink}', '${movie.title}')">
+                            ${isLocked ? `
+                                <div class="movie-locked">
+                                    <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                    <div>Subscribe to Watch</div>
+                                </div>
+                            ` : ''}
+                            <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" 
+                                 onerror="this.src='https://via.placeholder.com/200x250/333/fff?text=No+Poster'">
+                            <div class="movie-info">
+                                <div class="movie-title">${movie.title}</div>
+                                <div class="movie-views">${movie.views || 0} views</div>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             } catch (error) {
                 console.error('Error loading movies:', error);
                 container.innerHTML = `
@@ -1286,6 +1612,46 @@
                 `;
             }
         }
+
+        function playMovie(videoLink, title) {
+            const canWatch = canWatchMovie();
+            
+            if (!canWatch.allowed) {
+                if (canWatch.reason === 'no_subscription') {
+                    if (trialUsed) {
+                        if (confirm('🎬 Subscribe now to watch this movie! Your free trial has been used.\n\nGo to subscription page?')) {
+                            showSection('subscription');
+                        }
+                    } else {
+                        showFreeTrial();
+                    }
+                } else if (canWatch.reason === 'movie_limit_reached') {
+                    showSubscriptionLockedModal();
+                } else if (canWatch.reason === 'subscription_expired') {
+                    if (confirm('📅 Your subscription has expired! Renew now to continue watching?')) {
+                        showSection('subscription');
+                    }
+                }
+                return;
+            }
+
+            let embedLink = videoLink;
+            
+            if (videoLink.includes('drive.google.com')) {
+                if (videoLink.includes('/file/d/')) {
+                    const fileId = videoLink.split('/file/d/')[1].split('/')[0];
+                    embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+            }
+            
+            document.getElementById('videoFrame').src = embedLink;
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('videoPlayer').style.display = 'flex';
+            
+            trackMovieWatch();
+        }
+
+        // ==================== SERIES FUNCTIONS ====================
 
         async function loadSeries() {
             const container = document.getElementById('seriesGrid');
@@ -1340,6 +1706,46 @@
             }
         }
 
+        function playEpisode(link, title) {
+            const canWatch = canWatchMovie();
+            
+            if (!canWatch.allowed) {
+                if (canWatch.reason === 'no_subscription') {
+                    if (trialUsed) {
+                        if (confirm('🎬 Subscribe now to watch this series! Your free trial has been used.\n\nGo to subscription page?')) {
+                            showSection('subscription');
+                        }
+                    } else {
+                        showFreeTrial();
+                    }
+                } else if (canWatch.reason === 'movie_limit_reached') {
+                    showSubscriptionLockedModal();
+                } else if (canWatch.reason === 'subscription_expired') {
+                    if (confirm('📅 Your subscription has expired! Renew now to continue watching?')) {
+                        showSection('subscription');
+                    }
+                }
+                return;
+            }
+
+            let embedLink = link;
+            
+            if (link.includes('drive.google.com')) {
+                if (link.includes('/file/d/')) {
+                    const fileId = link.split('/file/d/')[1].split('/')[0];
+                    embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+            }
+            
+            document.getElementById('videoFrame').src = embedLink;
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('videoPlayer').style.display = 'flex';
+            
+            trackMovieWatch();
+        }
+
+        // ==================== UPDATES FUNCTIONS ====================
+
         async function loadUpdates() {
             const container = document.getElementById('updatesList');
             
@@ -1360,7 +1766,6 @@
                     return;
                 }
 
-                // Get likes from localStorage
                 const likes = JSON.parse(localStorage.getItem('tmw_likes')) || {};
 
                 container.innerHTML = updates.map(update => {
@@ -1394,7 +1799,6 @@
                             </div>
                         ` : ''}
                         
-                        <!-- INTERACTIONS - ADDED -->
                         <div class="update-interactions">
                             <button class="interaction-btn like ${isLiked ? 'active' : ''}" onclick="likeUpdate('${update.id}')">
                                 <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i> ${isLiked ? 'Liked' : 'Like'}
@@ -1404,14 +1808,12 @@
                             </button>
                         </div>
 
-                        <!-- COMMENTS SECTION - ADDED -->
                         <div class="comments-section" id="comments-${update.id}">
                             <div class="comment-input">
                                 <input type="text" id="comment-input-${update.id}" placeholder="Write a comment...">
                                 <button onclick="addComment('${update.id}')">Post</button>
                             </div>
                             <div class="comments-list" id="comments-list-${update.id}">
-                                <!-- Comments will be loaded here -->
                             </div>
                         </div>
 
@@ -1430,6 +1832,8 @@
                 `;
             }
         }
+
+        // ==================== PAYMENT FUNCTIONS ====================
 
         function openPayment(plan, amount) {
             selectedPlan = plan;
@@ -1472,7 +1876,12 @@
                 return;
             }
             
-            alert(`✅ Payment verified! Your ${selectedPlan} subscription is now active.`);
+            let durationHours = 24;
+            if (selectedPlan === 'WEEKLY') durationHours = 24 * 7;
+            if (selectedPlan === 'MONTHLY') durationHours = 24 * 30;
+            if (selectedPlan === 'PREMIUM') durationHours = 24 * 365 * 10;
+            
+            activateSubscription(selectedPlan, durationHours);
             closePayment();
         }
 
@@ -1493,12 +1902,18 @@
             const validCode = adminData.codes.find(c => c.code === code && !c.used);
             
             if (validCode) {
+                let durationHours = 24;
+                if (validCode.plan === 'WEEKLY') durationHours = 24 * 7;
+                if (validCode.plan === 'MONTHLY') durationHours = 24 * 30;
+                if (validCode.plan === 'PREMIUM') durationHours = 24 * 365 * 10;
+                
+                activateSubscription(validCode.plan, durationHours);
+                
                 validCode.used = true;
                 validCode.usedBy = 'Customer';
                 validCode.usedDate = new Date().toLocaleDateString();
                 localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
                 
-                alert(`✅ Code activated! Your ${validCode.plan} subscription is now active.`);
                 closePayment();
             } else {
                 alert('❌ Invalid or already used code! Please check and try again.');
@@ -1511,50 +1926,43 @@
             document.getElementById('subscriptionCode').value = '';
         }
 
-        function playMovie(videoLink, title) {
-            let embedLink = videoLink;
-            
-            if (videoLink.includes('drive.google.com')) {
-                if (videoLink.includes('/file/d/')) {
-                    const fileId = videoLink.split('/file/d/')[1].split('/')[0];
-                    embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
-                }
-            }
-            
-            document.getElementById('videoFrame').src = embedLink;
-            document.getElementById('videoTitle').textContent = title;
-            document.getElementById('videoPlayer').style.display = 'flex';
-        }
-
-        function playEpisode(link, title) {
-            let embedLink = link;
-            
-            if (link.includes('drive.google.com')) {
-                if (link.includes('/file/d/')) {
-                    const fileId = link.split('/file/d/')[1].split('/')[0];
-                    embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
-                }
-            }
-            
-            document.getElementById('videoFrame').src = embedLink;
-            document.getElementById('videoTitle').textContent = title;
-            document.getElementById('videoPlayer').style.display = 'flex';
-        }
-
         function closeVideo() {
             document.getElementById('videoPlayer').style.display = 'none';
             document.getElementById('videoFrame').src = '';
+            
+            if (trialUsed) {
+                setTimeout(() => {
+                    if (confirm('🎬 Hope you enjoyed the movie! Subscribe now to unlock ALL movies and series! 🍿')) {
+                        showSection('subscription');
+                    }
+                }, 1000);
+            }
         }
 
         // ==================== INITIALIZATION ====================
+
         document.addEventListener('DOMContentLoaded', function() {
             loadMovies();
+            
+            if (!trialUsed) {
+                setTimeout(() => {
+                    if (!localStorage.getItem('tmw_trial_shown')) {
+                        showFreeTrial();
+                        localStorage.setItem('tmw_trial_shown', 'true');
+                    }
+                }, 3000);
+            }
         });
 
         window.onclick = function(event) {
             const modal = document.getElementById('paymentModal');
             if (event.target === modal) {
                 closePayment();
+            }
+            
+            const trialModal = document.getElementById('trialModal');
+            if (event.target === trialModal) {
+                closeTrial();
             }
         }
     </script>
