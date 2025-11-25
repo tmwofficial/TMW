@@ -1252,7 +1252,6 @@
 
     <script>
         // ==================== FIREBASE INITIALIZATION ====================
-        // YOUR FIREBASE CONFIG - ADDED SUCCESSFULLY!
         const firebaseConfig = {
             apiKey: "AIzaSyBXXQXDQsF9QYbsaLBNLc4cxH-6LEzjNs",
             authDomain: "translated-movie-world.firebaseapp.com",
@@ -1283,7 +1282,6 @@
         let recordingTimer = null;
         let recordingSeconds = 0;
         let audioBlob = null;
-        let visualizerInterval = null;
 
         // ==================== UPLOAD SYSTEM FUNCTIONS ====================
 
@@ -1519,10 +1517,7 @@
 
         function playRecording() {
             const audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.play().catch(error => {
-                console.error('Error playing audio:', error);
-                alert('❌ Error playing recording. Please try again.');
-            });
+            audioPlayer.play();
         }
 
         function updateRecordingTimer() {
@@ -1537,7 +1532,6 @@
             const visualizer = document.getElementById('visualizer');
             visualizer.innerHTML = '';
             
-            // Create visualizer bars
             for (let i = 0; i < 20; i++) {
                 const bar = document.createElement('div');
                 bar.className = 'visualizer-bar';
@@ -1545,23 +1539,20 @@
                 visualizer.appendChild(bar);
             }
             
-            // Animate bars with setInterval instead of requestAnimationFrame
+            // Animate bars
             const bars = visualizer.getElementsByClassName('visualizer-bar');
-            visualizerInterval = setInterval(() => {
+            const animate = () => {
                 if (mediaRecorder && mediaRecorder.state === 'recording') {
                     for (let bar of bars) {
                         bar.style.height = Math.random() * 20 + 5 + 'px';
                     }
+                    setTimeout(() => animate(), 100);
                 }
-            }, 100);
+            };
+            animate();
         }
 
         function stopVisualizer() {
-            if (visualizerInterval) {
-                clearInterval(visualizerInterval);
-                visualizerInterval = null;
-            }
-            
             const bars = document.getElementsByClassName('visualizer-bar');
             for (let bar of bars) {
                 bar.style.height = '5px';
@@ -1607,8 +1598,6 @@
                 document.getElementById('playBtn').disabled = true;
                 document.getElementById('saveVoiceBtn').disabled = true;
                 audioBlob = null;
-                recordingSeconds = 0;
-                document.getElementById('recordingTimer').textContent = '00:00';
                 
                 alert('✅ Voice update posted successfully!');
                 loadUpdates();
@@ -1701,28 +1690,6 @@
             } catch (error) {
                 console.error('Error getting series:', error);
                 return [];
-            }
-        }
-
-        // UPDATE SERIES IN FIREBASE
-        async function updateSeriesInFirebase(seriesId, updates) {
-            try {
-                await db.collection('series').doc(seriesId).update(updates);
-                console.log('Series updated:', seriesId);
-            } catch (error) {
-                console.error('Error updating series:', error);
-                throw error;
-            }
-        }
-
-        // DELETE SERIES FROM FIREBASE
-        async function deleteSeriesFromFirebase(seriesId) {
-            try {
-                await db.collection('series').doc(seriesId).delete();
-                console.log('Series deleted:', seriesId);
-            } catch (error) {
-                console.error('Error deleting series:', error);
-                throw error;
             }
         }
 
@@ -1948,7 +1915,7 @@
 
             if (title && link) {
                 currentEpisodes.push({
-                    id: Date.now().toString(), // FIXED: Ensure string ID
+                    id: Date.now().toString(),
                     title: title,
                     link: link,
                     addedDate: new Date().toLocaleDateString()
@@ -2091,7 +2058,7 @@
                     const episodes = series.episodes || [];
                     
                     episodes.push({
-                        id: Date.now().toString(), // FIXED: Ensure string ID
+                        id: Date.now().toString(),
                         title: title,
                         link: link,
                         addedDate: new Date().toLocaleDateString()
