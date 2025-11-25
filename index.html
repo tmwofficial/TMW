@@ -54,7 +54,7 @@
             padding: 15px 20px;
             position: fixed;
             width: 100%;
-            top: 50px; /* Adjusted for subscription bar */
+            top: 50px;
             z-index: 999;
             display: flex;
             justify-content: space-between;
@@ -98,7 +98,7 @@
 
         /* MAIN CONTENT */
         .main-content {
-            margin-top: 120px; /* Adjusted for header + subscription bar */
+            margin-top: 120px;
             padding: 20px;
         }
 
@@ -807,13 +807,8 @@
         };
 
         // Initialize Firebase
-        try {
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            console.log("✅ Firebase connected successfully!");
-        } catch (error) {
-            console.error("❌ Firebase connection failed:", error);
-        }
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
         // Global Variables
         let currentPaymentMethod = 'airtel';
@@ -822,8 +817,6 @@
 
         // ==================== NAVIGATION FUNCTIONS ====================
         function showSection(sectionId) {
-            console.log("Switching to section:", sectionId);
-            
             // Hide all sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
@@ -835,10 +828,7 @@
             });
             
             // Show selected section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
+            document.getElementById(sectionId).classList.add('active');
             
             // Add active class to clicked tab
             event.target.classList.add('active');
@@ -856,12 +846,6 @@
         // ==================== MOVIE FUNCTIONS ====================
         async function loadMovies() {
             const container = document.getElementById('moviesGrid');
-            container.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    Loading movies...
-                </div>
-            `;
             
             try {
                 const snapshot = await db.collection('movies').get();
@@ -881,26 +865,21 @@
                 }
 
                 container.innerHTML = movies.map(movie => `
-                    <div class="movie-card" onclick="playMovie('${movie.videoLink}', '${movie.title.replace(/'/g, "\\'")}')">
+                    <div class="movie-card" onclick="playMovie('${movie.videoLink}', '${movie.title}')">
                         <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" 
                              onerror="this.src='https://via.placeholder.com/200x250/333/fff?text=No+Poster'">
                         <div class="movie-info">
                             <div class="movie-title">${movie.title}</div>
-                            <div class="movie-views">${movie.views || 0} views • ${movie.addedDate || 'Recently'}</div>
+                            <div class="movie-views">${movie.views || 0} views</div>
                         </div>
                     </div>
                 `).join('');
-                
-                console.log(`✅ Loaded ${movies.length} movies successfully!`);
             } catch (error) {
                 console.error('Error loading movies:', error);
                 container.innerHTML = `
                     <div style="text-align: center; color: #e50914; padding: 40px; grid-column: 1 / -1;">
                         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>Error loading movies. Please check your internet connection.</p>
-                        <button onclick="loadMovies()" style="background: #e50914; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; cursor: pointer;">
-                            Try Again
-                        </button>
+                        <p>Error loading movies. Please try again later.</p>
                     </div>
                 `;
             }
@@ -909,12 +888,6 @@
         // ==================== SERIES FUNCTIONS ====================
         async function loadSeries() {
             const container = document.getElementById('seriesGrid');
-            container.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    Loading series...
-                </div>
-            `;
             
             try {
                 const snapshot = await db.collection('series').get();
@@ -944,33 +917,23 @@
                         </div>
                         
                         <div class="episodes-container">
-                            ${s.episodes ? s.episodes.slice(0, 5).map(episode => `
+                            ${s.episodes ? s.episodes.map(episode => `
                                 <div class="episode-row">
                                     <div class="episode-name">${episode.title}</div>
-                                    <button class="play-btn" onclick="playEpisode('${episode.link}', '${episode.title.replace(/'/g, "\\'")}')">
+                                    <button class="play-btn" onclick="playEpisode('${episode.link}', '${episode.title}')">
                                         Play
                                     </button>
                                 </div>
                             `).join('') : '<div style="color: #666; text-align: center;">No episodes</div>'}
-                            ${s.episodes && s.episodes.length > 5 ? `
-                                <div style="text-align: center; color: #e50914; margin-top: 10px; font-size: 0.8rem;">
-                                    +${s.episodes.length - 5} more episodes
-                                </div>
-                            ` : ''}
                         </div>
                     </div>
                 `).join('');
-                
-                console.log(`✅ Loaded ${series.length} series successfully!`);
             } catch (error) {
                 console.error('Error loading series:', error);
                 container.innerHTML = `
                     <div style="text-align: center; color: #e50914; padding: 40px; grid-column: 1 / -1;">
                         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>Error loading series. Please check your internet connection.</p>
-                        <button onclick="loadSeries()" style="background: #e50914; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; cursor: pointer;">
-                            Try Again
-                        </button>
+                        <p>Error loading series. Please try again later.</p>
                     </div>
                 `;
             }
@@ -979,15 +942,9 @@
         // ==================== UPDATES FUNCTIONS ====================
         async function loadUpdates() {
             const container = document.getElementById('updatesList');
-            container.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    Loading updates...
-                </div>
-            `;
             
             try {
-                const snapshot = await db.collection('updates').orderBy('date', 'desc').limit(10).get();
+                const snapshot = await db.collection('updates').orderBy('date', 'desc').get();
                 const updates = [];
                 snapshot.forEach(doc => {
                     updates.push({ id: doc.id, ...doc.data() });
@@ -1028,9 +985,6 @@
                                 <audio controls style="width: 100%;">
                                     <source src="${update.content.audioUrl}" type="audio/wav">
                                 </audio>
-                                <div style="color: #ccc; margin-top: 10px; font-size: 0.8rem;">
-                                    Duration: ${Math.floor(update.content.duration / 60)}:${(update.content.duration % 60).toString().padStart(2, '0')}
-                                </div>
                             </div>
                         ` : ''}
                         
@@ -1039,17 +993,12 @@
                         </div>
                     </div>
                 `).join('');
-                
-                console.log(`✅ Loaded ${updates.length} updates successfully!`);
             } catch (error) {
                 console.error('Error loading updates:', error);
                 container.innerHTML = `
                     <div style="text-align: center; color: #e50914; padding: 40px;">
                         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>Error loading updates. Please check your internet connection.</p>
-                        <button onclick="loadUpdates()" style="background: #e50914; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; cursor: pointer;">
-                            Try Again
-                        </button>
+                        <p>Error loading updates. Please try again later.</p>
                     </div>
                 `;
             }
@@ -1065,7 +1014,7 @@
             document.getElementById('mtnAmount').textContent = `UGX ${amount.toLocaleString()}`;
             
             document.getElementById('paymentModal').style.display = 'flex';
-            selectPayment('airtel'); // Default selection
+            selectPayment('airtel');
         }
 
         function closePayment() {
@@ -1101,26 +1050,12 @@
                 return;
             }
             
-            if (transactionId.length < 5) {
-                alert('❌ Please enter a valid transaction ID!');
-                return;
-            }
-            
-            // Simulate payment verification
-            showLoading('Verifying payment...');
-            
-            setTimeout(() => {
-                hideLoading();
-                alert(`✅ Payment verified! Your ${selectedPlan} subscription is now active.`);
-                closePayment();
-                
-                // Redirect to movies section
-                showSection('popular');
-            }, 2000);
+            alert(`✅ Payment verified! Your ${selectedPlan} subscription is now active.`);
+            closePayment();
         }
 
         function verifyCode() {
-            const code = document.getElementById('subscriptionCode').value.trim().toUpperCase();
+            const code = document.getElementById('subscriptionCode').value;
             
             if (!code) {
                 alert('❌ Please enter your subscription code!');
@@ -1132,31 +1067,22 @@
                 return;
             }
             
-            showLoading('Verifying code...');
-            
             // Check if code exists and is valid
-            setTimeout(() => {
-                const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { codes: [] };
-                const validCode = adminData.codes.find(c => c.code === code && !c.used);
+            const adminData = JSON.parse(localStorage.getItem('tmw_admin_data')) || { codes: [] };
+            const validCode = adminData.codes.find(c => c.code === code && !c.used);
+            
+            if (validCode) {
+                // Mark code as used
+                validCode.used = true;
+                validCode.usedBy = 'Customer';
+                validCode.usedDate = new Date().toLocaleDateString();
+                localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
                 
-                if (validCode) {
-                    // Mark code as used
-                    validCode.used = true;
-                    validCode.usedBy = 'Customer';
-                    validCode.usedDate = new Date().toLocaleDateString();
-                    localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
-                    
-                    hideLoading();
-                    alert(`✅ Code activated! Your ${validCode.plan} subscription is now active.`);
-                    closePayment();
-                    
-                    // Redirect to movies section
-                    showSection('popular');
-                } else {
-                    hideLoading();
-                    alert('❌ Invalid or already used code! Please check and try again.');
-                }
-            }, 1500);
+                alert(`✅ Code activated! Your ${validCode.plan} subscription is now active.`);
+                closePayment();
+            } else {
+                alert('❌ Invalid or already used code! Please check and try again.');
+            }
         }
 
         function resetPaymentForm() {
@@ -1165,27 +1091,13 @@
             document.getElementById('subscriptionCode').value = '';
         }
 
-        function showLoading(message) {
-            // You can implement a loading overlay here
-            console.log("Loading:", message);
-        }
-
-        function hideLoading() {
-            // Hide loading overlay
-            console.log("Loading complete");
-        }
-
         // ==================== VIDEO PLAYER FUNCTIONS ====================
         function playMovie(videoLink, title) {
             let embedLink = videoLink;
             
-            // Convert Google Drive link to embed format
             if (videoLink.includes('drive.google.com')) {
                 if (videoLink.includes('/file/d/')) {
                     const fileId = videoLink.split('/file/d/')[1].split('/')[0];
-                    embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
-                } else if (videoLink.includes('id=')) {
-                    const fileId = videoLink.split('id=')[1];
                     embedLink = `https://drive.google.com/file/d/${fileId}/preview`;
                 }
             }
@@ -1217,42 +1129,9 @@
 
         // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("🚀 TMW Website Initialized!");
-            
             // Load initial data
             loadMovies();
-            
-            // Initialize sample codes if none exist
-            initializeSampleCodes();
         });
-
-        function initializeSampleCodes() {
-            let adminData = JSON.parse(localStorage.getItem('tmw_admin_data'));
-            if (!adminData || !adminData.codes || adminData.codes.length === 0) {
-                adminData = {
-                    codes: [
-                        {
-                            code: "TMWDAILY1234",
-                            plan: "DAILY",
-                            generated: new Date().toLocaleDateString(),
-                            used: false,
-                            usedBy: '',
-                            usedDate: ''
-                        },
-                        {
-                            code: "TWMWEEKLY5678",
-                            plan: "WEEKLY", 
-                            generated: new Date().toLocaleDateString(),
-                            used: false,
-                            usedBy: '',
-                            usedDate: ''
-                        }
-                    ]
-                };
-                localStorage.setItem('tmw_admin_data', JSON.stringify(adminData));
-                console.log("✅ Sample codes initialized!");
-            }
-        }
 
         // Close modal when clicking outside
         window.onclick = function(event) {
@@ -1260,20 +1139,7 @@
             if (event.target === modal) {
                 closePayment();
             }
-            
-            const videoPlayer = document.getElementById('videoPlayer');
-            if (event.target === videoPlayer) {
-                closeVideo();
-            }
         }
-
-        // Handle escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closePayment();
-                closeVideo();
-            }
-        });
     </script>
 </body>
 </html>
