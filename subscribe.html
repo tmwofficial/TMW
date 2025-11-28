@@ -1,103 +1,371 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscribe - TMW Streaming</title>
+    <title>Subscribe - TMW _ TALENT MEDIA WORKS</title>
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: Arial, sans-serif; 
-            background: purple; 
-            min-height: 100vh; 
-            padding: 20px; 
-        }
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { text-align: center; color: white; margin-bottom: 40px; }
-        .logo { font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
-        .plans-container { display: grid; gap: 20px; }
-        .plan-card { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 10px; 
+        .subscription-hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8));
+            padding: 80px 20px;
             text-align: center;
-            margin-bottom: 20px;
+            color: white;
         }
-        .plan-name { font-size: 1.5rem; color: #333; margin-bottom: 10px; }
-        .plan-price { font-size: 2rem; font-weight: bold; color: purple; margin-bottom: 10px; }
-        .payment-info { 
-            background: #f8f9fa; 
-            padding: 15px; 
-            border-radius: 10px; 
-            margin: 15px 0; 
+        
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .phone-number { font-weight: bold; color: red; font-size: 1.1rem; }
-        .subscribe-btn { 
-            background: purple; 
-            color: white; 
-            padding: 15px; 
-            border: none; 
-            border-radius: 10px; 
-            width: 100%; 
-            font-size: 1rem; 
-            cursor: pointer;
+        
+        .plan-card {
+            background: #1A1A1A;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 2px solid #333;
         }
-        .support { text-align: center; color: white; margin-top: 40px; }
+        
+        .plan-card.popular {
+            border-color: #FF9900;
+            transform: scale(1.05);
+            position: relative;
+        }
+        
+        .popular-badge {
+            background: #FF9900;
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FF9900;
+            margin: 1rem 0;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+        
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .plan-features li:before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+        
+        .payment-methods {
+            background: #1A1A1A;
+            padding: 3rem 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            border-radius: 12px;
+        }
+        
+        .method-card {
+            background: #2D2D2D;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #FF9900;
+        }
+        
+        .voucher-section {
+            background: #2D2D2D;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .voucher-input {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+        
+        .voucher-input input {
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">TMW</div>
-            <div>Translated Movie World</div>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🎬 TMW _ TALENT MEDIA WORKS</div>
+        <div class="mobile-menu" onclick="toggleMobileMenu()">☰</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="browse-talents.html">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for-talents.html">For Talents</a>
+            <a href="subscribe.html" class="subscribe-btn">Subscribe</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="subscription-hero">
+        <h1>🚀 UNLOCK UGANDAN PROFESSIONAL TALENT</h1>
+        <p>Choose Your Plan - Cancel Anytime. Instant Access to Quality Content.</p>
+    </section>
+
+    <!-- Subscription Plans -->
+    <section class="plans-container">
+        <!-- Bronze Plan -->
+        <div class="plan-card">
+            <h3>💎 BRONZE</h3>
+            <div class="plan-price">3,000 UGX<span style="font-size: 1rem; color: #888;">/month</span></div>
+            <p>Perfect for trying out the platform</p>
+            <ul class="plan-features">
+                <li>Access to Basic Talent Profiles</li>
+                <li>Standard Quality (480p)</li>
+                <li>3 Talent Views Per Day</li>
+                <li>Mobile Streaming Only</li>
+                <li>Basic Support</li>
+            </ul>
+            <button class="btn-secondary" onclick="selectPlan('bronze')">SELECT BRONZE</button>
         </div>
 
-        <div class="plans-container">
-            <div class="plan-card">
-                <div class="plan-name">Daily Plan</div>
-                <div class="plan-price">UGX 2,000</div>
-                <div>Watch 5 Movies/Day</div>
-                <div class="payment-info">
-                    Pay via Airtel Money:<br>
-                    <span class="phone-number">0704557858</span>
-                </div>
-                <button class="subscribe-btn" onclick="window.location.href='payment.html'">
-                    Subscribe Now
-                </button>
-            </div>
-
-            <div class="plan-card">
-                <div class="plan-name">Weekly Plan</div>
-                <div class="plan-price">UGX 6,000</div>
-                <div>Watch 15 Movies/Week</div>
-                <div class="payment-info">
-                    Pay via Airtel Money:<br>
-                    <span class="phone-number">0704557858</span>
-                </div>
-                <button class="subscribe-btn" onclick="window.location.href='payment.html'">
-                    Subscribe Now
-                </button>
-            </div>
-
-            <div class="plan-card">
-                <div class="plan-name">Monthly Plan</div>
-                <div class="plan-price">UGX 15,000</div>
-                <div>Watch All Movies + Download</div>
-                <div class="payment-info">
-                    Pay via Airtel Money:<br>
-                    <span class="phone-number">0704557858</span>
-                </div>
-                <button class="subscribe-btn" onclick="window.location.href='payment.html'">
-                    Subscribe Now
-                </button>
-            </div>
+        <!-- Silver Plan - Most Popular -->
+        <div class="plan-card popular">
+            <div class="popular-badge">MOST POPULAR</div>
+            <h3>🔥 SILVER</h3>
+            <div class="plan-price">8,000 UGX<span style="font-size: 1rem; color: #888;">/month</span></div>
+            <p>Best value for serious fans</p>
+            <ul class="plan-features">
+                <li>Unlimited Talent Access</li>
+                <li>HD Streaming (1080p)</li>
+                <li>Download 10 Contents/Month</li>
+                <li>Ad-Free Experience</li>
+                <li>2 Devices Simultaneously</li>
+                <li>Priority Support</li>
+            </ul>
+            <button class="btn-primary" onclick="selectPlan('silver')">SELECT SILVER</button>
         </div>
 
-        <div class="support">
-            <p>📞 Support: 0747329915</p>
-            <p>Made by Marvin © 2025 TMW</p>
+        <!-- Gold Plan -->
+        <div class="plan-card">
+            <h3>👑 GOLD</h3>
+            <div class="plan-price">15,000 UGX<span style="font-size: 1rem; color: #888;">/month</span></div>
+            <p>VIP professional experience</p>
+            <ul class="plan-features">
+                <li>Everything in Silver +</li>
+                <li>4K Ultra HD Streaming</li>
+                <li>Unlimited Downloads</li>
+                <li>4 Devices Simultaneously</li>
+                <li>Early Access to New Talent</li>
+                <li>VIP Customer Support</li>
+                <li>Exclusive Content</li>
+            </ul>
+            <button class="btn-secondary" onclick="selectPlan('gold')">SELECT GOLD</button>
         </div>
-    </div>
+    </section>
+
+    <!-- Payment Methods -->
+    <section class="payment-methods">
+        <h2 style="text-align: center; color: #FF9900; margin-bottom: 2rem;">💳 CHOOSE YOUR PAYMENT METHOD</h2>
+        
+        <!-- Mobile Money Method -->
+        <div class="method-card">
+            <h3>📱 MOBILE MONEY</h3>
+            <p><strong>Send to: 0704557858</strong></p>
+            <p><strong>Reference: TMW[YourName]</strong></p>
+            <div style="background: #1A1A1A; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                <h4>📋 HOW TO PAY:</h4>
+                <ol style="text-align: left; padding-left: 1.5rem;">
+                    <li>Go to your Mobile Money</li>
+                    <li>Send to: <strong>0704557858</strong></li>
+                    <li>Amount: <strong id="mobileMoneyAmount">8,000 UGX</strong></li>
+                    <li>Reference: <strong>TMW[YourName]</strong></li>
+                    <li>WhatsApp screenshot to: <strong>0765206238</strong></li>
+                </ol>
+            </div>
+            <button class="btn-primary" onclick="payWithMobileMoney()">PAY WITH MOBILE MONEY</button>
+        </div>
+
+        <!-- Voucher Code Method -->
+        <div class="voucher-section">
+            <h3>🎁 VOUCHER CODE</h3>
+            <p>Get codes from TMW admin via WhatsApp</p>
+            <div class="voucher-input">
+                <input type="text" id="voucherCode" placeholder="Enter voucher code" style="padding: 0.8rem; border-radius: 4px; border: 1px solid #444; background: #1A1A1A; color: white;">
+                <button class="btn-secondary" onclick="activateVoucher()">ACTIVATE CODE</button>
+            </div>
+            <p><strong>Get codes via WhatsApp: 0765206238</strong></p>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section style="padding: 2rem; text-align: center;">
+        <h2 style="color: #FF9900; margin-bottom: 2rem;">🛡️ WHY TRUST TMW?</h2>
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <h3>✅ SECURE PAYMENTS</h3>
+                <p>Ugandan Mobile Money</p>
+            </div>
+            <div class="trust-badge">
+                <h3>⚡ INSTANT ACTIVATION</h3>
+                <p>Within 10 minutes</p>
+            </div>
+            <div class="trust-badge">
+                <h3>🎯 QUALITY GUARANTEE</h3>
+                <p>Professional content only</p>
+            </div>
+            <div class="trust-badge">
+                <h3>📞 24/7 SUPPORT</h3>
+                <p>WhatsApp: 0765206238</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section style="background: #1A1A1A; padding: 3rem 2rem; text-align: center; margin: 2rem 0;">
+        <h3 style="color: #FF9900;">📞 NEED HELP WITH PAYMENT?</h3>
+        <p>Contact our support team for immediate assistance:</p>
+        <div style="margin: 1rem 0;">
+            <p>📱 <strong>WhatsApp: 0765206238</strong></p>
+            <p>📞 <strong>Phone: 0704557858</strong></p>
+            <p>📧 <strong>Email: platformtmw@gmail.com</strong></p>
+        </div>
+        <button class="btn-primary" onclick="openWhatsApp()">💬 CHAT ON WHATSAPP</button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="browse-talents.html">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for-talents.html">For Talents</a>
+            <a href="subscribe.html">Subscribe</a>
+        </div>
+        <div class="contact-info">
+            <p>📞 Call: 0704557858 | 💬 WhatsApp: 0765206238 | 📧 Email: platformtmw@gmail.com</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 TMW _ TALENT MEDIA WORKS. Where Talent Works & Earns.</p>
+        </div>
+    </footer>
+
+    <script>
+        let selectedPlan = 'silver'; // Default selection
+        
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            
+            // Update all buttons
+            document.querySelectorAll('.plan-card button').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+            });
+            
+            // Highlight selected plan
+            event.target.classList.remove('btn-secondary');
+            event.target.classList.add('btn-primary');
+            
+            // Update payment amount
+            updatePaymentAmount();
+        }
+
+        function updatePaymentAmount() {
+            const amounts = {
+                'bronze': '3,000 UGX',
+                'silver': '8,000 UGX', 
+                'gold': '15,000 UGX'
+            };
+            
+            document.getElementById('mobileMoneyAmount').textContent = amounts[selectedPlan];
+        }
+
+        function payWithMobileMoney() {
+            const planNames = {
+                'bronze': 'BRONZE',
+                'silver': 'SILVER',
+                'gold': 'GOLD'
+            };
+            
+            const amounts = {
+                'bronze': '3,000',
+                'silver': '8,000',
+                'gold': '15,000'
+            };
+            
+            alert(`📱 MOBILE MONEY PAYMENT INSTRUCTIONS:\n\n` +
+                  `1. Send ${amounts[selectedPlan]} UGX to: 0704557858\n` +
+                  `2. Use Reference: TMW[YourName]\n` +
+                  `3. WhatsApp screenshot to: 0765206238\n` +
+                  `4. We'll activate your ${planNames[selectedPlan]} plan within 10 minutes!\n\n` +
+                  `Need help? WhatsApp: 0765206238`);
+        }
+
+        function activateVoucher() {
+            const voucherCode = document.getElementById('voucherCode').value;
+            
+            if (!voucherCode) {
+                alert('❌ Please enter a voucher code');
+                return;
+            }
+            
+            if (voucherCode.toUpperCase().includes('TMW')) {
+                alert(`🎉 VOUCHER ACTIVATED!\n\n` +
+                      `Your ${selectedPlan.toUpperCase()} plan has been activated!\n` +
+                      `You now have full access to TMW professional talent.\n\n` +
+                      `Enjoy the platform! 🚀`);
+                document.getElementById('voucherCode').value = '';
+            } else {
+                alert('❌ INVALID VOUCHER CODE\n\n' +
+                      'Please check the code and try again.\n' +
+                      'Get valid codes via WhatsApp: 0765206238');
+            }
+        }
+
+        function openWhatsApp() {
+            const message = `Hello TMW! I need help with subscription payment for ${selectedPlan.toUpperCase()} plan.`;
+            window.open(`https://wa.me/256765206238?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Initialize default selection
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePaymentAmount();
+        });
+    </script>
 </body>
 </html>

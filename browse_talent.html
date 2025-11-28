@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Talents - TMW _ TALENT MEDIA WORKS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .browse-hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8));
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .filters-section {
+            background: #1A1A1A;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #FF9900;
+            font-weight: bold;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 0.8rem;
+            background: #2D2D2D;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 3rem 0.8rem 1rem;
+            background: #2D2D2D;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        .talents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .talent-profile-card {
+            background: #1A1A1A;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .talent-profile-card:hover {
+            transform: translateY(-5px);
+            border-color: #FF9900;
+        }
+        
+        .talent-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(45deg, #333, #555);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        
+        .verified-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #E50914;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .talent-info {
+            padding: 1.5rem;
+        }
+        
+        .talent-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #FF9900;
+        }
+        
+        .talent-category {
+            color: #888;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .talent-rating {
+            color: #FF9900;
+            margin-bottom: 1rem;
+        }
+        
+        .talent-location {
+            color: #888;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .talent-specialty {
+            background: #2D2D2D;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .talent-pricing {
+            color: #00CC66;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-view {
+            flex: 1;
+            background: #E50914;
+            color: white;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .btn-book {
+            flex: 1;
+            background: #FF9900;
+            color: black;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .subscribe-prompt {
+            background: #E50914;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 800px;
+            border-radius: 8px;
+        }
+        
+        .results-count {
+            text-align: center;
+            padding: 1rem;
+            color: #888;
+            border-bottom: 1px solid #333;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-tab {
+            background: #2D2D2D;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .category-tab.active {
+            background: #FF9900;
+            color: black;
+            border-color: #FF9900;
+            font-weight: bold;
+        }
+        
+        .category-tab:hover {
+            border-color: #FF9900;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🎬 TMW _ TALENT MEDIA WORKS</div>
+        <div class="mobile-menu" onclick="toggleMobileMenu()">☰</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="browse-talents.html" class="highlight">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for-talents.html">For Talents</a>
+            <a href="subscribe.html" class="subscribe-btn">Subscribe</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="browse-hero">
+        <h1>👥 DISCOVER UGANDAN PROFESSIONAL TALENT</h1>
+        <p>Browse Verified Professionals - Quality Guaranteed</p>
+    </section>
+
+    <!-- Category Tabs -->
+    <section class="category-tabs">
+        <div class="category-tab active" onclick="filterByCategory('all')">All Talents</div>
+        <div class="category-tab" onclick="filterByCategory('musician')">🎵 Musicians</div>
+        <div class="category-tab" onclick="filterByCategory('vj')">🎥 VJs</div>
+        <div class="category-tab" onclick="filterByCategory('dj')">🎧 DJs</div>
+        <div class="category-tab" onclick="filterByCategory('movie_maker')">🎬 Movie Makers</div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="filters-grid">
+            <!-- Search -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search talents by name or specialty..." onkeyup="searchTalents()">
+                <div class="search-icon">🔍</div>
+            </div>
+            
+            <!-- Location Filter -->
+            <div class="filter-group">
+                <label>📍 Location</label>
+                <select class="filter-select" onchange="filterTalents()">
+                    <option value="">All Locations</option>
+                    <option value="kampala">Kampala</option>
+                    <option value="entebbe">Entebbe</option>
+                    <option value="wakiso">Wakiso</option>
+                    <option value="mukono">Mukono</option>
+                </select>
+            </div>
+            
+            <!-- Price Range -->
+            <div class="filter-group">
+                <label>💰 Price Range</label>
+                <select class="filter-select" onchange="filterTalents()">
+                    <option value="">Any Price</option>
+                    <option value="100k-500k">100K - 500K UGX</option>
+                    <option value="500k-1m">500K - 1M UGX</option>
+                    <option value="1m+">1M+ UGX</option>
+                </select>
+            </div>
+            
+            <!-- Rating -->
+            <div class="filter-group">
+                <label>⭐ Rating</label>
+                <select class="filter-select" onchange="filterTalents()">
+                    <option value="">Any Rating</option>
+                    <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+                    <option value="4">⭐⭐⭐⭐☆ (4+ Stars)</option>
+                    <option value="3">⭐⭐⭐☆☆ (3+ Stars)</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Count -->
+    <div class="results-count" id="resultsCount">
+        Showing 12 of 187 Verified Professionals
+    </div>
+
+    <!-- Subscribe Prompt -->
+    <section class="subscribe-prompt">
+        <h2>🔒 SUBSCRIBE TO ACCESS FULL PROFILES</h2>
+        <p>Get full access to professional portfolios, contact details, and booking information</p>
+        <a href="subscribe.html" class="btn-primary">Subscribe Now - From 3,000 UGX</a>
+    </section>
+
+    <!-- Talents Grid -->
+    <section class="talents-grid" id="talentsGrid">
+        <!-- Talent cards will be loaded here by JavaScript -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="browse-talents.html">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for-talents.html">For Talents</a>
+            <a href="subscribe.html">Subscribe</a>
+        </div>
+        <div class="contact-info">
+            <p>📞 Call: 0704557858 | 💬 WhatsApp: 0765206238 | 📧 Email: platformtmw@gmail.com</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 TMW _ TALENT MEDIA WORKS. Where Talent Works & Earns.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample talent data
+        const talents = [
+            {
+                id: 1,
+                name: "VJ Pro Mark",
+                category: "vj",
+                specialty: "Wedding & Event Coverage",
+                location: "Kampala",
+                rating: 5,
+                price: "From 500,000 UGX",
+                icon: "🎥"
+            },
+            {
+                id: 2,
+                name: "Sheebah",
+                category: "musician",
+                specialty: "Afrobeat Artist",
+                location: "Kampala", 
+                rating: 5,
+                price: "From 2,000,000 UGX",
+                icon: "🎵"
+            },
+            {
+                id: 3,
+                name: "DJ Erycom",
+                category: "dj",
+                specialty: "Club Mix Specialist", 
+                location: "Kampala",
+                rating: 5,
+                price: "From 800,000 UGX",
+                icon: "🎧"
+            },
+            {
+                id: 4,
+                name: "Film Factory UG",
+                category: "movie_maker",
+                specialty: "Short Films & Series",
+                location: "Kampala",
+                rating: 4,
+                price: "From 1,500,000 UGX", 
+                icon: "🎬"
+            },
+            {
+                id: 5,
+                name: "Eddy Kenzo",
+                category: "musician",
+                specialty: "International Star",
+                location: "Kampala",
+                rating: 5,
+                price: "From 3,000,000 UGX",
+                icon: "🎵"
+            },
+            {
+                id: 6,
+                name: "Cinema Masters",
+                category: "vj",
+                specialty: "Music Video Production",
+                location: "Entebbe", 
+                rating: 4,
+                price: "From 600,000 UGX",
+                icon: "🎥"
+            },
+            {
+                id: 7,
+                name: "DJ Slick",
+                category: "dj",
+                specialty: "Wedding Specialist",
+                location: "Wakiso",
+                rating: 4,
+                price: "From 400,000 UGX",
+                icon: "🎧"
+            },
+            {
+                id: 8, 
+                name: "Kampala Stories",
+                category: "movie_maker",
+                specialty: "Documentary Series",
+                location: "Kampala",
+                rating: 5,
+                price: "From 2,000,000 UGX",
+                icon: "🎬"
+            },
+            {
+                id: 9,
+                name: "Vinka",
+                category: "musician", 
+                specialty: "Dancehall Queen",
+                location: "Kampala",
+                rating: 4,
+                price: "From 1,500,000 UGX",
+                icon: "🎵"
+            },
+            {
+                id: 10,
+                name: "Event Capture UG",
+                category: "vj",
+                specialty: "Corporate Events",
+                location: "Kampala",
+                rating: 5,
+                price: "From 750,000 UGX", 
+                icon: "🎥"
+            },
+            {
+                id: 11,
+                name: "DJ Mosh",
+                category: "dj",
+                specialty: "Radio Personality",
+                location: "Kampala",
+                rating: 5,
+                price: "From 900,000 UGX",
+                icon: "🎧"
+            },
+            {
+                id: 12,
+                name: "Uganda Cinema",
+                category: "movie_maker",
+                specialty: "Feature Films", 
+                location: "Kampala",
+                rating: 4,
+                price: "From 2,500,000 UGX",
+                icon: "🎬"
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentFilters = {};
+
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            filterTalents();
+        }
+
+        function searchTalents() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            currentFilters.search = searchTerm;
+            filterTalents();
+        }
+
+        function filterTalents() {
+            // Get filter values
+            currentFilters.location = document.querySelector('select').value;
+            currentFilters.price = document.querySelectorAll('select')[1].value;
+            currentFilters.rating = document.querySelectorAll('select')[2].value;
+            
+            // Filter talents
+            let filteredTalents = talents.filter(talent => {
+                // Category filter
+                if (currentCategory !== 'all' && talent.category !== currentCategory) {
+                    return false;
+                }
+                
+                // Search filter
+                if (currentFilters.search && !talent.name.toLowerCase().includes(currentFilters.search) && 
+                    !talent.specialty.toLowerCase().includes(currentFilters.search)) {
+                    return false;
+                }
+                
+                // Location filter
+                if (currentFilters.location && talent.location.toLowerCase() !== currentFilters.location) {
+                    return false;
+                }
+                
+                // Rating filter
+                if (currentFilters.rating && talent.rating < parseInt(currentFilters.rating)) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            displayTalents(filteredTalents);
+        }
+
+        function displayTalents(talentsToShow) {
+            const grid = document.getElementById('talentsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            // Update results count
+            resultsCount.textContent = `Showing ${talentsToShow.length} of ${talents.length} Verified Professionals`;
+            
+            // Generate talent cards
+            grid.innerHTML = talentsToShow.map(talent => `
+                <div class="talent-profile-card" data-category="${talent.category}">
+                    <div class="talent-header">
+                        <div>${talent.icon}</div>
+                        <div class="verified-badge">✅ VERIFIED</div>
+                    </div>
+                    <div class="talent-info">
+                        <div class="talent-name">${talent.name}</div>
+                        <div class="talent-category">${getCategoryName(talent.category)}</div>
+                        <div class="talent-rating">${'⭐'.repeat(talent.rating)}${'☆'.repeat(5-talent.rating)}</div>
+                        <div class="talent-location">📍 ${talent.location}</div>
+                        <div class="talent-specialty">${talent.specialty}</div>
+                        <div class="talent-pricing">${talent.price}</div>
+                        <div class="profile-actions">
+                            <a href="#" class="btn-view" onclick="viewProfile(${talent.id})">View Profile</a>
+                            <a href="#" class="btn-book" onclick="bookTalent(${talent.id})">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'musician': 'Musician/Artist',
+                'vj': 'Professional VJ', 
+                'dj': 'DJ',
+                'movie_maker': 'Movie Maker'
+            };
+            return categories[category] || category;
+        }
+
+        function viewProfile(talentId) {
+            alert('🔒 SUBSCRIBE TO ACCESS FULL PROFILE\n\nFull profiles include:\n• Complete portfolio\n• Contact information\n• Booking details\n• Client reviews\n\nSubscribe now to connect with professional talent!');
+        }
+
+        function bookTalent(talentId) {
+            alert('🎯 BOOK PROFESSIONAL TALENT\n\nContact us to book this talent:\n\n📱 WhatsApp: 0765206238\n📞 Phone: 0704557858\n📧 Email: platformtmw@gmail.com\n\nWe\'ll connect you directly with the talent!');
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayTalents(talents);
+        });
+    </script>
+</body>
+</html>

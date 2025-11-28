@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply as Talent - TMW _ TALENT MEDIA WORKS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .talent-application-hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('images/talent-hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .talent-application-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #FF9900;
+        }
+        
+        .benefits-section {
+            background: #1A1A1A;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: #2D2D2D;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .benefit-card h3 {
+            color: #FF9900;
+            margin-bottom: 1rem;
+        }
+        
+        .special-offer {
+            background: #E50914;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .verification-fees {
+            background: #1A1A1A;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .fee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .fee-card {
+            background: #2D2D2D;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .free-badge {
+            background: #00CC66;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🎬 TMW _ TALENT MEDIA WORKS</div>
+        <div class="mobile-menu" onclick="toggleMobileMenu()">☰</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="browse-talents.html">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for-talents.html" class="highlight">For Talents</a>
+            <a href="subscribe.html" class="subscribe-btn">Subscribe</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="talent-application-hero">
+        <h1>🎯 JOIN UGANDA'S ELITE TALENT PLATFORM</h1>
+        <p>Where Professional Talent Gets the Business Treatment It Deserves</p>
+        <div class="cta-buttons">
+            <a href="#application-form" class="btn-primary">Apply Now - First 100 FREE</a>
+        </div>
+    </section>
+
+    <!-- Special Offer -->
+    <section class="special-offer">
+        <h2>🎁 LAUNCH SPECIAL: FIRST 100 TALENTS GET FREE VERIFICATION!</h2>
+        <p>Save 30,000 UGX - Limited Time Offer!</p>
+        <div class="progress-bar" style="background: #333; height: 20px; border-radius: 10px; margin: 1rem auto; max-width: 300px;">
+            <div style="background: #FF9900; height: 100%; width: 65%; border-radius: 10px; text-align: center; color: black; font-weight: bold;">
+                65/100 Spots Taken
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <h2>💎 WHY JOIN TMW AS A VERIFIED TALENT?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>💰 Earn More</h3>
+                <p>Keep 70% of all your earnings + professional pricing</p>
+            </div>
+            <div class="benefit-card">
+                <h3>🎯 Quality Clients</h3>
+                <p>Serious clients who value professional work</p>
+            </div>
+            <div class="benefit-card">
+                <h3>📈 Professional Growth</h3>
+                <p>Build your brand with quality-controlled platform</p>
+            </div>
+            <div class="benefit-card">
+                <h3>🛡️ Protected Reputation</h3>
+                <p>No amateurs to compete with - only verified professionals</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification Fees -->
+    <section class="verification-fees">
+        <h2>🎫 VERIFICATION FEES (After First 100 Free)</h2>
+        <div class="fee-grid">
+            <div class="fee-card">
+                <h3>🎵 Musicians</h3>
+                <p>25,000 UGX</p>
+                <span class="free-badge">FREE NOW</span>
+            </div>
+            <div class="fee-card">
+                <h3>🎥 VJs</h3>
+                <p>30,000 UGX</p>
+                <span class="free-badge">FREE NOW</span>
+            </div>
+            <div class="fee-card">
+                <h3>🎧 DJs</h3>
+                <p>25,000 UGX</p>
+                <span class="free-badge">FREE NOW</span>
+            </div>
+            <div class="fee-card">
+                <h3>🎬 Movie Makers</h3>
+                <p>35,000 UGX</p>
+                <span class="free-badge">FREE NOW</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section id="application-form" class="talent-application-form">
+        <h2>📝 APPLICATION FOR VERIFIED TALENT</h2>
+        <p>Fill this form to join Uganda's elite professional talent community</p>
+        
+        <form id="talentApplicationForm" onsubmit="submitApplication(event)">
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h3>📋 Personal Information</h3>
+                <input type="text" name="full_name" placeholder="Full Legal Name *" required>
+                <input type="text" name="stage_name" placeholder="Professional/Stage Name *" required>
+                <input type="tel" name="phone" placeholder="Phone Number (07XXXXXXXX) *" pattern="[0-9]{10}" required>
+                <input type="email" name="email" placeholder="Email Address *" required>
+            </div>
+
+            <!-- Talent Category -->
+            <div class="form-section">
+                <h3>🎯 Talent Category</h3>
+                <select name="talent_category" required>
+                    <option value="">Select Your Profession *</option>
+                    <option value="musician">🎵 Musician/Artist</option>
+                    <option value="vj">🎥 Professional VJ</option>
+                    <option value="dj">🎧 DJ</option>
+                    <option value="movie_maker">🎬 Movie Maker/Filmmaker</option>
+                </select>
+            </div>
+
+            <!-- Portfolio Links -->
+            <div class="form-section">
+                <h3>📁 Professional Portfolio</h3>
+                <p>Provide 3 links to your best work (YouTube, Vimeo, SoundCloud, etc.)</p>
+                <input type="url" name="portfolio1" placeholder="Portfolio Link 1 *" required>
+                <input type="url" name="portfolio2" placeholder="Portfolio Link 2 *" required>
+                <input type="url" name="portfolio3" placeholder="Portfolio Link 3 *" required>
+            </div>
+
+            <!-- Equipment & Experience -->
+            <div class="form-section">
+                <h3>⚙️ Professional Setup</h3>
+                <textarea name="equipment" placeholder="List your professional equipment (cameras, audio gear, software, etc.) *" required rows="4"></textarea>
+                <textarea name="experience" placeholder="Briefly describe your professional experience and background *" required rows="4"></textarea>
+            </div>
+
+            <!-- ID Verification -->
+            <div class="form-section">
+                <h3>🆔 Identity Verification</h3>
+                <input type="file" name="id_document" accept=".jpg,.jpeg,.png,.pdf" required>
+                <small>Upload National ID, Passport, or Driver's License (Max 5MB)</small>
+            </div>
+
+            <!-- Agreement -->
+            <div class="form-section">
+                <h3>📄 Agreement</h3>
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" name="agree_terms" required>
+                    I agree to TMW's 30% platform commission on all earnings *
+                </label>
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" name="agree_quality" required>
+                    I understand TMW maintains high quality standards and my application can be rejected if standards aren't met *
+                </label>
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" name="agree_manual" required>
+                    I understand all applications are manually reviewed and verification is not guaranteed *
+                </label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">🚀 SUBMIT APPLICATION FOR VERIFICATION</button>
+        </form>
+        
+        <!-- Contact Information -->
+        <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: #1A1A1A; border-radius: 8px;">
+            <h3>📞 NEED HELP WITH YOUR APPLICATION?</h3>
+            <p>Contact us directly:</p>
+            <p>📱 WhatsApp: <strong>0765206238</strong></p>
+            <p>📞 Phone: <strong>0704557858</strong></p>
+            <p>📧 Email: <strong>platformtmw@gmail.com</strong></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="browse-talents.html">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for-talents.html">For Talents</a>
+            <a href="subscribe.html">Subscribe</a>
+        </div>
+        <div class="contact-info">
+            <p>📞 Call: 0704557858 | 💬 WhatsApp: 0765206238 | 📧 Email: platformtmw@gmail.com</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 TMW _ TALENT MEDIA WORKS. Where Talent Works & Earns.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            
+            // Get form data
+            const formData = {
+                fullName: form.full_name.value,
+                stageName: form.stage_name.value,
+                phone: form.phone.value,
+                email: form.email.value,
+                category: form.talent_category.value,
+                portfolio1: form.portfolio1.value,
+                portfolio2: form.portfolio2.value,
+                portfolio3: form.portfolio3.value,
+                equipment: form.equipment.value,
+                experience: form.experience.value
+            };
+            
+            // Validate form
+            if (!validateForm(formData)) {
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.textContent = 'Submitting Application...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                alert('🎉 APPLICATION SUBMITTED SUCCESSFULLY!\n\nWe have received your application for TMW verification. Our team will review your portfolio and contact you at ' + formData.phone + ' within 24 hours.\n\nThank you for choosing TMW _ TALENT MEDIA WORKS!');
+                
+                // Reset form
+                form.reset();
+                submitBtn.textContent = '🚀 SUBMIT APPLICATION FOR VERIFICATION';
+                submitBtn.disabled = false;
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }, 2000);
+        }
+        
+        function validateForm(data) {
+            // Check required fields
+            if (!data.fullName || !data.phone || !data.email || !data.category) {
+                alert('❌ Please fill in all required fields');
+                return false;
+            }
+            
+            // Validate Ugandan phone number
+            const phoneRegex = /^(07[0-9]{8})$/;
+            if (!phoneRegex.test(data.phone)) {
+                alert('❌ Please enter a valid Ugandan phone number (07XXXXXXXX)');
+                return false;
+            }
+            
+            // Validate portfolio links
+            if (!isValidUrl(data.portfolio1) || !isValidUrl(data.portfolio2) || !isValidUrl(data.portfolio3)) {
+                alert('❌ Please provide valid portfolio links (YouTube, Vimeo, SoundCloud, etc.)');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const formInputs = document.querySelectorAll('input, select, textarea');
+            
+            formInputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = '#FF9900';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.borderColor = '#444';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

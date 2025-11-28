@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live - TMW _ TALENT MEDIA WORKS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .live-hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8));
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .live-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .live-now {
+            background: #E50914;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .stream-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .stream-card {
+            background: #1A1A1A;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .stream-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stream-placeholder {
+            height: 200px;
+            background: linear-gradient(45deg, #333, #555);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .stream-info {
+            padding: 1.5rem;
+        }
+        
+        .live-badge {
+            background: #E50914;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation will be loaded by shared.js -->
+    <nav></nav>
+
+    <!-- Hero Section -->
+    <section class="live-hero">
+        <h1>🔴 LIVE STREAMS & PERFORMANCES</h1>
+        <p>Watch Ugandan Talent Live in Action</p>
+    </section>
+
+    <!-- Live Now Indicator -->
+    <div class="live-now">
+        <h2>🎧 DJ ERYCOM LIVE NOW - CLUB MIX SPECIAL</h2>
+        <p>Join 245 viewers watching live</p>
+    </div>
+
+    <!-- Live Streams Grid -->
+    <section class="live-container">
+        <div class="stream-grid">
+            <!-- Live Stream 1 -->
+            <div class="stream-card">
+                <div class="stream-placeholder">
+                    🎧
+                </div>
+                <div class="stream-info">
+                    <span class="live-badge">LIVE NOW</span>
+                    <h3>DJ Erycom - Club Mix Session</h3>
+                    <p>245 viewers • Started 25 min ago</p>
+                    <button class="btn-primary" style="width: 100%; margin-top: 1rem;">JOIN STREAM</button>
+                </div>
+            </div>
+
+            <!-- Upcoming Streams -->
+            <div class="stream-card">
+                <div class="stream-placeholder">
+                    🎵
+                </div>
+                <div class="stream-info">
+                    <h3>Sheebah - Live Performance</h3>
+                    <p>Starts in 2 hours</p>
+                    <p>⭐ 1,234 waiting</p>
+                    <button class="btn-secondary" style="width: 100%; margin-top: 1rem;">SET REMINDER</button>
+                </div>
+            </div>
+
+            <div class="stream-card">
+                <div class="stream-placeholder">
+                    🎬
+                </div>
+                <div class="stream-info">
+                    <h3>Film Factory - Behind Scenes</h3>
+                    <p>Starts tomorrow 8:00 PM</p>
+                    <p>⭐ 567 waiting</p>
+                    <button class="btn-secondary" style="width: 100%; margin-top: 1rem;">SET REMINDER</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="browse_talent.html">Browse Talents</a>
+            <a href="live.html">Live</a>
+            <a href="for_talent.html">For Talents</a>
+            <a href="subscribe.html">Subscribe</a>
+        </div>
+        <div class="contact-info">
+            <p>📞 Call: 0704557858 | 💬 WhatsApp: 0765206238 | 📧 Email: platformtmw@gmail.com</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 TMW _ TALENT MEDIA WORKS. Where Talent Works & Earns.</p>
+        </div>
+    </footer>
+
+    <script src="js/shared.js"></script>
+    <script>
+        // Initialize navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNavigation();
+        });
+    </script>
+</body>
+</html>
