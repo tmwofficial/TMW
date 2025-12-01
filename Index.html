@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMW - Talent Media Works | Africa's Premier Talent Platform</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Temporary styles until we create CSS file */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav-main">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <a href="index.html">
+                    <span class="logo-tmw">TMW</span>
+                    <span class="logo-text">TALENT MEDIA WORKS</span>
+                </a>
+            </div>
+
+            <!-- Main Navigation Menu - HORIZONTAL -->
+            <div class="nav-menu">
+                <!-- EXACT ORDER AS REQUESTED -->
+                <a href="subscribe.html" class="nav-item nav-subscribe">
+                    <i class="fas fa-crown"></i> <span>SUBSCRIBE</span>
+                </a>
+                <a href="musicians.html" class="nav-item">
+                    <i class="fas fa-music"></i> <span>MUSICIANS/ARTIST</span>
+                </a>
+                <a href="vjs.html" class="nav-item">
+                    <i class="fas fa-film"></i> <span>VJs</span>
+                </a>
+                <a href="cinema-artists.html" class="nav-item">
+                    <i class="fas fa-video"></i> <span>CINEMA ARTISTS</span>
+                </a>
+                <a href="djs.html" class="nav-item">
+                    <i class="fas fa-compact-disc"></i> <span>DJs</span>
+                </a>
+                <a href="live.html" class="nav-item nav-live">
+                    <i class="fas fa-broadcast-tower"></i> <span>LIVE</span> <span class="live-dot"></span>
+                </a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt"></i> LOGIN
+                </a>
+                <a href="register.html" class="btn btn-join">
+                    <i class="fas fa-user-plus"></i> JOIN NOW
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge">
+                    <i class="fas fa-fire"></i> TRENDING PLATFORM 2023
+                </span>
+            </div>
+            
+            <h1 class="hero-title">
+                WHERE <span class="highlight">TALENT</span> MEETS<br>
+                <span class="highlight">OPPORTUNITY</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Join Africa's premier platform for musicians, VJs, cinema artists, and DJs.<br>
+                Showcase your talent, connect with fans, and grow your career.
+            </p>
+            
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-hero btn-primary">
+                    <i class="fas fa-play-circle"></i> START STREAMING
+                </a>
+                <a href="subscribe.html" class="btn btn-hero btn-secondary">
+                    <i class="fas fa-crown"></i> BECOME PREMIUM
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">500K+</div>
+                    <div class="stat-label">Monthly Viewers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Live Streams</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">50M+</div>
+                    <div class="stat-label">Total Views</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5K+</div>
+                    <div class="stat-label">Verified Talents</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Now Section -->
+    <section class="section live-now">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="live-indicator"></div>
+                    <h2><i class="fas fa-broadcast-tower"></i> LIVE NOW</h2>
+                </div>
+                <a href="live.html" class="view-all">
+                    VIEW ALL LIVE <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="live-grid">
+                <!-- Live Card 1 -->
+                <div class="live-card">
+                    <div class="live-badge">LIVE</div>
+                    <div class="live-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="DJ Live">
+                        <div class="live-overlay">
+                            <div class="viewers">
+                                <i class="fas fa-eye"></i> 2.4K watching
+                            </div>
+                        </div>
+                    </div>
+                    <div class="live-info">
+                        <div class="creator">
+                            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="DJ Prodigy" class="creator-avatar">
+                            <div>
+                                <h3>DJ PRODIGY</h3>
+                                <p class="category">Electronic/House DJ</p>
+                            </div>
+                        </div>
+                        <a href="live-stream.html" class="btn btn-watch">
+                            <i class="fas fa-play"></i> WATCH NOW
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Live Card 2 -->
+                <div class="live-card">
+                    <div class="live-badge">LIVE</div>
+                    <div class="live-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Music Live">
+                        <div class="live-overlay">
+                            <div class="viewers">
+                                <i class="fas fa-eye"></i> 1.8K watching
+                            </div>
+                        </div>
+                    </div>
+                    <div class="live-info">
+                        <div class="creator">
+                            <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Sarah Melody" class="creator-avatar">
+                            <div>
+                                <h3>SARAH MELODY</h3>
+                                <p class="category">R&B/Soul Artist</p>
+                            </div>
+                        </div>
+                        <a href="live-stream.html" class="btn btn-watch">
+                            <i class="fas fa-play"></i> WATCH NOW
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Live Card 3 -->
+                <div class="live-card">
+                    <div class="live-badge">LIVE</div>
+                    <div class="live-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="VJ Live">
+                        <div class="live-overlay">
+                            <div class="viewers">
+                                <i class="fas fa-eye"></i> 3.1K watching
+                            </div>
+                        </div>
+                    </div>
+                    <div class="live-info">
+                        <div class="creator">
+                            <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="VJ Flow" class="creator-avatar">
+                            <div>
+                                <h3>VJ FLOW</h3>
+                                <p class="category">Visual Artist</p>
+                            </div>
+                        </div>
+                        <a href="live-stream.html" class="btn btn-watch">
+                            <i class="fas fa-play"></i> WATCH NOW
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Talents Section -->
+    <section class="section trending">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-fire"></i> TRENDING TALENTS</h2>
+                <p class="section-subtitle">Top performers this week on TMW</p>
+            </div>
+            
+            <div class="trending-grid">
+                <!-- Talent 1 -->
+                <div class="talent-card">
+                    <div class="trank rank-1">#1</div>
+                    <div class="talent-header">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="DJ Prodigy" class="talent-img">
+                        <div class="verified-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h3>DJ PRODIGY</h3>
+                        <p class="talent-category">Electronic/House DJ</p>
+                        
+                        <div class="talent-stats">
+                            <div class="stat">
+                                <i class="fas fa-heart"></i>
+                                <span>2,457</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>1,842</span>
+                            </div>
+                        </div>
+                        
+                        <div class="talent-tags">
+                            <span class="tag">House</span>
+                            <span class="tag">EDM</span>
+                            <span class="tag">Live Mixing</span>
+                        </div>
+                    </div>
+                    <a href="profile.html" class="btn btn-profile">
+                        VIEW PROFILE <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Talent 2 -->
+                <div class="talent-card">
+                    <div class="trank rank-2">#2</div>
+                    <div class="talent-header">
+                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sarah Melody" class="talent-img">
+                        <div class="verified-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h3>SARAH MELODY</h3>
+                        <p class="talent-category">R&B/Soul Artist</p>
+                        
+                        <div class="talent-stats">
+                            <div class="stat">
+                                <i class="fas fa-heart"></i>
+                                <span>3,124</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>2,987</span>
+                            </div>
+                        </div>
+                        
+                        <div class="talent-tags">
+                            <span class="tag">R&B</span>
+                            <span class="tag">Soul</span>
+                            <span class="tag">Vocals</span>
+                        </div>
+                    </div>
+                    <a href="profile.html" class="btn btn-profile">
+                        VIEW PROFILE <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Talent 3 -->
+                <div class="talent-card">
+                    <div class="trank rank-3">#3</div>
+                    <div class="talent-header">
+                        <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cinema Pro" class="talent-img">
+                        <div class="verified-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h3>CINEMA PRO</h3>
+                        <p class="talent-category">Film Director</p>
+                        
+                        <div class="talent-stats">
+                            <div class="stat">
+                                <i class="fas fa-heart"></i>
+                                <span>1,892</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>2,345</span>
+                            </div>
+                        </div>
+                        
+                        <div class="talent-tags">
+                            <span class="tag">Film</span>
+                            <span class="tag">Directing</span>
+                            <span class="tag">Cinematography</span>
+                        </div>
+                    </div>
+                    <a href="profile.html" class="btn btn-profile">
+                        VIEW PROFILE <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Talent 4 -->
+                <div class="talent-card">
+                    <div class="trank rank-4">#4</div>
+                    <div class="talent-header">
+                        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="VJ Flow" class="talent-img">
+                        <div class="verified-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="talent-info">
+                        <h3>VJ FLOW</h3>
+                        <p class="talent-category">Visual Artist</p>
+                        
+                        <div class="talent-stats">
+                            <div class="stat">
+                                <i class="fas fa-heart"></i>
+                                <span>2,789</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>2,156</span>
+                            </div>
+                        </div>
+                        
+                        <div class="talent-tags">
+                            <span class="tag">Visuals</span>
+                            <span class="tag">VFX</span>
+                            <span class="tag">Motion Graphics</span>
+                        </div>
+                    </div>
+                    <a href="profile.html" class="btn btn-profile">
+                        VIEW PROFILE <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>EXPLORE TALENT CATEGORIES</h2>
+                <p class="section-subtitle">Find amazing talent across creative fields</p>
+            </div>
+            
+            <div class="categories-grid">
+                <!-- Category 1 -->
+                <a href="musicians.html" class="category-card cat-musicians">
+                    <div class="category-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>MUSICIANS/ARTISTS</h3>
+                    <p>Singers, bands, producers, instrumentalists</p>
+                    <span class="category-link">
+                        Explore <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+                
+                <!-- Category 2 -->
+                <a href="vjs.html" class="category-card cat-vjs">
+                    <div class="category-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3>VJs</h3>
+                    <p>Visual artists, video jockeys, effects creators</p>
+                    <span class="category-link">
+                        Explore <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+                
+                <!-- Category 3 -->
+                <a href="cinema-artists.html" class="category-card cat-cinema">
+                    <div class="category-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>CINEMA ARTISTS</h3>
+                    <p>Actors, directors, cinematographers, editors</p>
+                    <span class="category-link">
+                        Explore <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+                
+                <!-- Category 4 -->
+                <a href="djs.html" class="category-card cat-djs">
+                    <div class="category-icon">
+                        <i class="fas fa-compact-disc"></i>
+                    </div>
+                    <h3>DJs</h3>
+                    <p>DJs, producers, sound engineers, mixers</p>
+                    <span class="category-link">
+                        Explore <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>READY TO SHOWCASE YOUR TALENT?</h2>
+                <p class="cta-subtitle">Join Africa's premier talent platform and start your journey today</p>
+                
+                <div class="cta-buttons">
+                    <a href="register.html" class="btn btn-cta btn-talent">
+                        <i class="fas fa-star"></i> REGISTER AS TALENT
+                    </a>
+                    <a href="register.html" class="btn btn-cta btn-user">
+                        <i class="fas fa-user"></i> JOIN AS USER
+                    </a>
+                </div>
+                
+                <div class="cta-features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Verified Profiles</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Live Streaming</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Monetization</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Global Reach</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <span class="logo-tmw">TMW</span>
+                        <span class="logo-text">TALENT MEDIA WORKS</span>
+                    </div>
+                    <p class="footer-desc">
+                        Africa's Premier Talent Platform connecting exceptional talent with global opportunities.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Column 2: SUPPORT (Updated with your contacts) -->
+                <div class="footer-col">
+                    <h3 class="footer-title">SUPPORT</h3>
+                    <div class="support-info">
+                        <div class="support-item" onclick="window.open('https://wa.me/255765206238', '_blank')">
+                            <div class="support-icon whatsapp">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="support-details">
+                                <h4>WhatsApp</h4>
+                                <p>0765206238</p>
+                            </div>
+                        </div>
+                        
+                        <div class="support-item" onclick="window.location.href='tel:+255704557858'">
+                            <div class="support-icon phone">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="support-details">
+                                <h4>Phone Call</h4>
+                                <p>0704557858</p>
+                            </div>
+                        </div>
+                        
+                        <div class="support-item" onclick="window.location.href='mailto:platformtmw@gmail.com'">
+                            <div class="support-icon email">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="support-details">
+                                <h4>Email</h4>
+                                <p>platformtmw@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="support-hours">
+                            <i class="fas fa-clock"></i>
+                            <span>Mon-Sun: 8AM-10PM EAT</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column 3: Quick Links -->
+                <div class="footer-col">
+                    <h3 class="footer-title">QUICK LINKS</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4: Newsletter -->
+                <div class="footer-col">
+                    <h3 class="footer-title">STAY UPDATED</h3>
+                    <p>Subscribe to our newsletter for latest updates</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-subscribe">
+                            <i class="fas fa-paper-plane"></i> SUBSCRIBE
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2023 TALENT MEDIA WORKS. All rights reserved.</p>
+                    <div class="footer-legal">
+                        <a href="#">Cookies</a>
+                        <a href="#">Safety</a>
+                        <a href="#">Content Policy</a>
+                    </div>
+                </div>
+                <div class="footer-notice">
+                    <p><i class="fas fa-exclamation-triangle"></i> This platform is for verified talents only. All content is moderated.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
