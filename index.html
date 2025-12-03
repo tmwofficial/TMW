@@ -2605,7 +2605,46 @@
         }
         
         // Update view counts every 30 seconds
-        setInterval(simulateViewCounts, 30000);
+        setInterval(simulateViewCounts, 30000);// ===== TMW BACKEND INTEGRATION =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎬 TMW Talent Media Works - Africa\'s #1 Talent Platform');
+    console.log('📞 Support: 0760206538');
+    console.log('💰 Payment: 0704557858');
+    console.log('🎤 Talent Registration: 20,000 UGX');
+    
+    // Test backend connection
+    fetch('/api/health')
+        .then(response => response.json())
+        .then(data => console.log('✅ Backend:', data.status))
+        .catch(error => console.log('⚠️ Backend starting soon...'));
+    
+    // Update subscription buttons with real payment info
+    document.querySelectorAll('.plan-btn, .plan-option').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const plan = this.dataset.plan || 'monthly';
+            const amount = this.dataset.amount || (plan === 'daily' ? 2000 : plan === 'weekly' ? 5000 : 15000);
+            
+            alert(`💳 TMW PAYMENT:\n\nSend ${amount} UGX to:\nAirtel Money: 0704557858\n\nInclude your name as reference\nThen call: 0760206538 for activation\n\nPlan: ${plan.toUpperCase()}`);
+        });
+    });
+    
+    // Add Become Talent button
+    const talentBtn = document.createElement('button');
+    talentBtn.innerHTML = '<i class="fas fa-star"></i> BECOME TALENT';
+    talentBtn.className = 'btn btn-join';
+    talentBtn.style.marginLeft = '10px';
+    talentBtn.onclick = function() {
+        alert('🎤 TALENT REGISTRATION:\n\n1. Pay 20,000 UGX to:\n   Airtel Money: 0704557858\n\n2. Call 0760206538 with:\n   - Stage Name\n   - Talent Category\n   - Sample work/videos\n\n3. Get verified in 24 hours!');
+    };
+    
+    // Add to header if exists
+    const headerActions = document.querySelector('.header-actions');
+    if (headerActions) {
+        headerActions.appendChild(talentBtn);
+    }
+});
+// ===== END OF BACKEND CODE =====
     </script>
 </body>
 </html>
